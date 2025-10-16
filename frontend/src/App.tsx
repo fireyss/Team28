@@ -6,6 +6,7 @@ import Dashboard from "@/pages/Dashboard";
 
 //dashboard pages
 import Dashboard_Home from "@/pages/dashboard_pages/Home"
+import Dashboard_Todo from "@/pages/dashboard_pages/To-dolist"
 
 export default function AppRoutes() {
   return (
@@ -14,6 +15,7 @@ export default function AppRoutes() {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<Dashboard_Home />} />
+          <Route path="todo" element={<Dashboard_Todo />}/>
         </Route>
       </Routes>
     </Router>
