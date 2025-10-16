@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+.iconsize {
+    @apply w-9 h-9;
+}
+
+.optiontransition {
+    font-weight: light;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.optiontransition:hover {
+    color: rgb(64, 134, 170)
+}

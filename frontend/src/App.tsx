@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
+import { ThemeProvider } from "@/components/theme-provider"
 
 //dashboard pages
 import Dashboard_Home from "@/pages/dashboard_pages/Home"
