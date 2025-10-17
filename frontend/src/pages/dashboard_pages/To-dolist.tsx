@@ -1,7 +1,9 @@
 // import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
+//import { DataTable } from "@/components/todo";
+import { DataTable } from "@/components/todo";
 // import { SectionCards } from "@/components/section-cards";
-
+//import {payments} from "@/components/todo";
+//import {columns} from "@/components/todo";
 import data from "./data.json";
 
 export default function Todo() {
@@ -15,3 +17,5 @@ export default function Todo() {
     </div>
   );
 }
+
+
