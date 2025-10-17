@@ -1,101 +1,272 @@
 [
   {
     "id": 1,
-    "title": "Cover page",
-    "assignee": "Martin luthor king the firstsadfsdfasfdafdsfsd:w:w",
+    "title": "To-do-list",
+    "assignee": "aureliofolly@gmail.com",
     "status": "In Review",
-    "label": "18",
-    "urgency": "5",
-    "deadline": "Eddie Lake"
+    "label": "Web Prototype",
+    "urgency": "High",
+    "deadline": "17/10/25"
   },
   {
     "id": 2,
-    "title": "Table of contents",
-    "assignee": "Table of contents",
-    "status": "Done",
-    "label": "29",
-    "urgency": "24",
-    "deadline": "Eddie Lake"
+    "title": "Design login page",
+    "assignee": "lucas.fernandez@example.com",
+    "status": "Todo",
+    "label": "UI Design",
+    "urgency": "Medium",
+    "deadline": "20/10/25"
   },
   {
     "id": 3,
-    "title": "Executive summary",
-    "assignee": "Narrative",
-    "status": "Done",
-    "label": "10",
-    "urgency": "13",
-    "deadline": "Eddie Lake"
+    "title": "API authentication setup",
+    "assignee": "maria.dev@example.com",
+    "status": "In Process",
+    "label": "Backend",
+    "urgency": "High",
+    "deadline": "19/10/25"
   },
   {
     "id": 4,
-    "title": "Technical approach",
-    "assignee": "Narrative",
-    "status": "Done",
-    "label": "27",
-    "urgency": "23",
-    "deadline": "Jamik Tashpulatov"
+    "title": "Client feedback review",
+    "assignee": "john.teamlead@example.com",
+    "status": "In Review",
+    "label": "Management",
+    "urgency": "Low",
+    "deadline": "22/10/25"
   },
   {
     "id": 5,
-    "title": "Design",
-    "assignee": "Narrative",
-    "status": "In Process",
-    "label": "2",
-    "urgency": "16",
-    "deadline": "Jamik Tashpulatov"
+    "title": "Implement dark mode",
+    "assignee": "sofia.ui@example.com",
+    "status": "Done",
+    "label": "Frontend",
+    "urgency": "Medium",
+    "deadline": "15/10/25"
   },
   {
     "id": 6,
-    "title": "Capabilities",
-    "assignee": "Narrative",
+    "title": "Database migration",
+    "assignee": "daniel.dbadmin@example.com",
     "status": "In Process",
-    "label": "20",
-    "urgency": "8",
-    "deadline": "Jamik Tashpulatov"
+    "label": "Database",
+    "urgency": "High",
+    "deadline": "25/10/25"
   },
   {
     "id": 7,
-    "title": "Integration with existing systems",
-    "assignee": "Narrative",
-    "status": "In Process",
-    "label": "19",
-    "urgency": "21",
-    "deadline": "Jamik Tashpulatov"
+    "title": "Write unit tests",
+    "assignee": "emma.qa@example.com",
+    "status": "Todo",
+    "label": "Testing",
+    "urgency": "Medium",
+    "deadline": "23/10/25"
   },
   {
     "id": 8,
-    "title": "Innovation and Advantages",
-    "assignee": "Narrative",
-    "status": "Done",
-    "label": "25",
-    "urgency": "26",
-    "deadline": "Assign reviewer"
+    "title": "Fix mobile responsiveness",
+    "assignee": "liam.frontend@example.com",
+    "status": "In Process",
+    "label": "Frontend",
+    "urgency": "High",
+    "deadline": "18/10/25"
   },
   {
     "id": 9,
-    "title": "Overview of EMR's Innovative Solutions",
-    "assignee": "Technical content",
+    "title": "Prepare project documentation",
+    "assignee": "isabella.docs@example.com",
     "status": "Done",
-    "label": "7",
-    "urgency": "23",
-    "deadline": "Assign reviewer"
+    "label": "Documentation",
+    "urgency": "Low",
+    "deadline": "14/10/25"
   },
   {
     "id": 10,
-    "title": "Advanced Algorithms and Machine Learning",
-    "assignee": "Narrative",
-    "status": "Done",
-    "label": "30",
-    "urgency": "28",
-    "deadline": "Assign reviewer"
+    "title": "Optimize image loading",
+    "assignee": "noah.devops@example.com",
+    "status": "In Review",
+    "label": "Performance",
+    "urgency": "Medium",
+    "deadline": "21/10/25"
   },
   {
     "id": 11,
-    "title": "Adaptive Communication Protocols",
-    "assignee": "Narrative",
+    "title": "Setup CI/CD pipeline",
+    "assignee": "carla.devops@example.com",
+    "status": "Todo",
+    "label": "DevOps",
+    "urgency": "High",
+    "deadline": "24/10/25"
+  },
+  {
+    "id": 12,
+    "title": "Update user profile UI",
+    "assignee": "felix.design@example.com",
+    "status": "In Process",
+    "label": "UI Design",
+    "urgency": "Medium",
+    "deadline": "28/10/25"
+  },
+  {
+    "id": 13,
+    "title": "Email notification system",
+    "assignee": "george.backend@example.com",
+    "status": "In Review",
+    "label": "Backend",
+    "urgency": "High",
+    "deadline": "26/10/25"
+  },
+  {
+    "id": 14,
+    "title": "User analytics dashboard",
+    "assignee": "nina.analytics@example.com",
     "status": "Done",
-    "label": "9",
-    "urgency": "31",
-    "deadline": "Assign reviewer"
+    "label": "Data Visualization",
+    "urgency": "Medium",
+    "deadline": "13/10/25"
+  },
+  {
+    "id": 15,
+    "title": "Fix payment gateway bug",
+    "assignee": "alex.payments@example.com",
+    "status": "In Process",
+    "label": "Backend",
+    "urgency": "High",
+    "deadline": "19/10/25"
+  },
+  {
+    "id": 16,
+    "title": "Landing page redesign",
+    "assignee": "mia.ui@example.com",
+    "status": "Todo",
+    "label": "Frontend",
+    "urgency": "Low",
+    "deadline": "27/10/25"
+  },
+  {
+    "id": 17,
+    "title": "SEO improvements",
+    "assignee": "oliver.marketing@example.com",
+    "status": "In Review",
+    "label": "Marketing",
+    "urgency": "Medium",
+    "deadline": "16/10/25"
+  },
+  {
+    "id": 18,
+    "title": "Content management setup",
+    "assignee": "lucy.cms@example.com",
+    "status": "Done",
+    "label": "CMS",
+    "urgency": "Low",
+    "deadline": "12/10/25"
+  },
+  {
+    "id": 19,
+    "title": "Accessibility audit",
+    "assignee": "ethan.qa@example.com",
+    "status": "Todo",
+    "label": "Testing",
+    "urgency": "Medium",
+    "deadline": "29/10/25"
+  },
+  {
+    "id": 20,
+    "title": "Implement role-based access",
+    "assignee": "amelia.backend@example.com",
+    "status": "In Process",
+    "label": "Backend",
+    "urgency": "High",
+    "deadline": "30/10/25"
+  },
+  {
+    "id": 21,
+    "title": "Performance profiling",
+    "assignee": "leo.devops@example.com",
+    "status": "In Review",
+    "label": "Performance",
+    "urgency": "Medium",
+    "deadline": "31/10/25"
+  },
+  {
+    "id": 22,
+    "title": "Redesign settings page",
+    "assignee": "grace.ui@example.com",
+    "status": "Todo",
+    "label": "UI Design",
+    "urgency": "Low",
+    "deadline": "05/11/25"
+  },
+  {
+    "id": 23,
+    "title": "Integrate chat support",
+    "assignee": "james.frontend@example.com",
+    "status": "In Process",
+    "label": "Frontend",
+    "urgency": "High",
+    "deadline": "01/11/25"
+  },
+  {
+    "id": 24,
+    "title": "Prepare marketing assets",
+    "assignee": "chloe.marketing@example.com",
+    "status": "In Review",
+    "label": "Marketing",
+    "urgency": "Medium",
+    "deadline": "02/11/25"
+  },
+  {
+    "id": 25,
+    "title": "Set up user surveys",
+    "assignee": "max.analytics@example.com",
+    "status": "Done",
+    "label": "Research",
+    "urgency": "Low",
+    "deadline": "10/10/25"
+  },
+  {
+    "id": 26,
+    "title": "Implement password recovery",
+    "assignee": "ella.security@example.com",
+    "status": "Todo",
+    "label": "Security",
+    "urgency": "High",
+    "deadline": "04/11/25"
+  },
+  {
+    "id": 27,
+    "title": "Server scaling optimization",
+    "assignee": "ryan.devops@example.com",
+    "status": "In Process",
+    "label": "DevOps",
+    "urgency": "Medium",
+    "deadline": "06/11/25"
+  },
+  {
+    "id": 28,
+    "title": "Add multi-language support",
+    "assignee": "sofia.localization@example.com",
+    "status": "In Review",
+    "label": "Frontend",
+    "urgency": "High",
+    "deadline": "03/11/25"
+  },
+  {
+    "id": 29,
+    "title": "Test email deliverability",
+    "assignee": "ben.qa@example.com",
+    "status": "Todo",
+    "label": "Testing",
+    "urgency": "Medium",
+    "deadline": "07/11/25"
+  },
+  {
+    "id": 30,
+    "title": "Finalize product launch checklist",
+    "assignee": "olivia.manager@example.com",
+    "status": "Done",
+    "label": "Management",
+    "urgency": "High",
+    "deadline": "09/11/25"
   }
-  ]
+]

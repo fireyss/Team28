@@ -25,6 +25,7 @@ import {
   IconChevronsLeft,
   IconChevronsRight,
   IconCircleCheckFilled,
+  IconCircleFilled,
   IconDotsVertical,
   IconGripVertical,
   IconLayoutColumns,
@@ -163,28 +164,44 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.status === "Done" ? (
-          <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
-        ) : (
-          <IconLoader />
-        )}
+    cell: ({ row }) => {
+      let icon;
+
+      if(row.original.status === "Done")
+        icon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"}/>
+      if(row.original.status === "In Process")
+        icon = <IconLoader />
+      if(row.original.status === "In Review")
+        icon = <IconCircleFilled className={"fill-yellow-500"}/>
+
+      return <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {icon}
         {row.original.status}
       </Badge>
-    ),
+    },
   },
   {
     accessorKey: "label",
     header: () => "Label",
-    cell: ({ row }) => {return <div>{row.original.label}</div> },
+    cell: ({ row }) => {return <Badge variant="outline" className="text-muted-foreground px-1.5">
+      <div>{row.original.label}</div> 
+    </Badge>},
+      
   },
   {
     accessorKey: "urgency",
-    header: () => <div className="w-full text-right">Urgency</div>,
-    cell: ({ row }) => (<div>{row.original.urgency}</div>
-    ),
-  },
+    header: () => <div>Urgency</div>,
+    cell: ({ row }) => {
+      let colour = "green";
+      if(row.original.urgency === "High")
+        colour ="red";
+      if(row.original.urgency === "Medium")
+        colour ="orange";
+      if(row.original.urgency === "Low")
+        colour ="green";
+      return <div style={{color : colour }}>{row.original.urgency}</div>
+    },
+    },
   {
     accessorKey: "deadline",
     header: "Deadline",
