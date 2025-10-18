@@ -38,7 +38,8 @@ import type {
   ColumnFiltersState,
   Row,
   SortingState,
-  VisibilityState} from "@tanstack/react-table"
+  VisibilityState
+} from "@tanstack/react-table"
 import {
   flexRender,
   getCoreRowModel,
@@ -78,6 +79,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -105,6 +107,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import type { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 
 export const schema = z.object({
   id: z.number(),
@@ -167,45 +170,50 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       let icon;
 
-      if(row.original.status === "Done")
-        icon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"}/>
-      if(row.original.status === "In Process")
+      if (row.original.status === "Done")
+        icon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"} />
+      if (row.original.status === "In Process")
         icon = <IconLoader />
-      if(row.original.status === "In Review")
-        icon = <IconCircleFilled className={"fill-yellow-500"}/>
+      if (row.original.status === "In Review")
+        icon = <IconCircleFilled className={"fill-yellow-500"} />
 
       return <Badge variant="outline" className="text-muted-foreground px-1.5">
         {icon}
         {row.original.status}
       </Badge>
     },
+    filterFn: "multipleIncludes",
   },
   {
     accessorKey: "label",
     header: () => "Label",
-    cell: ({ row }) => {return <Badge variant="outline" className="text-muted-foreground px-1.5">
-      <div>{row.original.label}</div> 
-    </Badge>},
-      
+    cell: ({ row }) => {
+      return <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <div>{row.original.label}</div>
+      </Badge>
+    },
+
   },
   {
     accessorKey: "urgency",
     header: () => <div>Urgency</div>,
     cell: ({ row }) => {
       let colour = "green";
-      if(row.original.urgency === "High")
+      if (row.original.urgency === "High")
         colour = "red";
-      if(row.original.urgency === "Medium")
+      if (row.original.urgency === "Medium")
         colour = "orange";
-      if(row.original.urgency === "Low")
+      if (row.original.urgency === "Low")
         colour = "green";
-      return <div style={{color : colour }}>{row.original.urgency}</div>
+      return <div style={{ color: colour }}>{row.original.urgency}</div>
     },
-    },
+    filterFn: "multipleIncludes",
+  },
   {
     accessorKey: "deadline",
     header: "Deadline",
-    cell: ({ row }) => {return row.original.deadline
+    cell: ({ row }) => {
+      return row.original.deadline
 
     },
   },
@@ -270,6 +278,7 @@ export function DataTable({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
+  const [statusFilter, setStatusFilter] = React.useState<string[]>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
@@ -310,6 +319,14 @@ export function DataTable({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    filterFns: {
+      multipleIncludes: (row, columnId, filterValues: string[]) => {
+        if (!filterValues?.length) return true
+        const value = row.getValue<string>(columnId)
+        return filterValues.includes(value)
+      },
+    },
+
   })
 
   function handleDragEnd(event: DragEndEvent) {
@@ -322,11 +339,19 @@ export function DataTable({
       })
     }
   }
+  type Checked = DropdownMenuCheckboxItemProps["checked"]
+  const [showInReview, setShowInReview] = React.useState<Checked>(true)
+  const [showInProcess, setShowInProcess] = React.useState<Checked>(true)
+  const [showTodo, setShowTodo] = React.useState<Checked>(true)
+  const [showDone, setShowDone] = React.useState<Checked>(false)
+  const [showHigh, setShowHigh] = React.useState<Checked>(true)
+  const [ShowMedium, setShowMedium] = React.useState<Checked>(true)
+  const [showLow, setShowLow] = React.useState<Checked>(true)
 
   return (
-        <>
-          <div className="flex items-center py-4">
-          <Input
+    <>
+      <div className="flex items-center py-4">
+        <Input
           placeholder="Filter titles..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
@@ -334,138 +359,261 @@ export function DataTable({
           }
           className="max-w-sm"
         />
-        <Button className = "ml-auto" variant="outline" size="sm">
-            <IconPlus />
-            <span className="hidden lg:inline">Add Section</span>
-          </Button>
-      </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Assignee</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Status</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuCheckboxItem
+              checked={statusFilter.includes("Todo")}
+              onCheckedChange={(checked) => {
+                const next = checked
+                  ? [...statusFilter, "Todo"]
+                  : statusFilter.filter((v) => v !== "Todo")
+
+                setStatusFilter(next)
+                table.getColumn("status")?.setFilterValue(next)
+              }}
+            >
+              Todo
+            </DropdownMenuCheckboxItem>
+
+            <DropdownMenuCheckboxItem
+              checked={statusFilter.includes("In Process")}
+              onCheckedChange={(checked) => {
+                const next = checked
+                  ? [...statusFilter, "In Process"]
+                  : statusFilter.filter((v) => v !== "In Process")
+
+                setStatusFilter(next)
+                table.getColumn("status")?.setFilterValue(next)
+              }}
+            >
+              In Process
+              </DropdownMenuCheckboxItem>
           
-        <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
+          <DropdownMenuCheckboxItem
+            checked={statusFilter.includes("In Review")}
+            onCheckedChange={(checked) => {
+              const next = checked
+                ? [...statusFilter, "In Review"]
+                : statusFilter.filter((v) => v !== "In Review")
+
+              setStatusFilter(next)
+              table.getColumn("status")?.setFilterValue(next)
+            }}
           >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      No results.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </DndContext>
-        </div>
-        <div className="flex items-center justify-between px-4">
-          <div className="flex w-full items-center gap-8 lg:w-fit">
-            <div className="hidden items-center gap-2 lg:flex">
-              <Label htmlFor="rows-per-page" className="text-sm font-medium">
-                Rows per page
-              </Label>
-              <Select
-                value={`${table.getState().pagination.pageSize}`}
-                onValueChange={(value) => {
-                  table.setPageSize(Number(value))
-                }}
-              >
-                <SelectTrigger size="sm" className="w-20" id="rows-per-page">
-                  <SelectValue
-                    placeholder={table.getState().pagination.pageSize}
-                  />
-                </SelectTrigger>
-                <SelectContent side="top">
-                  {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <SelectItem key={pageSize} value={`${pageSize}`}>
-                      {pageSize}
-                    </SelectItem>
+            In Review
+
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={statusFilter.includes("Done")}
+            onCheckedChange={(checked) => {
+              const next = checked
+                ? [...statusFilter, "Done"]
+                : statusFilter.filter((v) => v !== "Done")
+
+              setStatusFilter(next)
+              table.getColumn("status")?.setFilterValue(next)
+            }}
+          >
+            Done
+            </DropdownMenuCheckboxItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Label</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Urgency</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuCheckboxItem
+            checked={statusFilter.includes("High")}
+            onCheckedChange={(checked) => {
+              const next = checked
+                ? [...statusFilter, "High"]
+                : statusFilter.filter((v) => v !== "High")
+
+              setStatusFilter(next)
+              table.getColumn("urgency")?.setFilterValue(next)
+            }}
+          >
+            High
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+            checked={statusFilter.includes("Medium")}
+            onCheckedChange={(checked) => {
+              const next = checked
+                ? [...statusFilter, "Medium"]
+                : statusFilter.filter((v) => v !== "Medium")
+
+              setStatusFilter(next)
+              table.getColumn("urgency")?.setFilterValue(next)
+            }}
+          >
+            Medium
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+            checked={statusFilter.includes("Low")}
+            onCheckedChange={(checked) => {
+              const next = checked
+                ? [...statusFilter, "Low"]
+                : statusFilter.filter((v) => v !== "Low")
+
+              setStatusFilter(next)
+              table.getColumn("urgency")?.setFilterValue(next)
+            }}
+          >
+            Low
+            </DropdownMenuCheckboxItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <Button className="ml-auto" variant="outline" size="sm">
+          <IconPlus />
+          <span className="hidden lg:inline">Add Section</span>
+        </Button>
+      </div >
+
+      <div className="overflow-hidden rounded-lg border">
+        <DndContext
+          collisionDetection={closestCenter}
+          modifiers={[restrictToVerticalAxis]}
+          onDragEnd={handleDragEnd}
+          sensors={sensors}
+          id={sortableId}
+        >
+          <Table>
+            <TableHeader className="bg-muted sticky top-0 z-10">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                      </TableHead>
+                    )
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody className="**:data-[slot=table-cell]:first:w-8">
+              {table.getRowModel().rows?.length ? (
+                <SortableContext
+                  items={dataIds}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {table.getRowModel().rows.map((row) => (
+                    <DraggableRow key={row.id} row={row} />
                   ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex w-fit items-center justify-center text-sm font-medium">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </div>
-            <div className="ml-auto flex items-center gap-2 lg:ml-0">
-              <Button
-                variant="outline"
-                className="hidden h-8 w-8 p-0 lg:flex"
-                onClick={() => table.setPageIndex(0)}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <span className="sr-only">Go to first page</span>
-                <IconChevronsLeft />
-              </Button>
-              <Button
-                variant="outline"
-                className="size-8"
-                size="icon"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <span className="sr-only">Go to previous page</span>
-                <IconChevronLeft />
-              </Button>
-              <Button
-                variant="outline"
-                className="size-8"
-                size="icon"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                <span className="sr-only">Go to next page</span>
-                <IconChevronRight />
-              </Button>
-              <Button
-                variant="outline"
-                className="hidden size-8 lg:flex"
-                size="icon"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
-              >
-                <span className="sr-only">Go to last page</span>
-                <IconChevronsRight />
-              </Button>
-            </div>
+                </SortableContext>
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    Nothing to do!
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </DndContext>
+      </div>
+      <div className="flex items-center justify-between px-4">
+        <div className="flex w-full items-center gap-8 lg:w-fit">
+          <div className="hidden items-center gap-2 lg:flex">
+            <Label htmlFor="rows-per-page" className="text-sm font-medium">
+              Rows per page
+            </Label>
+            <Select
+              value={`${table.getState().pagination.pageSize}`}
+              onValueChange={(value) => {
+                table.setPageSize(Number(value))
+              }}
+            >
+              <SelectTrigger size="sm" className="w-20" id="rows-per-page">
+                <SelectValue
+                  placeholder={table.getState().pagination.pageSize}
+                />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex w-fit items-center justify-center text-sm font-medium">
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </div>
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <Button
+              variant="outline"
+              className="hidden h-8 w-8 p-0 lg:flex"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to first page</span>
+              <IconChevronsLeft />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to previous page</span>
+              <IconChevronLeft />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to next page</span>
+              <IconChevronRight />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to last page</span>
+              <IconChevronsRight />
+            </Button>
           </div>
         </div>
-        </>
-    
+      </div>
+    </>
+
   )
 }
 
