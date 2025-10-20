@@ -503,12 +503,13 @@ export function DataTable({
     <>
       <div className="flex items-center py-4 gap-2">
         <Input
+         
           placeholder="Search titles..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="ml-5 max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
