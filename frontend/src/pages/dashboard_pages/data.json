@@ -6,7 +6,8 @@
     "status": "In Review",
     "label": "Web Prototype",
     "urgency": "High",
-    "deadline": "17/10/25"
+    "deadline": "17/10/25",
+    "description": "Description for To-do"
   },
   {
     "id": 2,
@@ -15,7 +16,8 @@
     "status": "Todo",
     "label": "UI Design",
     "urgency": "Medium",
-    "deadline": "20/10/25"
+    "deadline": "20/10/25",
+    "description": "Description for Design login page"
   },
   {
     "id": 3,
@@ -24,7 +26,8 @@
     "status": "In Process",
     "label": "Backend",
     "urgency": "High",
-    "deadline": "19/10/25"
+    "deadline": "19/10/25",
+    "description": "Description for API authentication setup"
   },
   {
     "id": 4,
@@ -33,7 +36,8 @@
     "status": "In Review",
     "label": "Management",
     "urgency": "Low",
-    "deadline": "22/10/25"
+    "deadline": "22/10/25",
+    "description": "Description for Client feedback review"
   },
   {
     "id": 5,
@@ -42,7 +46,8 @@
     "status": "Done",
     "label": "Frontend",
     "urgency": "Medium",
-    "deadline": "15/10/25"
+    "deadline": "15/10/25",
+    "description": "Description for Implement dark mode"
   },
   {
     "id": 6,
@@ -51,7 +56,8 @@
     "status": "In Process",
     "label": "Database",
     "urgency": "High",
-    "deadline": "25/10/25"
+    "deadline": "25/10/25",
+    "description": "Description for Database migration"
   },
   {
     "id": 7,
@@ -60,7 +66,8 @@
     "status": "Todo",
     "label": "Testing",
     "urgency": "Medium",
-    "deadline": "23/10/25"
+    "deadline": "23/10/25",
+    "description": "Description for Write unit tests"
   },
   {
     "id": 8,
@@ -69,7 +76,8 @@
     "status": "In Process",
     "label": "Frontend",
     "urgency": "High",
-    "deadline": "18/10/25"
+    "deadline": "18/10/25",
+    "description": "Description for Fix mobile responsiveness"
   },
   {
     "id": 9,
@@ -78,7 +86,8 @@
     "status": "Done",
     "label": "Documentation",
     "urgency": "Low",
-    "deadline": "14/10/25"
+    "deadline": "14/10/25",
+    "description": "Description for Prepare project documentation"
   },
   {
     "id": 10,
@@ -87,7 +96,8 @@
     "status": "In Review",
     "label": "Performance",
     "urgency": "Medium",
-    "deadline": "21/10/25"
+    "deadline": "21/10/25",
+    "description": "Description for Optimize image loading"
   },
   {
     "id": 11,
@@ -96,7 +106,8 @@
     "status": "Todo",
     "label": "DevOps",
     "urgency": "High",
-    "deadline": "24/10/25"
+    "deadline": "24/10/25",
+    "description": "Description for Setup CI/CD pipeline"
   },
   {
     "id": 12,
@@ -105,7 +116,8 @@
     "status": "In Process",
     "label": "UI Design",
     "urgency": "Medium",
-    "deadline": "28/10/25"
+    "deadline": "28/10/25",
+    "description": "Description for Update user profile UI"
   },
   {
     "id": 13,
@@ -114,7 +126,8 @@
     "status": "In Review",
     "label": "Backend",
     "urgency": "High",
-    "deadline": "26/10/25"
+    "deadline": "26/10/25",
+    "description": "Description for Email notification system"
   },
   {
     "id": 14,
@@ -123,7 +136,8 @@
     "status": "Done",
     "label": "Data Visualization",
     "urgency": "Medium",
-    "deadline": "13/10/25"
+    "deadline": "13/10/25",
+    "description": "Description for User analytics dashboard"
   },
   {
     "id": 15,
@@ -132,7 +146,8 @@
     "status": "In Process",
     "label": "Backend",
     "urgency": "High",
-    "deadline": "19/10/25"
+    "deadline": "19/10/25",
+    "description": "Description for Fix payment gateway bug"
   },
   {
     "id": 16,
@@ -141,7 +156,8 @@
     "status": "Todo",
     "label": "Frontend",
     "urgency": "Low",
-    "deadline": "27/10/25"
+    "deadline": "27/10/25",
+    "description": "Description for Landing page redesign"
   },
   {
     "id": 17,
@@ -150,7 +166,8 @@
     "status": "In Review",
     "label": "Marketing",
     "urgency": "Medium",
-    "deadline": "16/10/25"
+    "deadline": "16/10/25",
+    "description": "Description for SEO improvements"
   },
   {
     "id": 18,
@@ -159,7 +176,8 @@
     "status": "Done",
     "label": "CMS",
     "urgency": "Low",
-    "deadline": "12/10/25"
+    "deadline": "12/10/25",
+    "description": "Description for Content management setup"
   },
   {
     "id": 19,
@@ -168,7 +186,8 @@
     "status": "Todo",
     "label": "Testing",
     "urgency": "Medium",
-    "deadline": "29/10/25"
+    "deadline": "29/10/25",
+    "description": "Description for Accessibility audit"
   },
   {
     "id": 20,
@@ -177,7 +196,8 @@
     "status": "In Process",
     "label": "Backend",
     "urgency": "High",
-    "deadline": "30/10/25"
+    "deadline": "30/10/25",
+    "description": "Description for Implement role-based access"
   },
   {
     "id": 21,
@@ -186,7 +206,8 @@
     "status": "In Review",
     "label": "Performance",
     "urgency": "Medium",
-    "deadline": "31/10/25"
+    "deadline": "31/10/25",
+    "description": "Description for Performance profiling"
   },
   {
     "id": 22,
@@ -195,7 +216,8 @@
     "status": "Todo",
     "label": "UI Design",
     "urgency": "Low",
-    "deadline": "05/11/25"
+    "deadline": "05/11/25",
+    "description": "Description for Redesign settings page"
   },
   {
     "id": 23,
@@ -204,7 +226,8 @@
     "status": "In Process",
     "label": "Frontend",
     "urgency": "High",
-    "deadline": "01/11/25"
+    "deadline": "01/11/25",
+    "description": "Description for Integrate chat support"
   },
   {
     "id": 24,
@@ -213,7 +236,8 @@
     "status": "In Review",
     "label": "Marketing",
     "urgency": "Medium",
-    "deadline": "02/11/25"
+    "deadline": "02/11/25",
+    "description": "Description for Prepare marketing assets"
   },
   {
     "id": 25,
@@ -222,7 +246,8 @@
     "status": "Done",
     "label": "Research",
     "urgency": "Low",
-    "deadline": "10/10/25"
+    "deadline": "10/10/25",
+    "description": "Description for Set up user surveys"
   },
   {
     "id": 26,
@@ -231,16 +256,18 @@
     "status": "Todo",
     "label": "Security",
     "urgency": "High",
-    "deadline": "04/11/25"
+    "deadline": "04/11/25",
+    "description": "Description for Implement password recovery"
   },
-  {
+{
     "id": 27,
     "title": "Server scaling optimization",
     "assignee": "ryan.devops@example.com",
     "status": "In Process",
     "label": "DevOps",
     "urgency": "Medium",
-    "deadline": "06/11/25"
+    "deadline": "06/11/25",
+    "description": "Description for Server scaling optimization"
   },
   {
     "id": 28,
@@ -249,7 +276,8 @@
     "status": "In Review",
     "label": "Frontend",
     "urgency": "High",
-    "deadline": "03/11/25"
+    "deadline": "03/11/25",
+    "description": "Description for Add multi-language support"
   },
   {
     "id": 29,
@@ -258,7 +286,8 @@
     "status": "Todo",
     "label": "Testing",
     "urgency": "Medium",
-    "deadline": "07/11/25"
+    "deadline": "07/11/25",
+    "description": "Description for Test email deliverability"
   },
   {
     "id": 30,
@@ -267,6 +296,7 @@
     "status": "Done",
     "label": "Management",
     "urgency": "High",
-    "deadline": "09/11/25"
+    "deadline": "09/11/25",
+    "description": "Description for Finalize product launch checklist"
   }
 ]

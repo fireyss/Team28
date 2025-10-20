@@ -19,7 +19,6 @@ import {
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import {
-  IconChevronDown,
   IconChevronLeft,
   IconChevronRight,
   IconChevronsLeft,
@@ -28,10 +27,8 @@ import {
   IconCircleFilled,
   IconDotsVertical,
   IconGripVertical,
-  IconLayoutColumns,
   IconLoader,
   IconPlus,
-  IconTrendingUp,
 } from "@tabler/icons-react"
 import type {
   ColumnDef,
@@ -50,36 +47,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-import { toast } from "sonner"
 import { z } from "zod"
 
-import { useIsMobile } from "@/hooks/use-mobile"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { ChartConfig } from "@/components/ui/chart";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -92,7 +68,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
 import {
   Table,
   TableBody,
@@ -101,13 +76,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import type { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { DialogClose } from "@radix-ui/react-dialog"
+// import { description } from "./chart-area-interactive"
 
 export const schema = z.object({
   id: z.number(),
@@ -117,6 +97,7 @@ export const schema = z.object({
   label: z.string(),
   urgency: z.string(),
   deadline: z.string(),
+  description: z.string(),
 })
 
 // Create a separate component for the drag handle
@@ -139,6 +120,8 @@ function DragHandle({ id }: { id: number }) {
   )
 }
 
+
+
 const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
     id: "drag",
@@ -149,7 +132,60 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
-      return <TableCellViewer item={row.original} />
+      let icon;
+      if (row.original.status === "Done")
+        icon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"} />
+      if (row.original.status === "In Process")
+        icon = <IconLoader />
+      if (row.original.status === "In Review")
+        icon = <IconCircleFilled className={"fill-yellow-500"} />
+
+      let colour = "green";
+      if (row.original.urgency === "High")
+        colour = "red";
+      if (row.original.urgency === "Medium")
+        colour = "orange";
+      if (row.original.urgency === "Low")
+        colour = "green";
+
+      return (
+        <Dialog>
+          <DialogTrigger>
+            <Button variant="link" className="text-foreground w-fit px-0 text-left">
+              {row.original.title}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {row.original.title}
+              </DialogTitle>
+              <DialogDescription>
+                {row.original.description}
+              </DialogDescription>
+              <DialogDescription>
+                <div>Deadline : {row.original.deadline}</div>
+              </DialogDescription>
+
+              <div className="flex items-center py-4 gap-2">
+                <Badge variant="outline" className="text-muted-foreground px-1.5">
+                  {row.original.assignee}
+                </Badge>
+                <Badge variant="outline" className="text-muted-foreground px-1.5">
+                  {icon}
+                  {row.original.status}
+                </Badge>
+                <Badge variant="outline" className="text-muted-foreground px-1.5">
+                  <div>{row.original.label}</div>
+                </Badge>
+                <div style={{ color: colour, fontSize: 15 }}>{row.original.urgency}</div>
+
+              </div>
+
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )
     },
     enableHiding: false,
   },
@@ -219,9 +255,11 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
   {
     id: "actions",
-    cell: () => (
+    cell: ({ row }) => (
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
+
           <Button
             variant="ghost"
             className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
@@ -230,13 +268,71 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             <IconDotsVertical />
             <span className="sr-only">Open menu</span>
           </Button>
+
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <Dialog>
+            <DialogTrigger>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  {row.original.title}
+                </DialogTitle>
+                <DialogDescription>
+                  {row.original.description}
+                </DialogDescription>
+                <DialogDescription>
+                  <div>Deadline : {row.original.deadline}</div>
+                </DialogDescription>
+
+                <div className="flex items-center py-4 gap-2">
+                  <Badge variant="outline" className="text-muted-foreground px-1.5">
+                    {row.original.assignee}
+                  </Badge>
+                  <Badge variant="outline" className="text-muted-foreground px-1.5">
+                    {/* {icon} */}
+                    {row.original.status}
+                  </Badge>
+                  <Badge variant="outline" className="text-muted-foreground px-1.5">
+                    <div>{row.original.label}</div>
+                  </Badge>
+                  {/* <div style={{ color: colour, fontSize: 15 }}>{row.original.urgency}</div> */}
+
+                </div>
+
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+          <Dialog>
+            <DialogTrigger>
+              <DropdownMenuItem variant="destructive" onSelect={(e) => e.preventDefault()}>Delete</DropdownMenuItem>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. Are you sure you want to permanently
+                  delete this task from our servers?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose>
+                  <Button type="submit" >Confirm</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </DropdownMenuContent>
       </DropdownMenu>
+
+
+
+
+
     ),
   },
 ]
@@ -339,20 +435,12 @@ export function DataTable({
       })
     }
   }
-  type Checked = DropdownMenuCheckboxItemProps["checked"]
-  const [showInReview, setShowInReview] = React.useState<Checked>(true)
-  const [showInProcess, setShowInProcess] = React.useState<Checked>(true)
-  const [showTodo, setShowTodo] = React.useState<Checked>(true)
-  const [showDone, setShowDone] = React.useState<Checked>(false)
-  const [showHigh, setShowHigh] = React.useState<Checked>(true)
-  const [ShowMedium, setShowMedium] = React.useState<Checked>(true)
-  const [showLow, setShowLow] = React.useState<Checked>(true)
 
   return (
     <>
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
         <Input
-          placeholder="Filter titles..."
+          placeholder="Search titles..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
@@ -397,34 +485,34 @@ export function DataTable({
               }}
             >
               In Process
-              </DropdownMenuCheckboxItem>
-          
-          <DropdownMenuCheckboxItem
-            checked={statusFilter.includes("In Review")}
-            onCheckedChange={(checked) => {
-              const next = checked
-                ? [...statusFilter, "In Review"]
-                : statusFilter.filter((v) => v !== "In Review")
+            </DropdownMenuCheckboxItem>
 
-              setStatusFilter(next)
-              table.getColumn("status")?.setFilterValue(next)
-            }}
-          >
-            In Review
+            <DropdownMenuCheckboxItem
+              checked={statusFilter.includes("In Review")}
+              onCheckedChange={(checked) => {
+                const next = checked
+                  ? [...statusFilter, "In Review"]
+                  : statusFilter.filter((v) => v !== "In Review")
 
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={statusFilter.includes("Done")}
-            onCheckedChange={(checked) => {
-              const next = checked
-                ? [...statusFilter, "Done"]
-                : statusFilter.filter((v) => v !== "Done")
+                setStatusFilter(next)
+                table.getColumn("status")?.setFilterValue(next)
+              }}
+            >
+              In Review
 
-              setStatusFilter(next)
-              table.getColumn("status")?.setFilterValue(next)
-            }}
-          >
-            Done
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={statusFilter.includes("Done")}
+              onCheckedChange={(checked) => {
+                const next = checked
+                  ? [...statusFilter, "Done"]
+                  : statusFilter.filter((v) => v !== "Done")
+
+                setStatusFilter(next)
+                table.getColumn("status")?.setFilterValue(next)
+              }}
+            >
+              Done
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -441,43 +529,43 @@ export function DataTable({
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuCheckboxItem
-            checked={statusFilter.includes("High")}
-            onCheckedChange={(checked) => {
-              const next = checked
-                ? [...statusFilter, "High"]
-                : statusFilter.filter((v) => v !== "High")
+              checked={statusFilter.includes("High")}
+              onCheckedChange={(checked) => {
+                const next = checked
+                  ? [...statusFilter, "High"]
+                  : statusFilter.filter((v) => v !== "High")
 
-              setStatusFilter(next)
-              table.getColumn("urgency")?.setFilterValue(next)
-            }}
-          >
-            High
+                setStatusFilter(next)
+                table.getColumn("urgency")?.setFilterValue(next)
+              }}
+            >
+              High
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
-            checked={statusFilter.includes("Medium")}
-            onCheckedChange={(checked) => {
-              const next = checked
-                ? [...statusFilter, "Medium"]
-                : statusFilter.filter((v) => v !== "Medium")
+              checked={statusFilter.includes("Medium")}
+              onCheckedChange={(checked) => {
+                const next = checked
+                  ? [...statusFilter, "Medium"]
+                  : statusFilter.filter((v) => v !== "Medium")
 
-              setStatusFilter(next)
-              table.getColumn("urgency")?.setFilterValue(next)
-            }}
-          >
-            Medium
+                setStatusFilter(next)
+                table.getColumn("urgency")?.setFilterValue(next)
+              }}
+            >
+              Medium
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
-            checked={statusFilter.includes("Low")}
-            onCheckedChange={(checked) => {
-              const next = checked
-                ? [...statusFilter, "Low"]
-                : statusFilter.filter((v) => v !== "Low")
+              checked={statusFilter.includes("Low")}
+              onCheckedChange={(checked) => {
+                const next = checked
+                  ? [...statusFilter, "Low"]
+                  : statusFilter.filter((v) => v !== "Low")
 
-              setStatusFilter(next)
-              table.getColumn("urgency")?.setFilterValue(next)
-            }}
-          >
-            Low
+                setStatusFilter(next)
+                table.getColumn("urgency")?.setFilterValue(next)
+              }}
+            >
+              Low
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -617,181 +705,6 @@ export function DataTable({
   )
 }
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--primary)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--primary)",
-  },
-} satisfies ChartConfig
 
-function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
-  const isMobile = useIsMobile()
 
-  return (
-    <Drawer direction={isMobile ? "bottom" : "right"}>
-      <DrawerTrigger asChild>
-        <Button variant="link" className="text-foreground w-fit px-0 text-left">
-          {item.title}
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.title}</DrawerTitle>
-          <DrawerDescription>
-            Showing total visitors for the last 6 months
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-          {!isMobile && (
-            <>
-              <ChartContainer config={chartConfig}>
-                <AreaChart
-                  accessibilityLayer
-                  data={chartData}
-                  margin={{
-                    left: 0,
-                    right: 10,
-                  }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                    hide
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="dot" />}
-                  />
-                  <Area
-                    dataKey="mobile"
-                    type="natural"
-                    fill="var(--color-mobile)"
-                    fillOpacity={0.6}
-                    stroke="var(--color-mobile)"
-                    stackId="a"
-                  />
-                  <Area
-                    dataKey="desktop"
-                    type="natural"
-                    fill="var(--color-desktop)"
-                    fillOpacity={0.4}
-                    stroke="var(--color-desktop)"
-                    stackId="a"
-                  />
-                </AreaChart>
-              </ChartContainer>
-              <Separator />
-              <div className="grid gap-2">
-                <div className="flex gap-2 leading-none font-medium">
-                  Trending up by 5.2% this month{" "}
-                  <IconTrendingUp className="size-4" />
-                </div>
-                <div className="text-muted-foreground">
-                  Showing total visitors for the last 6 months. This is just
-                  some random text to test the layout. It spans multiple lines
-                  and should wrap around.
-                </div>
-              </div>
-              <Separator />
-            </>
-          )}
-          <form className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="header">Header</Label>
-              <Input id="header" defaultValue={item.title} />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="type">Type</Label>
-                <Select defaultValue={item.assignee}>
-                  <SelectTrigger id="type" className="w-full">
-                    <SelectValue placeholder="Select a type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Table of Contents">
-                      Table of Contents
-                    </SelectItem>
-                    <SelectItem value="Executive Summary">
-                      Executive Summary
-                    </SelectItem>
-                    <SelectItem value="Technical Approach">
-                      Technical Approach
-                    </SelectItem>
-                    <SelectItem value="Design">Design</SelectItem>
-                    <SelectItem value="Capabilities">Capabilities</SelectItem>
-                    <SelectItem value="Focus Documents">
-                      Focus Documents
-                    </SelectItem>
-                    <SelectItem value="Narrative">Narrative</SelectItem>
-                    <SelectItem value="Cover Page">Cover Page</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="status">Status</Label>
-                <Select defaultValue={item.status}>
-                  <SelectTrigger id="status" className="w-full">
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Done">Done</SelectItem>
-                    <SelectItem value="In Progress">In Progress</SelectItem>
-                    <SelectItem value="Not Started">Not Started</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="target">Target</Label>
-                <Input id="target" defaultValue={item.label} />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="limit">Limit</Label>
-                <Input id="limit" defaultValue={item.urgency} />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="reviewer">Reviewer</Label>
-              <Select defaultValue={item.deadline}>
-                <SelectTrigger id="reviewer" className="w-full">
-                  <SelectValue placeholder="Select a reviewer" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-                  <SelectItem value="Jamik Tashpulatov">
-                    Jamik Tashpulatov
-                  </SelectItem>
-                  <SelectItem value="Emily Whalen">Emily Whalen</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </form>
-        </div>
-        <DrawerFooter>
-          <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Done</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  )
-}
