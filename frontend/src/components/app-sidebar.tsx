@@ -38,10 +38,11 @@ const data = {
       url: "#",
       icon: IconBubbleText,
     },
-    {title: "To-do List",
-      url: "#",
+    {
+      title: "To-do List",
+      url: "/dashboard/todo",
       icon: IconClipboardData,
-    }
+    },
   ],
 }
 

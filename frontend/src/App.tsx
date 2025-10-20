@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
+import Dashboard_Todo from "@/pages/dashboard_pages/Todo-list";
 import { ThemeProvider } from "@/components/theme-provider"
 
 //dashboard pages
@@ -16,6 +17,7 @@ export default function AppRoutes() {
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="home" element={<Dashboard_Home />} />
+            <Route path="todo" element={<Dashboard_Todo />} />
           </Route>
         </Routes>
       </Router>
