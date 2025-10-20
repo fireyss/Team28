@@ -1,4 +1,4 @@
-import { DataTable } from "@/components/todo";
+import { DataTable } from "@/components/todo-table";
 import data from "./data.json";
 
 export default function Todo() {

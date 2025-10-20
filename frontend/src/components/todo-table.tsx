@@ -56,7 +56,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
@@ -86,6 +85,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
 import { DialogClose } from "@radix-ui/react-dialog"
 // import { description } from "./chart-area-interactive"
 
@@ -120,6 +135,27 @@ function DragHandle({ id }: { id: number }) {
   )
 }
 
+function DatePicker() {
+  const [date, setDate] = React.useState<Date>()
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          data-empty={!date}
+          className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
+        >
+          <CalendarIcon />
+          {date ? format(date, "PPP") : <span>Deadline</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar mode="single" selected={date} onSelect={setDate} required />
+      </PopoverContent>
+    </Popover>
+  )
+}
 
 
 const columns: ColumnDef<z.infer<typeof schema>>[] = [
@@ -132,57 +168,119 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
-      let icon;
-      if (row.original.status === "Done")
-        icon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"} />
-      if (row.original.status === "In Process")
-        icon = <IconLoader />
-      if (row.original.status === "In Review")
-        icon = <IconCircleFilled className={"fill-yellow-500"} />
-
-      let colour = "green";
-      if (row.original.urgency === "High")
-        colour = "red";
-      if (row.original.urgency === "Medium")
-        colour = "orange";
-      if (row.original.urgency === "Low")
-        colour = "green";
-
       return (
         <Dialog>
           <DialogTrigger>
+
             <Button variant="link" className="text-foreground w-fit px-0 text-left">
               {row.original.title}
             </Button>
+
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
-                {row.original.title}
-              </DialogTitle>
-              <DialogDescription>
-                {row.original.description}
-              </DialogDescription>
-              <DialogDescription>
-                <div>Deadline : {row.original.deadline}</div>
-              </DialogDescription>
-
-              <div className="flex items-center py-4 gap-2">
-                <Badge variant="outline" className="text-muted-foreground px-1.5">
-                  {row.original.assignee}
-                </Badge>
-                <Badge variant="outline" className="text-muted-foreground px-1.5">
-                  {icon}
-                  {row.original.status}
-                </Badge>
-                <Badge variant="outline" className="text-muted-foreground px-1.5">
-                  <div>{row.original.label}</div>
-                </Badge>
-                <div style={{ color: colour, fontSize: 15 }}>{row.original.urgency}</div>
-
-              </div>
-
-            </DialogHeader>
+            <div className="w-full max-w-md">
+              <form>
+                <FieldGroup>
+                  <FieldSet>
+                    <FieldGroup>
+                      <Field>
+                        <FieldLabel>
+                          Title
+                        </FieldLabel>
+                        <Input
+                          id="title-input"
+                          placeholder="Enter task title"
+                          defaultValue={row.original.title}
+                          required
+                        />
+                      </Field>
+                      <Field>
+                        <FieldLabel>
+                          Description
+                        </FieldLabel>
+                        <Textarea
+                          id="description-input"
+                          placeholder="Enter task description"
+                          defaultValue={row.original.description}
+                          required
+                          className="h-64"
+                        />
+                      </Field>
+                      <div className="grid grid-cols-3 gap-4">
+                        <Field>
+                          <FieldLabel >
+                            Assignee
+                          </FieldLabel>
+                          <Select defaultValue={row.original.assignee}>
+                            <SelectTrigger id="assignee-select">
+                              <SelectValue placeholder="assigne" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value={row.original.assignee}>{row.original.assignee}</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <FieldLabel >
+                            Status
+                          </FieldLabel>
+                          <Select defaultValue={row.original.status}>
+                            <SelectTrigger id="status-select">
+                              <SelectValue placeholder="status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Todo">Todo</SelectItem>
+                              <SelectItem value="In Process">In Process</SelectItem>
+                              <SelectItem value="In Review">In Review</SelectItem>
+                              <SelectItem value="Done">Done</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <FieldLabel >
+                            Label
+                          </FieldLabel>
+                          <Select defaultValue={row.original.label}>
+                            <SelectTrigger id="label-select">
+                              <SelectValue placeholder="label" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value={row.original.label}>{row.original.label}</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <FieldLabel >
+                            Urgency
+                          </FieldLabel>
+                          <Select defaultValue={row.original.urgency}>
+                            <SelectTrigger id="urgency-select">
+                              <SelectValue placeholder="urgency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="High">High</SelectItem>
+                              <SelectItem value="Medium">Medium</SelectItem>
+                              <SelectItem value="Low">Low</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                      </div>
+                      <Field>
+                        <FieldLabel>
+                          Deadline
+                        </FieldLabel>
+                        <DatePicker />
+                      </Field>
+                    </FieldGroup>
+                  </FieldSet>
+                </FieldGroup>
+              </form>
+            </div>
+            <DialogFooter>
+              <DialogClose>
+                <Button type="submit">Confirm</Button>
+              </DialogClose>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       )
@@ -255,11 +353,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => (
-
+    cell: () => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-
           <Button
             variant="ghost"
             className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
@@ -268,48 +364,20 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             <IconDotsVertical />
             <span className="sr-only">Open menu</span>
           </Button>
-
         </DropdownMenuTrigger>
+
         <DropdownMenuContent align="end" className="w-32">
+
+
+
           <Dialog>
             <DialogTrigger>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  {row.original.title}
-                </DialogTitle>
-                <DialogDescription>
-                  {row.original.description}
-                </DialogDescription>
-                <DialogDescription>
-                  <div>Deadline : {row.original.deadline}</div>
-                </DialogDescription>
-
-                <div className="flex items-center py-4 gap-2">
-                  <Badge variant="outline" className="text-muted-foreground px-1.5">
-                    {row.original.assignee}
-                  </Badge>
-                  <Badge variant="outline" className="text-muted-foreground px-1.5">
-                    {/* {icon} */}
-                    {row.original.status}
-                  </Badge>
-                  <Badge variant="outline" className="text-muted-foreground px-1.5">
-                    <div>{row.original.label}</div>
-                  </Badge>
-                  {/* <div style={{ color: colour, fontSize: 15 }}>{row.original.urgency}</div> */}
-
-                </div>
-
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-
-          <DropdownMenuSeparator />
-          <Dialog>
-            <DialogTrigger>
-              <DropdownMenuItem variant="destructive" onSelect={(e) => e.preventDefault()}>Delete</DropdownMenuItem>
+              <DropdownMenuItem
+                variant="destructive"
+                onSelect={(e) => e.preventDefault()}
+              >
+                Delete
+              </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -321,18 +389,13 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
               </DialogHeader>
               <DialogFooter>
                 <DialogClose>
-                  <Button type="submit" >Confirm</Button>
+                  <Button type="submit">Confirm</Button>
                 </DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </DropdownMenuContent>
       </DropdownMenu>
-
-
-
-
-
     ),
   },
 ]
@@ -569,11 +632,123 @@ export function DataTable({
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Dialog>
+          <DialogTrigger>
 
-        <Button className="ml-auto" variant="outline" size="sm">
-          <IconPlus />
-          <span className="hidden lg:inline">Add Section</span>
-        </Button>
+            <Button variant="outline" size="sm">
+              <IconPlus />
+              <span className="hidden lg:inline">Add Section</span>
+            </Button>
+
+          </DialogTrigger>
+          <DialogContent>
+            <div className="w-full max-w-md">
+              <form>
+                <FieldGroup>
+                  <FieldSet>
+                    <FieldGroup>
+                      <Field>
+                        <FieldLabel>
+                          Title
+                        </FieldLabel>
+                        <Input
+                          id="title-input"
+                          placeholder="Enter task title"
+
+                          required
+                        />
+                      </Field>
+                      <Field>
+                        <FieldLabel>
+                          Description
+                        </FieldLabel>
+                        <Textarea
+                          id="description-input"
+                          placeholder="Enter task description"
+
+                          required
+                          className="h-64"
+                        />
+                      </Field>
+                      <div className="grid grid-cols-3 gap-4">
+                        <Field>
+                          <FieldLabel >
+                            Assignee
+                          </FieldLabel>
+                          <Select>
+                            <SelectTrigger id="assignee-select">
+                              <SelectValue placeholder="assigne" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {/* <SelectItem></SelectItem> */}
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <FieldLabel >
+                            Status
+                          </FieldLabel>
+                          <Select>
+                            <SelectTrigger id="status-select">
+                              <SelectValue placeholder="status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Todo">Todo</SelectItem>
+                              <SelectItem value="In Process">In Process</SelectItem>
+                              <SelectItem value="In Review">In Review</SelectItem>
+                              <SelectItem value="Done">Done</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <FieldLabel >
+                            Label
+                          </FieldLabel>
+                          <Select>
+                            <SelectTrigger id="label-select">
+                              <SelectValue placeholder="label" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {/* <SelectItem ></SelectItem> */}
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <FieldLabel >
+                            Urgency
+                          </FieldLabel>
+                          <Select>
+                            <SelectTrigger id="urgency-select">
+                              <SelectValue placeholder="urgency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="High">High</SelectItem>
+                              <SelectItem value="Medium">Medium</SelectItem>
+                              <SelectItem value="Low">Low</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                      </div>
+                      <Field>
+                        <FieldLabel>
+                          Deadline
+                        </FieldLabel>
+                        <DatePicker />
+                      </Field>
+                    </FieldGroup>
+                  </FieldSet>
+                </FieldGroup>
+              </form>
+            </div>
+            <DialogFooter>
+              <DialogClose>
+                <Button type="submit">Confirm</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+
       </div >
 
       <div className="overflow-hidden rounded-lg border">
