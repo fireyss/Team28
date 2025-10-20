@@ -751,7 +751,7 @@ export function DataTable({
 
       </div >
 
-      <div className="overflow-hidden rounded-lg border">
+      <div className="m-5 overflow-hidden rounded-lg border">
         <DndContext
           collisionDetection={closestCenter}
           modifiers={[restrictToVerticalAxis]}
