@@ -109,7 +109,7 @@ export const schema = z.object({
   title: z.string(),
   assignee: z.string(),
   status: z.string(),
-  label: z.string(),
+  project: z.string(),
   urgency: z.string(),
   deadline: z.string(),
   description: z.string(),
@@ -238,14 +238,14 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                         </Field>
                         <Field>
                           <FieldLabel >
-                            Label
+                            Project
                           </FieldLabel>
-                          <Select defaultValue={row.original.label}>
-                            <SelectTrigger id="label-select">
-                              <SelectValue placeholder="label" />
+                          <Select defaultValue={row.original.project}>
+                            <SelectTrigger id="project-select">
+                              <SelectValue placeholder="project" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value={row.original.label}>{row.original.label}</SelectItem>
+                              <SelectItem value={row.original.project}>{row.original.project}</SelectItem>
                             </SelectContent>
                           </Select>
                         </Field>
@@ -319,11 +319,11 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     filterFn: "multipleIncludes",
   },
   {
-    accessorKey: "label",
-    header: () => "Label",
+    accessorKey: "project",
+    header: () => "Project",
     cell: ({ row }) => {
       return <Badge variant="outline" className="text-muted-foreground px-1.5">
-        <div>{row.original.label}</div>
+        <div>{row.original.project}</div>
       </Badge>
     },
 
@@ -582,7 +582,7 @@ export function DataTable({
         </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">Label</Button>
+            <Button variant="outline">Project</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
           </DropdownMenuContent>
@@ -703,11 +703,11 @@ export function DataTable({
                         </Field>
                         <Field>
                           <FieldLabel >
-                            Label
+                            Project
                           </FieldLabel>
                           <Select>
-                            <SelectTrigger id="label-select">
-                              <SelectValue placeholder="label" />
+                            <SelectTrigger id="project-select">
+                              <SelectValue placeholder="project" />
                             </SelectTrigger>
                             <SelectContent>
                               {/* <SelectItem ></SelectItem> */}
