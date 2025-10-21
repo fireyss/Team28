@@ -4,7 +4,7 @@
     "title": "To-do-list",
     "assignee": "aureliofolly@gmail.com",
     "status": "In Review",
-    "label": "Web Prototype",
+    "project": "Web Prototype",
     "urgency": "High",
     "deadline": "17/10/25",
     "description": "Description for To-do"
@@ -14,7 +14,7 @@
     "title": "Design login page",
     "assignee": "lucas.fernandez@example.com",
     "status": "Todo",
-    "label": "UI Design",
+    "project": "UI Design",
     "urgency": "Medium",
     "deadline": "20/10/25",
     "description": "Description for Design login page"
@@ -24,7 +24,7 @@
     "title": "API authentication setup",
     "assignee": "maria.dev@example.com",
     "status": "In Process",
-    "label": "Backend",
+    "project": "Backend",
     "urgency": "High",
     "deadline": "19/10/25",
     "description": "Description for API authentication setup"
@@ -34,7 +34,7 @@
     "title": "Client feedback review",
     "assignee": "john.teamlead@example.com",
     "status": "In Review",
-    "label": "Management",
+    "project": "Management",
     "urgency": "Low",
     "deadline": "22/10/25",
     "description": "Description for Client feedback review"
@@ -44,7 +44,7 @@
     "title": "Implement dark mode",
     "assignee": "sofia.ui@example.com",
     "status": "Done",
-    "label": "Frontend",
+    "project": "Frontend",
     "urgency": "Medium",
     "deadline": "15/10/25",
     "description": "Description for Implement dark mode"
@@ -54,7 +54,7 @@
     "title": "Database migration",
     "assignee": "daniel.dbadmin@example.com",
     "status": "In Process",
-    "label": "Database",
+    "project": "Database",
     "urgency": "High",
     "deadline": "25/10/25",
     "description": "Description for Database migration"
@@ -64,7 +64,7 @@
     "title": "Write unit tests",
     "assignee": "emma.qa@example.com",
     "status": "Todo",
-    "label": "Testing",
+    "project": "Testing",
     "urgency": "Medium",
     "deadline": "23/10/25",
     "description": "Description for Write unit tests"
@@ -74,7 +74,7 @@
     "title": "Fix mobile responsiveness",
     "assignee": "liam.frontend@example.com",
     "status": "In Process",
-    "label": "Frontend",
+    "project": "Frontend",
     "urgency": "High",
     "deadline": "18/10/25",
     "description": "Description for Fix mobile responsiveness"
@@ -84,7 +84,7 @@
     "title": "Prepare project documentation",
     "assignee": "isabella.docs@example.com",
     "status": "Done",
-    "label": "Documentation",
+    "project": "Documentation",
     "urgency": "Low",
     "deadline": "14/10/25",
     "description": "Description for Prepare project documentation"
@@ -94,7 +94,7 @@
     "title": "Optimize image loading",
     "assignee": "noah.devops@example.com",
     "status": "In Review",
-    "label": "Performance",
+    "project": "Performance",
     "urgency": "Medium",
     "deadline": "21/10/25",
     "description": "Description for Optimize image loading"
@@ -104,7 +104,7 @@
     "title": "Setup CI/CD pipeline",
     "assignee": "carla.devops@example.com",
     "status": "Todo",
-    "label": "DevOps",
+    "project": "DevOps",
     "urgency": "High",
     "deadline": "24/10/25",
     "description": "Description for Setup CI/CD pipeline"
@@ -114,7 +114,7 @@
     "title": "Update user profile UI",
     "assignee": "felix.design@example.com",
     "status": "In Process",
-    "label": "UI Design",
+    "project": "UI Design",
     "urgency": "Medium",
     "deadline": "28/10/25",
     "description": "Description for Update user profile UI"
@@ -124,7 +124,7 @@
     "title": "Email notification system",
     "assignee": "george.backend@example.com",
     "status": "In Review",
-    "label": "Backend",
+    "project": "Backend",
     "urgency": "High",
     "deadline": "26/10/25",
     "description": "Description for Email notification system"
@@ -134,7 +134,7 @@
     "title": "User analytics dashboard",
     "assignee": "nina.analytics@example.com",
     "status": "Done",
-    "label": "Data Visualization",
+    "project": "Data Visualization",
     "urgency": "Medium",
     "deadline": "13/10/25",
     "description": "Description for User analytics dashboard"
@@ -144,7 +144,7 @@
     "title": "Fix payment gateway bug",
     "assignee": "alex.payments@example.com",
     "status": "In Process",
-    "label": "Backend",
+    "project": "Backend",
     "urgency": "High",
     "deadline": "19/10/25",
     "description": "Description for Fix payment gateway bug"
@@ -154,7 +154,7 @@
     "title": "Landing page redesign",
     "assignee": "mia.ui@example.com",
     "status": "Todo",
-    "label": "Frontend",
+    "project": "Frontend",
     "urgency": "Low",
     "deadline": "27/10/25",
     "description": "Description for Landing page redesign"
@@ -164,7 +164,7 @@
     "title": "SEO improvements",
     "assignee": "oliver.marketing@example.com",
     "status": "In Review",
-    "label": "Marketing",
+    "project": "Marketing",
     "urgency": "Medium",
     "deadline": "16/10/25",
     "description": "Description for SEO improvements"
@@ -174,7 +174,7 @@
     "title": "Content management setup",
     "assignee": "lucy.cms@example.com",
     "status": "Done",
-    "label": "CMS",
+    "project": "CMS",
     "urgency": "Low",
     "deadline": "12/10/25",
     "description": "Description for Content management setup"
@@ -184,7 +184,7 @@
     "title": "Accessibility audit",
     "assignee": "ethan.qa@example.com",
     "status": "Todo",
-    "label": "Testing",
+    "project": "Testing",
     "urgency": "Medium",
     "deadline": "29/10/25",
     "description": "Description for Accessibility audit"
@@ -194,7 +194,7 @@
     "title": "Implement role-based access",
     "assignee": "amelia.backend@example.com",
     "status": "In Process",
-    "label": "Backend",
+    "project": "Backend",
     "urgency": "High",
     "deadline": "30/10/25",
     "description": "Description for Implement role-based access"
@@ -204,7 +204,7 @@
     "title": "Performance profiling",
     "assignee": "leo.devops@example.com",
     "status": "In Review",
-    "label": "Performance",
+    "project": "Performance",
     "urgency": "Medium",
     "deadline": "31/10/25",
     "description": "Description for Performance profiling"
@@ -214,7 +214,7 @@
     "title": "Redesign settings page",
     "assignee": "grace.ui@example.com",
     "status": "Todo",
-    "label": "UI Design",
+    "project": "UI Design",
     "urgency": "Low",
     "deadline": "05/11/25",
     "description": "Description for Redesign settings page"
@@ -224,7 +224,7 @@
     "title": "Integrate chat support",
     "assignee": "james.frontend@example.com",
     "status": "In Process",
-    "label": "Frontend",
+    "project": "Frontend",
     "urgency": "High",
     "deadline": "01/11/25",
     "description": "Description for Integrate chat support"
@@ -234,7 +234,7 @@
     "title": "Prepare marketing assets",
     "assignee": "chloe.marketing@example.com",
     "status": "In Review",
-    "label": "Marketing",
+    "project": "Marketing",
     "urgency": "Medium",
     "deadline": "02/11/25",
     "description": "Description for Prepare marketing assets"
@@ -244,7 +244,7 @@
     "title": "Set up user surveys",
     "assignee": "max.analytics@example.com",
     "status": "Done",
-    "label": "Research",
+    "project": "Research",
     "urgency": "Low",
     "deadline": "10/10/25",
     "description": "Description for Set up user surveys"
@@ -254,7 +254,7 @@
     "title": "Implement password recovery",
     "assignee": "ella.security@example.com",
     "status": "Todo",
-    "label": "Security",
+    "project": "Security",
     "urgency": "High",
     "deadline": "04/11/25",
     "description": "Description for Implement password recovery"
@@ -264,7 +264,7 @@
     "title": "Server scaling optimization",
     "assignee": "ryan.devops@example.com",
     "status": "In Process",
-    "label": "DevOps",
+    "project": "DevOps",
     "urgency": "Medium",
     "deadline": "06/11/25",
     "description": "Description for Server scaling optimization"
@@ -274,7 +274,7 @@
     "title": "Add multi-language support",
     "assignee": "sofia.localization@example.com",
     "status": "In Review",
-    "label": "Frontend",
+    "project": "Frontend",
     "urgency": "High",
     "deadline": "03/11/25",
     "description": "Description for Add multi-language support"
@@ -284,7 +284,7 @@
     "title": "Test email deliverability",
     "assignee": "ben.qa@example.com",
     "status": "Todo",
-    "label": "Testing",
+    "project": "Testing",
     "urgency": "Medium",
     "deadline": "07/11/25",
     "description": "Description for Test email deliverability"
@@ -294,7 +294,7 @@
     "title": "Finalize product launch checklist",
     "assignee": "olivia.manager@example.com",
     "status": "Done",
-    "label": "Management",
+    "project": "Management",
     "urgency": "High",
     "deadline": "09/11/25",
     "description": "Description for Finalize product launch checklist"
