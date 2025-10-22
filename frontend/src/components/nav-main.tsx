@@ -1,5 +1,7 @@
 import { type Icon } from "@tabler/icons-react"
 
+import { Link } from "react-router"
+
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -26,10 +28,10 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title} asChild>
-                <a href={item.url}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-                </a>
+                <Link to={item.url}>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
