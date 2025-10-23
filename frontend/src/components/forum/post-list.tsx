@@ -26,7 +26,7 @@ export default function PostList({ posts, topics }: { posts: Post[], topics: str
     }
 
     const [pageIndex, setPageIndex] = React.useState(0)
-    const [pageSize, setPageSize] = React.useState(5)
+    const [pageSize, setPageSize] = React.useState(10)
 
     const startIndex = pageIndex * pageSize
     let endIndex = startIndex + pageSize
