@@ -25,17 +25,17 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard/#",
       icon: IconHome,
     },
     {
       title: "Projects",
-      url: "#",
+      url: "/dashboard/#",
       icon: IconListDetails,
     },
     {
       title: "Forums",
-      url: "#",
+      url: "/dashboard/#",
       icon: IconBubbleText,
     },
     {
