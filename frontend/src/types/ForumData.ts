@@ -18,11 +18,6 @@ export interface Post {
     comments: Comment[]
 }
 
-export interface Topic {
-    name: string,
-    posts: Post[]
-}
-
 export type ForumData = {
     topics: string[],
     posts: Post[]
