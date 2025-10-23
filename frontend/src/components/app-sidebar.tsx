@@ -1,7 +1,6 @@
 import * as React from "react"
 import {
   IconHome,
-  IconListDetails,
   IconBubbleText,
   IconClipboardData,
 } from "@tabler/icons-react"
@@ -27,11 +26,6 @@ const data = {
       title: "Dashboard",
       url: "#",
       icon: IconHome,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconListDetails,
     },
     {
       title: "Forums",
