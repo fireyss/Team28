@@ -122,8 +122,6 @@ export function NewPostDialog({ topics }: { topics: string[] }) {
                 <Input id="title" name="title" />
                 <Label htmlFor="content">Content</Label>
                 <Textarea id="content" name="content" />
-                <Label htmlFor="content">Content</Label>
-                <Textarea id="content" name="content" />
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
