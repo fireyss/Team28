@@ -22,7 +22,8 @@
                     "timestamp": "2025-10-22T10:25:00Z",
                     "replies": []
                 }
-            ]
+            ],
+            "comment_count": 1
         },
         {
             "id": 9,
@@ -33,7 +34,8 @@
             "content": "Extra A4 paper boxes are stored in the supply room on the second floor.",
             "posted": "2025-10-22T09:00:00Z",
             "latest": "2025-10-22T09:00:00Z",
-            "comments": []
+            "comments": [],
+            "comment_count": 0
         },
         {
             "id": 3,
@@ -44,7 +46,8 @@
             "content": "We’ll be moving from Redux to Zustand for state management in Q4.",
             "posted": "2025-10-22T08:00:00Z",
             "latest": "2025-10-22T08:00:00Z",
-            "comments": []
+            "comments": [],
+            "comment_count": 0
         },
         {
             "id": 2,
@@ -70,7 +73,8 @@
                     "timestamp": "2025-10-21T14:15:00Z",
                     "replies": []
                 }
-            ]
+            ],
+            "comment_count": 2
         },
         {
             "id": 8,
@@ -97,7 +101,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "comment_count": 2
         },
         {
             "id": 1,
@@ -124,7 +129,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "comment_count": 2
         },
         {
             "id": 4,
@@ -151,7 +157,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "comment_count": 2
         },
         {
             "id": 5,
@@ -162,7 +169,8 @@
             "content": "The issue with API latency has been resolved by optimizing database indexes.",
             "posted": "2025-10-18T16:00:00Z",
             "latest": "2025-10-22T10:25:00Z",
-            "comments": []
+            "comments": [],
+            "comment_count": 0
         },
         {
             "id": 7,
@@ -181,7 +189,8 @@
                     "timestamp": "2025-10-17T12:10:00Z",
                     "replies": []
                 }
-            ]
+            ],
+            "comment_count": 1
         }
     ]
 }

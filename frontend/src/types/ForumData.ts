@@ -16,6 +16,7 @@ export interface Post {
     posted: string,
     latest: string,
     comments: Comment[]
+    comment_count: number
 }
 
 export type ForumData = {

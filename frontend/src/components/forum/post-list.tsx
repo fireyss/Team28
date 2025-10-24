@@ -1,4 +1,4 @@
-import type { Post } from "@/types/ForumData"
+import type { ForumData, Post } from "@/types/ForumData"
 import type { User } from "@/types/Account"
 import accounts from "@/data/Accounts.json"
 
@@ -11,16 +11,18 @@ import React from "react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
-import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconMessages, IconPlus, IconUserFilled } from "@tabler/icons-react"
+import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconMessages, IconPlus, IconSearch, IconUserFilled } from "@tabler/icons-react"
 import { Link } from "react-router"
 import { Label } from "../ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Input } from "../ui/input"
 import { Badge } from "../ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 
-export function SinglePost({ post }: { post: Post }) {
+export function PostCard({ post }: { post: Post }) {
     const users = accounts as User[]
     let author = users.find(user => user.id === post.author)
     if (!author) {
@@ -30,9 +32,9 @@ export function SinglePost({ post }: { post: Post }) {
             name: "Deleted user"
         }
     }
+
     return (
         <Link to={"post/" + post.id}>
-            {/* TODO */}
             <Card className="mx-2 my-5">
                 <CardHeader>
                     <div className="flex gap-2">
@@ -59,9 +61,10 @@ export function SinglePost({ post }: { post: Post }) {
                     {post.content}
                 </CardContent>
                 <CardFooter className="flex-col items-start">
-                    <Badge variant="outline" className="text-md">
-                        <IconMessages /> {post.comments.length} Comment(s)
-                    </Badge>
+                    <Link to={"post/" + post.id + "#comments"}>
+                        <Badge variant="outline" className="text-md">
+                            <IconMessages /> {post.comment_count} Comment(s)
+                        </Badge></Link>
                 </CardFooter>
             </Card>
         </Link>
@@ -110,7 +113,7 @@ export function NewPostDialog() {
     )
 }
 
-export default function PostList({ posts, topics, search }: { posts: Post[], topics: string[], search: string }) {
+export function PostList({ posts, topics, search }: { posts: Post[], topics: string[], search: string }) {
     let filteredPosts: Post[]
 
     if (topics.length == 0) {
@@ -134,11 +137,8 @@ export default function PostList({ posts, topics, search }: { posts: Post[], top
 
     return (
         <div className="p-3">
-            <div className="pl-5">
-                <NewPostDialog />
-            </div>
             {visiblePosts.map(post => (
-                <SinglePost post={post} />
+                <PostCard post={post} />
             ))}
             <div className="flex w-full items-center gap-8 lg:w-fit">
                 <div className="hidden items-center gap-2 lg:flex">
@@ -211,6 +211,77 @@ export default function PostList({ posts, topics, search }: { posts: Post[], top
                     </Button>
                 </div>
             </div >
+        </div>
+    )
+}
+
+export default function ForumHome({ forum }: { forum: ForumData }) {
+    const [topics, setTopics] = React.useState<string[]>([])
+    const [search, setSearch] = React.useState("")
+
+    return (
+        <div>
+            <div className="flex flex-row">
+                <div className="m-3 mb-0">
+                    <div className="flex flex-wrap gap-2 items-center">
+                        <ToggleGroup
+                            type="multiple"
+                            value={topics}
+                            onValueChange={setTopics}
+                            className="flex flex-wrap gap-2 m-2"
+                        >
+                            {forum.topics.map(topic => (
+                                <ToggleGroupItem
+                                    value={topic}
+                                    variant="outline"
+                                    className="flex-none rounded-md w-auto"
+                                >
+                                    {topic}
+                                </ToggleGroupItem>
+                            ))}
+                        </ToggleGroup>
+                        <Dialog>
+                            <DialogTrigger>
+                                <Button variant="outline" className="p-none">
+                                    <IconPlus />New Topic
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>New Topic</DialogTitle>
+                                    <DialogDescription>
+                                        Create a new topic to post about.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <Label htmlFor="name">Topic Name</Label>
+                                <Input id="name" name="name" />
+                                <DialogFooter>
+                                    <DialogClose asChild>
+                                        <Button variant="outline">Cancel</Button>
+                                    </DialogClose>
+                                    <Button type="submit">Create</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                    <div className="m-2 mb-0">
+                        <InputGroup>
+                            <InputGroupInput
+                                placeholder="Search posts..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)} />
+                            <InputGroupAddon>
+                                <IconSearch />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </div>
+                <div className="mt-6 mr-7 ml-auto">
+                    <NewPostDialog />
+                </div>
+            </div>
+
+            <PostList posts={forum.posts} topics={topics} search={search.toLowerCase()} />
         </div>
     )
 }
