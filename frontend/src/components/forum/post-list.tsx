@@ -110,13 +110,19 @@ export function NewPostDialog() {
     )
 }
 
-export default function PostList({ posts, topics }: { posts: Post[], topics: string[] }) {
+export default function PostList({ posts, topics, search }: { posts: Post[], topics: string[], search: string }) {
     let filteredPosts: Post[]
 
     if (topics.length == 0) {
         filteredPosts = posts
     } else {
         filteredPosts = posts.filter(post => (topics.includes(post.topic)))
+    }
+    if (search.length != 0) {
+        filteredPosts = filteredPosts.filter(post =>
+        (post.title.toLowerCase().includes(search)
+            || post.content.toLowerCase().includes(search))
+        )
     }
 
     const [pageIndex, setPageIndex] = React.useState(0)

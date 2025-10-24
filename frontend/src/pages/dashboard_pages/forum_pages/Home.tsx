@@ -20,13 +20,15 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { IconPlus } from "@tabler/icons-react"
+import { IconPlus, IconSearch } from "@tabler/icons-react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 
 export default function Home() {
     const forum = forumData as ForumData
     const [topics, setTopics] = useState<string[]>([])
+    const [search, setSearch] = useState("")
     return (
         <div>
             <div className="flex flex-wrap gap-2 m-2 items-center">
@@ -66,7 +68,17 @@ export default function Home() {
                     </DialogContent>
                 </Dialog>
             </div>
-            <PostList posts={forum.posts} topics={topics} />
+            <InputGroup>
+                <InputGroupInput
+                    placeholder="Search posts..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)} />
+                <InputGroupAddon>
+                    <IconSearch />
+                </InputGroupAddon>
+            </InputGroup>
+
+            <PostList posts={forum.posts} topics={topics} search={search.toLowerCase()} />
         </div>
     )
 }
