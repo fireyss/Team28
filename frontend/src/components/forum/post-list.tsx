@@ -133,13 +133,16 @@ export function NewPostDialog({ topics }: { topics: string[] }) {
     )
 }
 
-export function PostList({ posts, topics, search }: { posts: Post[], topics: string[], search: string }) {
+export function PostList({ posts, type, topics, search }: { posts: Post[], type: string, topics: string[], search: string }) {
     let filteredPosts: Post[]
 
-    if (topics.length == 0) {
+    if (type.length == 0) {
         filteredPosts = posts
     } else {
-        filteredPosts = posts.filter(post => (topics.includes(post.topic)))
+        filteredPosts = posts.filter(post => (post.type == type))
+    }
+    if (topics.length != 0) {
+        filteredPosts = filteredPosts.filter(post => (topics.includes(post.topic)))
     }
     if (search.length != 0) {
         filteredPosts = filteredPosts.filter(post =>
@@ -265,12 +268,20 @@ export function NewTopicDialog() {
 
 export default function ForumHome({ forum }: { forum: ForumData }) {
     const [topics, setTopics] = React.useState<string[]>([])
+    const [type, setType] = React.useState("")
     const [search, setSearch] = React.useState("")
 
     return (
         <div>
             <div className="flex flex-row">
                 <div className="m-3 mb-0">
+                    <ToggleGroup type="single" value={type} onValueChange={setType}
+                        className="flex gap-2 m-2">
+                        <ToggleGroupItem value="Q&A" variant="outline"
+                            className="flex-none rounded-md w-auto">Q&A</ToggleGroupItem>
+                        <ToggleGroupItem value="Informational" variant="outline"
+                            className="flex-none rounded-md w-auto">Informational</ToggleGroupItem>
+                    </ToggleGroup>
                     <div className="flex flex-wrap gap-2 items-center">
                         <ToggleGroup
                             type="multiple"
@@ -307,7 +318,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                 </div>
             </div>
 
-            <PostList posts={forum.posts} topics={topics} search={search.toLowerCase()} />
+            <PostList posts={forum.posts} type={type} topics={topics} search={search.toLowerCase()} />
         </div>
     )
 }
