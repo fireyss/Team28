@@ -21,6 +21,7 @@ import { Badge } from "../ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
+import { Textarea } from "../ui/textarea"
 
 export function PostCard({ post }: { post: Post }) {
     const users = accounts as User[]
@@ -71,7 +72,7 @@ export function PostCard({ post }: { post: Post }) {
     )
 }
 
-export function NewPostDialog() {
+export function NewPostDialog({ topics }: { topics: string[] }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -86,6 +87,19 @@ export function NewPostDialog() {
                     </DialogTitle>
                 </DialogHeader>
                 <Label htmlFor="topic">Topic</Label>
+                <Select name="topic">
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select topic" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Topic</SelectLabel>
+                            {topics.map(topic => (
+                                <SelectItem value={topic}>{topic}</SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
                 <Label htmlFor="type">Type</Label>
                 <Select name="type">
                     <SelectTrigger>
@@ -101,7 +115,8 @@ export function NewPostDialog() {
                 </Select>
                 <Label htmlFor="title">Title</Label>
                 <Input id="title" name="title" />
-                <Input id="content" name="content" />
+                <Label htmlFor="content">Content</Label>
+                <Textarea id="content" name="content" />
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
@@ -277,7 +292,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                     </div>
                 </div>
                 <div className="mt-6 mr-7 ml-auto">
-                    <NewPostDialog />
+                    <NewPostDialog topics={forum.topics} />
                 </div>
             </div>
 
