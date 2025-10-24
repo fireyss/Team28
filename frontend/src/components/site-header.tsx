@@ -3,7 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { useLocation } from "react-router-dom"
 
 
-  
+
 export function SiteHeader() {
   const location = useLocation()
   const getTitle = () => {
@@ -12,6 +12,8 @@ export function SiteHeader() {
         return ""
       case "/dashboard/home":
         return "Home"
+      case "/dashboard/forum":
+        return "Forum"
       case "/dashboard/todo":
         return "To-do List"
       default:
