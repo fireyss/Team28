@@ -21,6 +21,7 @@ import { Badge } from "../ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
+import { Textarea } from "../ui/textarea"
 
 export function PostCard({ post }: { post: Post }) {
     const users = accounts as User[]
@@ -71,7 +72,7 @@ export function PostCard({ post }: { post: Post }) {
     )
 }
 
-export function NewPostDialog() {
+export function NewPostDialog({ topics }: { topics: string[] }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -85,23 +86,42 @@ export function NewPostDialog() {
                         New Post
                     </DialogTitle>
                 </DialogHeader>
-                <Label htmlFor="topic">Topic</Label>
-                <Label htmlFor="type">Type</Label>
-                <Select name="type">
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select post type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Post type</SelectLabel>
-                            <SelectItem value="Q&A">Q&A</SelectItem>
-                            <SelectItem value="Informational">Informational</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                    <Label htmlFor="topic">Topic:</Label>
+                    <Select name="topic">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select topic" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Topic</SelectLabel>
+                                {topics.map(topic => (
+                                    <SelectItem value={topic}>{topic}</SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <NewTopicDialog />
+                </div>
+                <div className="flex gap-2">
+                    <Label htmlFor="type">Type:</Label>
+                    <Select name="type">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select post type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Post type</SelectLabel>
+                                <SelectItem value="Q&A">Q&A</SelectItem>
+                                <SelectItem value="Informational">Informational</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
                 <Label htmlFor="title">Title</Label>
                 <Input id="title" name="title" />
-                <Input id="content" name="content" />
+                <Label htmlFor="content">Content</Label>
+                <Textarea id="content" name="content" />
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
@@ -215,6 +235,34 @@ export function PostList({ posts, topics, search }: { posts: Post[], topics: str
     )
 }
 
+export function NewTopicDialog() {
+    return (
+        <Dialog>
+            <DialogTrigger>
+                <Button variant="outline" className="p-none">
+                    <IconPlus />New Topic
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>New Topic</DialogTitle>
+                    <DialogDescription>
+                        Create a new topic to post about.
+                    </DialogDescription>
+                </DialogHeader>
+                <Label htmlFor="name">Topic Name</Label>
+                <Input id="name" name="name" />
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button type="submit">Create</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 export default function ForumHome({ forum }: { forum: ForumData }) {
     const [topics, setTopics] = React.useState<string[]>([])
     const [search, setSearch] = React.useState("")
@@ -240,29 +288,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                                 </ToggleGroupItem>
                             ))}
                         </ToggleGroup>
-                        <Dialog>
-                            <DialogTrigger>
-                                <Button variant="outline" className="p-none">
-                                    <IconPlus />New Topic
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>New Topic</DialogTitle>
-                                    <DialogDescription>
-                                        Create a new topic to post about.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <Label htmlFor="name">Topic Name</Label>
-                                <Input id="name" name="name" />
-                                <DialogFooter>
-                                    <DialogClose asChild>
-                                        <Button variant="outline">Cancel</Button>
-                                    </DialogClose>
-                                    <Button type="submit">Create</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
+                        <NewTopicDialog />
                     </div>
                     <div className="m-2 mb-0">
                         <InputGroup>
@@ -277,7 +303,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                     </div>
                 </div>
                 <div className="mt-6 mr-7 ml-auto">
-                    <NewPostDialog />
+                    <NewPostDialog topics={forum.topics} />
                 </div>
             </div>
 
