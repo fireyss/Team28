@@ -1,4 +1,7 @@
 import * as React from "react"
+import {type Task} from "@/types/Task"
+import employeeData from "@/data/taskData.json"
+
 import {
   closestCenter,
   DndContext,
@@ -47,7 +50,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { z } from "zod"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -104,16 +106,16 @@ import { Calendar as CalendarIcon } from "lucide-react"
 import { DialogClose } from "@radix-ui/react-dialog"
 // import { description } from "./chart-area-interactive"
 
-export const schema = z.object({
-  id: z.number(),
-  title: z.string(),
-  assignee: z.string(),
-  status: z.string(),
-  project: z.string(),
-  urgency: z.string(),
-  deadline: z.string(),
-  description: z.string(),
-})
+// export const schema = z.object({
+//   id: z.number(),
+//   title: z.string(),
+//   assignee: z.string(),
+//   status: z.string(),
+//   project: z.string(),
+//   urgency: z.string(),
+//   deadline: z.string(),
+//   description: z.string(),
+// })
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
@@ -158,7 +160,7 @@ function DatePicker() {
 }
 
 
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<Task>[] = [
   {
     id: "drag",
     header: () => null,
@@ -400,7 +402,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
 ]
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
+function DraggableRow({ row }: { row: Row<Task> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.id,
   })
@@ -425,12 +427,9 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   )
 }
 
-export function DataTable({
-  data: initialData,
-}: {
-  data: z.infer<typeof schema>[]
-}) {
-  const [data, setData] = React.useState(() => initialData)
+export function DataTable() {
+  const initialData = employeeData as Task[]
+  const [data, setData] = React.useState<Task[]>(initialData)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
