@@ -1,18 +1,112 @@
 import type { Post } from "@/types/ForumData"
+import type { User } from "@/types/Account"
+import accounts from "@/data/Accounts.json"
+
+import {
+    parseISO,
+    formatRelative
+} from "date-fns"
 
 import React from "react"
-import { Card } from "../ui/card"
+
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
-import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from "@tabler/icons-react"
+import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconMessages, IconPlus, IconUserFilled } from "@tabler/icons-react"
 import { Link } from "react-router"
 import { Label } from "../ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import { Input } from "../ui/input"
+import { Badge } from "../ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 export function SinglePost({ post }: { post: Post }) {
+    const users = accounts as User[]
+    let author = users.find(user => user.id === post.author)
+    if (!author) {
+        author = {
+            id: -1,
+            email: "Deleted user",
+            name: "Deleted user"
+        }
+    }
     return (
         <Link to={"post/" + post.id}>
-            <Card>{post.title}</Card>
+            {/* TODO */}
+            <Card className="mx-2 my-5">
+                <CardHeader>
+                    <div className="flex gap-2">
+                        <Badge>{post.topic}</Badge>
+                        <Badge>{post.type}</Badge>
+                    </div>
+                    <CardTitle className="py-1 text-lg font-bold">{post.title}</CardTitle>
+                    <div className="flex gap-2 items-center">
+                        <Avatar>
+                            <AvatarImage src={author.avatarUrl} />
+                            <AvatarFallback><IconUserFilled /></AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <p className="text-sm font-bold">
+                                {author.email}
+                            </p>
+                            <p className="text-muted-foreground text-xs">
+                                {formatRelative(parseISO(post.posted), new Date())}
+                            </p>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="line-clamp-3 whitespace-pre-wrap">
+                    {post.content}
+                </CardContent>
+                <CardFooter className="flex-col items-start">
+                    <Badge variant="outline" className="text-md">
+                        <IconMessages /> {post.comments.length} Comment(s)
+                    </Badge>
+                </CardFooter>
+            </Card>
         </Link>
+    )
+}
+
+export function NewPostDialog() {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button>
+                    <IconPlus /> New Post
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>
+                        New Post
+                    </DialogTitle>
+                </DialogHeader>
+                <Label htmlFor="topic">Topic</Label>
+                <Label htmlFor="type">Type</Label>
+                <Select name="type">
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select post type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Post type</SelectLabel>
+                            <SelectItem value="Q&A">Q&A</SelectItem>
+                            <SelectItem value="Informational">Informational</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                <Label htmlFor="title">Title</Label>
+                <Input id="title" name="title" />
+                <Input id="content" name="content" />
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button type="submit">Create post</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     )
 }
 
@@ -33,8 +127,10 @@ export default function PostList({ posts, topics }: { posts: Post[], topics: str
     const visiblePosts = filteredPosts.slice(startIndex, endIndex)
 
     return (
-        <div>
-            <h1>Posts</h1>
+        <div className="p-3">
+            <div className="pl-5">
+                <NewPostDialog />
+            </div>
             {visiblePosts.map(post => (
                 <SinglePost post={post} />
             ))}

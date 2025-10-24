@@ -35,7 +35,7 @@ export default function PostPage() {
     const post = forum.posts.find(p => p.id === Number(postID))
 
     if (!post) return (
-        <div>Post not found {/* TODO */}</div>
+        <div>{/* TODO */} Post not found </div>
     )
 
     const users = accountsData as User[]

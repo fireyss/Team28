@@ -29,7 +29,6 @@ export default function Home() {
     const [topics, setTopics] = useState<string[]>([])
     return (
         <div>
-            Topics
             <div className="flex flex-wrap gap-2 m-2 items-center">
                 <ToggleGroup
                     type="multiple"
@@ -45,7 +44,7 @@ export default function Home() {
                 </ToggleGroup>
                 <Dialog>
                     <DialogTrigger>
-                        <Button className="p-none">
+                        <Button variant="outline" className="p-none">
                             <IconPlus />New Topic
                         </Button>
                     </DialogTrigger>
