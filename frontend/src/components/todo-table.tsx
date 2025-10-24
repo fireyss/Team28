@@ -1,5 +1,5 @@
 import * as React from "react"
-import {type Task} from "@/types/Task"
+import { type Task } from "@/types/Task"
 import employeeData from "@/data/taskData.json"
 
 import {
@@ -32,6 +32,7 @@ import {
   IconGripVertical,
   IconLoader,
   IconPlus,
+  IconSearch,
 } from "@tabler/icons-react"
 import type {
   ColumnDef,
@@ -104,20 +105,8 @@ import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DialogClose } from "@radix-ui/react-dialog"
-// import { description } from "./chart-area-interactive"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
 
-// export const schema = z.object({
-//   id: z.number(),
-//   title: z.string(),
-//   assignee: z.string(),
-//   status: z.string(),
-//   project: z.string(),
-//   urgency: z.string(),
-//   deadline: z.string(),
-//   description: z.string(),
-// })
-
-// Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
     id,
@@ -501,15 +490,20 @@ export function DataTable() {
   return (
     <>
       <div className="flex items-center py-4 gap-2">
-        <Input
-         
-          placeholder="Search titles..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="ml-5 max-w-sm"
-        />
+        <InputGroup className="ml-5 max-w-sm">
+          <InputGroupInput
+
+            placeholder="Search titles..."
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("title")?.setFilterValue(event.target.value)
+            }
+            
+          />
+          <InputGroupAddon>
+            <IconSearch />
+          </InputGroupAddon>
+        </InputGroup>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Assignee</Button>
@@ -634,11 +628,12 @@ export function DataTable() {
         </DropdownMenu>
         <Dialog>
           <DialogTrigger>
-
-            <Button variant="outline" size="sm">
+            
+            <Button size="sm" className="ml-auto">
               <IconPlus />
               <span className="hidden lg:inline">Add Section</span>
             </Button>
+            
 
           </DialogTrigger>
           <DialogContent>
