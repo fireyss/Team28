@@ -1,23 +1,20 @@
 [
   {
     "id": 1,
-    "email": "alice@example.com",
+    "email": "alice@make-it-all.co.uk",
     "password": "password123",
-    "name": "Alice Johnson",
     "avatarUrl": "https://i.pravatar.cc/150?img=1"
   },
   {
     "id": 2,
-    "email": "bob@example.com",
+    "email": "bob@make-it-all.co.uk",
     "password": "qwerty456",
-    "name": "Bob Smith",
     "avatarUrl": "https://i.pravatar.cc/150?img=2"
   },
   {
     "id": 3,
-    "email": "charlie@example.com",
+    "email": "charlie@make-it-all.co.uk",
     "password": "charlie789",
-    "name": "Charlie Brown",
     "avatarUrl": "https://i.pravatar.cc/150?img=3"
   }
 ]

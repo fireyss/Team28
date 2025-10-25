@@ -1,4 +1,9 @@
 import * as React from "react"
+import { type Task } from "@/types/Task"
+import taskData from "@/data/taskData.json"
+import { type User } from "@/types/Account"
+import accountData from "@/data/Accounts.json"
+
 import {
   closestCenter,
   DndContext,
@@ -29,6 +34,8 @@ import {
   IconGripVertical,
   IconLoader,
   IconPlus,
+  IconSearch,
+  IconUserFilled,
 } from "@tabler/icons-react"
 import type {
   ColumnDef,
@@ -47,7 +54,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { z } from "zod"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -99,23 +105,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
-import { format } from "date-fns"
+import { format, parse } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DialogClose } from "@radix-ui/react-dialog"
-// import { description } from "./chart-area-interactive"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
-export const schema = z.object({
-  id: z.number(),
-  title: z.string(),
-  assignee: z.string(),
-  status: z.string(),
-  project: z.string(),
-  urgency: z.string(),
-  deadline: z.string(),
-  description: z.string(),
-})
+const users = accountData as User[]
 
-// Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
     id,
@@ -135,8 +132,9 @@ function DragHandle({ id }: { id: number }) {
   )
 }
 
-function DatePicker() {
-  const [date, setDate] = React.useState<Date>()
+function DatePicker({ defaultDate }: { defaultDate: Date | undefined }) {
+  const [date, setDate] = React.useState<Date | undefined>(defaultDate ? defaultDate : undefined)
+
 
   return (
     <Popover>
@@ -158,7 +156,7 @@ function DatePicker() {
 }
 
 
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<Task>[] = [
   {
     id: "drag",
     header: () => null,
@@ -211,12 +209,16 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                           <FieldLabel >
                             Assignee
                           </FieldLabel>
-                          <Select defaultValue={row.original.assignee}>
+                          <Select defaultValue={users.find(user => user.id === row.original.assignee)?.email}>
                             <SelectTrigger id="assignee-select">
                               <SelectValue placeholder="assigne" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value={row.original.assignee}>{row.original.assignee}</SelectItem>
+                              {users.map(u => {
+                                return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                              }
+                              )
+                              }
                             </SelectContent>
                           </Select>
                         </Field>
@@ -269,7 +271,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                         <FieldLabel>
                           Deadline
                         </FieldLabel>
-                        <DatePicker />
+                        <DatePicker defaultDate={parse(row.original.deadline, "dd/MM/yy", new Date())} />
                       </Field>
                     </FieldGroup>
                   </FieldSet>
@@ -291,12 +293,17 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "assignee",
     header: "Assignee",
     cell: ({ row }) => (
-      <div className="w-32">
+      <div className="flex w-fit">
+        <Avatar>
+          <AvatarImage src={users.find(user => row.original.assignee === user.id)?.avatarUrl} />
+          <AvatarFallback><IconUserFilled /></AvatarFallback>
+        </Avatar>
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.assignee}
+          {users.find(user => row.original.assignee === user.id)?.email}
         </Badge>
       </div>
     ),
+    filterFn: "multipleIncludes" as any,
   },
   {
     accessorKey: "status",
@@ -311,18 +318,18 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       if (row.original.status === "In Review")
         icon = <IconCircleFilled className={"fill-yellow-500"} />
 
-      return <Badge variant="outline" className="text-muted-foreground px-1.5">
+      return <Badge variant="outline" className="text-muted-foreground px-1.5 w-fit">
         {icon}
         {row.original.status}
       </Badge>
     },
-    filterFn: "multipleIncludes",
+    filterFn: "multipleIncludes" as any,
   },
   {
     accessorKey: "project",
     header: () => "Project",
     cell: ({ row }) => {
-      return <Badge variant="outline" className="text-muted-foreground px-1.5">
+      return <Badge variant="outline" className="text-muted-foreground px-1.5 w-fit">
         <div>{row.original.project}</div>
       </Badge>
     },
@@ -339,15 +346,15 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         colour = "orange";
       if (row.original.urgency === "Low")
         colour = "green";
-      return <div style={{ color: colour }}>{row.original.urgency}</div>
+      return <div style={{ color: colour }} className="w-fit">{row.original.urgency}</div>
     },
-    filterFn: "multipleIncludes",
+    filterFn: "multipleIncludes" as any,
   },
   {
     accessorKey: "deadline",
     header: "Deadline",
     cell: ({ row }) => {
-      return row.original.deadline
+      return <p className="w-fit">{row.original.deadline}</p>
 
     },
   },
@@ -358,7 +365,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+            className="w-fit data-[state=open]:bg-muted text-muted-foreground flex size-8"
             size="icon"
           >
             <IconDotsVertical />
@@ -400,7 +407,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
 ]
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
+function DraggableRow({ row }: { row: Row<Task> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.id,
   })
@@ -425,19 +432,16 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   )
 }
 
-export function DataTable({
-  data: initialData,
-}: {
-  data: z.infer<typeof schema>[]
-}) {
-  const [data, setData] = React.useState(() => initialData)
+export function DataTable() {
+  const initialData = taskData as Task[]
+  const [data, setData] = React.useState<Task[]>(initialData)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
-  const [statusFilter, setStatusFilter] = React.useState<string[]>([])
+  const [statusFilter, setStatusFilter] = React.useState<any[]>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
@@ -499,23 +503,50 @@ export function DataTable({
     }
   }
 
+  function DropdownFilter({ column, value, label }: { column: string, value: any, label: any }) {
+    return (<DropdownMenuCheckboxItem
+      checked={statusFilter.includes(value)}
+      onCheckedChange={(checked) => {
+        const next = checked
+          ? [...statusFilter, value]
+          : statusFilter.filter((v) => v !== value)
+
+        setStatusFilter(next)
+        table.getColumn(column)?.setFilterValue(next)
+      }}
+    >
+      {label}
+    </DropdownMenuCheckboxItem>
+    )
+  }
+
   return (
     <>
       <div className="flex items-center py-4 gap-2">
-        <Input
-         
-          placeholder="Search titles..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="ml-5 max-w-sm"
-        />
+        <InputGroup className="ml-5 max-w-sm">
+          <InputGroupInput
+
+            placeholder="Search titles..."
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("title")?.setFilterValue(event.target.value)
+            }
+
+          />
+          <InputGroupAddon>
+            <IconSearch />
+          </InputGroupAddon>
+        </InputGroup>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Assignee</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
+            {users.map(u => {
+              return (
+                <DropdownFilter column="assignee" value={u.id} label={u.email} />
+              )
+            })}
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
@@ -523,61 +554,10 @@ export function DataTable({
             <Button variant="outline">Status</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Todo")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Todo"]
-                  : statusFilter.filter((v) => v !== "Todo")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              Todo
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("In Process")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "In Process"]
-                  : statusFilter.filter((v) => v !== "In Process")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              In Process
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("In Review")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "In Review"]
-                  : statusFilter.filter((v) => v !== "In Review")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              In Review
-
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Done")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Done"]
-                  : statusFilter.filter((v) => v !== "Done")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              Done
-            </DropdownMenuCheckboxItem>
+            <DropdownFilter column="status" value="Todo" label="Todo" />
+            <DropdownFilter column="status" value="In Process" label="In Process" />
+            <DropdownFilter column="status" value="In Review" label="In Review" />
+            <DropdownFilter column="status" value="Done" label="Done" />
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
@@ -592,54 +572,19 @@ export function DataTable({
             <Button variant="outline">Urgency</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("High")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "High"]
-                  : statusFilter.filter((v) => v !== "High")
-
-                setStatusFilter(next)
-                table.getColumn("urgency")?.setFilterValue(next)
-              }}
-            >
-              High
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Medium")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Medium"]
-                  : statusFilter.filter((v) => v !== "Medium")
-
-                setStatusFilter(next)
-                table.getColumn("urgency")?.setFilterValue(next)
-              }}
-            >
-              Medium
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Low")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Low"]
-                  : statusFilter.filter((v) => v !== "Low")
-
-                setStatusFilter(next)
-                table.getColumn("urgency")?.setFilterValue(next)
-              }}
-            >
-              Low
-            </DropdownMenuCheckboxItem>
+            <DropdownFilter column="urgency" value="High" label="High" />
+            <DropdownFilter column="urgency" value="Medium" label="Medium" />
+            <DropdownFilter column="urgency" value="Low" label="Low" />
           </DropdownMenuContent>
         </DropdownMenu>
         <Dialog>
           <DialogTrigger>
 
-            <Button variant="outline" size="sm">
+            <Button size="sm" className="ml-auto">
               <IconPlus />
               <span className="hidden lg:inline">Add Section</span>
             </Button>
+
 
           </DialogTrigger>
           <DialogContent>
@@ -681,7 +626,11 @@ export function DataTable({
                               <SelectValue placeholder="assigne" />
                             </SelectTrigger>
                             <SelectContent>
-                              {/* <SelectItem></SelectItem> */}
+                              {users.map(u => {
+                                return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                              }
+                              )
+                              }
                             </SelectContent>
                           </Select>
                         </Field>
@@ -734,7 +683,7 @@ export function DataTable({
                         <FieldLabel>
                           Deadline
                         </FieldLabel>
-                        <DatePicker />
+                        <DatePicker defaultDate={undefined} />
                       </Field>
                     </FieldGroup>
                   </FieldSet>
