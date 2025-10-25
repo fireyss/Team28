@@ -9,7 +9,6 @@ export async function mockLogin(email: string, password: string) {
 
   if (!user) throw new Error("Invalid email or password");
 
-  // return user info and mock token
   return {
     user: {
       id: user.id,
