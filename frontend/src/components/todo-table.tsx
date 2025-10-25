@@ -1,6 +1,6 @@
 import * as React from "react"
 import { type Task } from "@/types/Task"
-import employeeData from "@/data/taskData.json"
+import taskData from "@/data/taskData.json"
 
 import {
   closestCenter,
@@ -283,12 +283,13 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "assignee",
     header: "Assignee",
     cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+      <div className="w-fit">
+        <Badge variant ="outline" className="text-muted-foreground px-1.5">
           {row.original.assignee}
         </Badge>
       </div>
     ),
+    enableHiding: false,
   },
   {
     accessorKey: "status",
@@ -303,7 +304,7 @@ const columns: ColumnDef<Task>[] = [
       if (row.original.status === "In Review")
         icon = <IconCircleFilled className={"fill-yellow-500"} />
 
-      return <Badge variant="outline" className="text-muted-foreground px-1.5">
+      return <Badge variant="outline" className="text-muted-foreground px-1.5 w-fit">
         {icon}
         {row.original.status}
       </Badge>
@@ -314,7 +315,7 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "project",
     header: () => "Project",
     cell: ({ row }) => {
-      return <Badge variant="outline" className="text-muted-foreground px-1.5">
+      return <Badge variant="outline" className="text-muted-foreground px-1.5 w-fit">
         <div>{row.original.project}</div>
       </Badge>
     },
@@ -331,7 +332,7 @@ const columns: ColumnDef<Task>[] = [
         colour = "orange";
       if (row.original.urgency === "Low")
         colour = "green";
-      return <div style={{ color: colour }}>{row.original.urgency}</div>
+      return <div style={{ color: colour }} className="w-fit">{row.original.urgency}</div>
     },
     filterFn: "multipleIncludes",
   },
@@ -339,7 +340,7 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "deadline",
     header: "Deadline",
     cell: ({ row }) => {
-      return row.original.deadline
+      return <p className = "w-fit">{row.original.deadline}</p>
 
     },
   },
@@ -350,7 +351,7 @@ const columns: ColumnDef<Task>[] = [
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+            className="w-fit data-[state=open]:bg-muted text-muted-foreground flex size-8"
             size="icon"
           >
             <IconDotsVertical />
@@ -418,7 +419,7 @@ function DraggableRow({ row }: { row: Row<Task> }) {
 }
 
 export function DataTable() {
-  const initialData = employeeData as Task[]
+  const initialData = taskData as Task[]
   const [data, setData] = React.useState<Task[]>(initialData)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =

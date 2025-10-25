@@ -30,7 +30,7 @@ export function PostCard({ post }: { post: Post }) {
         author = {
             id: -1,
             email: "Deleted user",
-            name: "Deleted user"
+            
         }
     }
 
