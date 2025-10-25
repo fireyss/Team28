@@ -24,8 +24,6 @@ import {
     InputGroupTextarea
 } from "@/components/ui/input-group"
 
-import { Link } from "react-router"
-
 import Comment from "@/components/forum/comment"
 
 export default function PostPage() {
@@ -67,7 +65,7 @@ export default function PostPage() {
                 </div>
                 <h1 className="text-2xl font-bold">{post.title} </h1>
                 <div className="flex gap-2 my-2">
-                    <Badge asChild><Link to={"../topic/" + post.topic}>{post.topic}</Link></Badge>
+                    <Badge>{post.topic}</Badge>
                     <Badge>{post.type}</Badge>
                 </div>
                 <p>{post.content}</p>
