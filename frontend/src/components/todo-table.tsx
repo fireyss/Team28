@@ -1,6 +1,8 @@
 import * as React from "react"
 import { type Task } from "@/types/Task"
 import taskData from "@/data/taskData.json"
+import { type User } from "@/types/Account"
+import accountData from "@/data/Accounts.json"
 
 import {
   closestCenter,
@@ -33,6 +35,7 @@ import {
   IconLoader,
   IconPlus,
   IconSearch,
+  IconUserFilled,
 } from "@tabler/icons-react"
 import type {
   ColumnDef,
@@ -106,6 +109,9 @@ import { format, parse } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+
+const users = accountData as User[]
 
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
@@ -126,9 +132,9 @@ function DragHandle({ id }: { id: number }) {
   )
 }
 
-function DatePicker({ defaultDate }: {defaultDate : Date | undefined}) {
+function DatePicker({ defaultDate }: { defaultDate: Date | undefined }) {
   const [date, setDate] = React.useState<Date | undefined>(defaultDate ? defaultDate : undefined)
-  
+
 
   return (
     <Popover>
@@ -203,12 +209,16 @@ const columns: ColumnDef<Task>[] = [
                           <FieldLabel >
                             Assignee
                           </FieldLabel>
-                          <Select defaultValue={row.original.assignee}>
+                          <Select defaultValue={users.find(user => user.id === row.original.assignee)?.email}>
                             <SelectTrigger id="assignee-select">
                               <SelectValue placeholder="assigne" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value={row.original.assignee}>{row.original.assignee}</SelectItem>
+                              {users.map(u => {
+                                return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                              }
+                              )
+                              }
                             </SelectContent>
                           </Select>
                         </Field>
@@ -261,7 +271,7 @@ const columns: ColumnDef<Task>[] = [
                         <FieldLabel>
                           Deadline
                         </FieldLabel>
-                        <DatePicker defaultDate= {parse(row.original.deadline, "dd/MM/yy", new Date()) }/>
+                        <DatePicker defaultDate={parse(row.original.deadline, "dd/MM/yy", new Date())} />
                       </Field>
                     </FieldGroup>
                   </FieldSet>
@@ -283,13 +293,17 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "assignee",
     header: "Assignee",
     cell: ({ row }) => (
-      <div className="w-fit">
-        <Badge variant ="outline" className="text-muted-foreground px-1.5">
-          {row.original.assignee}
+      <div className="flex w-fit">
+        <Avatar>
+          <AvatarImage src={users.find(user => row.original.assignee === user.id)?.avatarUrl} />
+          <AvatarFallback><IconUserFilled /></AvatarFallback>
+        </Avatar>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {users.find(user => row.original.assignee === user.id)?.email}
         </Badge>
       </div>
     ),
-    enableHiding: false,
+    filterFn: "multipleIncludes" as any,
   },
   {
     accessorKey: "status",
@@ -309,7 +323,7 @@ const columns: ColumnDef<Task>[] = [
         {row.original.status}
       </Badge>
     },
-    filterFn: "multipleIncludes",
+    filterFn: "multipleIncludes" as any,
   },
   {
     accessorKey: "project",
@@ -334,13 +348,13 @@ const columns: ColumnDef<Task>[] = [
         colour = "green";
       return <div style={{ color: colour }} className="w-fit">{row.original.urgency}</div>
     },
-    filterFn: "multipleIncludes",
+    filterFn: "multipleIncludes" as any,
   },
   {
     accessorKey: "deadline",
     header: "Deadline",
     cell: ({ row }) => {
-      return <p className = "w-fit">{row.original.deadline}</p>
+      return <p className="w-fit">{row.original.deadline}</p>
 
     },
   },
@@ -427,7 +441,7 @@ export function DataTable() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
-  const [statusFilter, setStatusFilter] = React.useState<string[]>([])
+  const [statusFilter, setStatusFilter] = React.useState<any[]>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
@@ -489,6 +503,23 @@ export function DataTable() {
     }
   }
 
+  function DropdownFilter({ column, value, label }: { column: string, value: any, label: any }) {
+    return (<DropdownMenuCheckboxItem
+      checked={statusFilter.includes(value)}
+      onCheckedChange={(checked) => {
+        const next = checked
+          ? [...statusFilter, value]
+          : statusFilter.filter((v) => v !== value)
+
+        setStatusFilter(next)
+        table.getColumn(column)?.setFilterValue(next)
+      }}
+    >
+      {label}
+    </DropdownMenuCheckboxItem>
+    )
+  }
+
   return (
     <>
       <div className="flex items-center py-4 gap-2">
@@ -500,7 +531,7 @@ export function DataTable() {
             onChange={(event) =>
               table.getColumn("title")?.setFilterValue(event.target.value)
             }
-            
+
           />
           <InputGroupAddon>
             <IconSearch />
@@ -511,6 +542,11 @@ export function DataTable() {
             <Button variant="outline">Assignee</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
+            {users.map(u => {
+              return (
+                <DropdownFilter column="assignee" value={u.id} label={u.email} />
+              )
+            })}
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
@@ -518,61 +554,10 @@ export function DataTable() {
             <Button variant="outline">Status</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Todo")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Todo"]
-                  : statusFilter.filter((v) => v !== "Todo")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              Todo
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("In Process")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "In Process"]
-                  : statusFilter.filter((v) => v !== "In Process")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              In Process
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("In Review")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "In Review"]
-                  : statusFilter.filter((v) => v !== "In Review")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              In Review
-
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Done")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Done"]
-                  : statusFilter.filter((v) => v !== "Done")
-
-                setStatusFilter(next)
-                table.getColumn("status")?.setFilterValue(next)
-              }}
-            >
-              Done
-            </DropdownMenuCheckboxItem>
+            <DropdownFilter column="status" value="Todo" label="Todo" />
+            <DropdownFilter column="status" value="In Process" label="In Process" />
+            <DropdownFilter column="status" value="In Review" label="In Review" />
+            <DropdownFilter column="status" value="Done" label="Done" />
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
@@ -587,56 +572,19 @@ export function DataTable() {
             <Button variant="outline">Urgency</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("High")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "High"]
-                  : statusFilter.filter((v) => v !== "High")
-
-                setStatusFilter(next)
-                table.getColumn("urgency")?.setFilterValue(next)
-              }}
-            >
-              High
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Medium")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Medium"]
-                  : statusFilter.filter((v) => v !== "Medium")
-
-                setStatusFilter(next)
-                table.getColumn("urgency")?.setFilterValue(next)
-              }}
-            >
-              Medium
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={statusFilter.includes("Low")}
-              onCheckedChange={(checked) => {
-                const next = checked
-                  ? [...statusFilter, "Low"]
-       
-                  : statusFilter.filter((v) => v !== "Low")
-
-                setStatusFilter(next)
-                table.getColumn("urgency")?.setFilterValue(next)
-              }}
-            >
-              Low
-            </DropdownMenuCheckboxItem>
+            <DropdownFilter column="urgency" value="High" label="High" />
+            <DropdownFilter column="urgency" value="Medium" label="Medium" />
+            <DropdownFilter column="urgency" value="Low" label="Low" />
           </DropdownMenuContent>
         </DropdownMenu>
         <Dialog>
           <DialogTrigger>
-            
+
             <Button size="sm" className="ml-auto">
               <IconPlus />
               <span className="hidden lg:inline">Add Section</span>
             </Button>
-            
+
 
           </DialogTrigger>
           <DialogContent>
@@ -731,7 +679,7 @@ export function DataTable() {
                         <FieldLabel>
                           Deadline
                         </FieldLabel>
-                        <DatePicker defaultDate = {undefined}/>
+                        <DatePicker defaultDate={undefined} />
                       </Field>
                     </FieldGroup>
                   </FieldSet>
