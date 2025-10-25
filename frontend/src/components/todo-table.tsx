@@ -626,7 +626,11 @@ export function DataTable() {
                               <SelectValue placeholder="assigne" />
                             </SelectTrigger>
                             <SelectContent>
-                              {/* <SelectItem></SelectItem> */}
+                              {users.map(u => {
+                                return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                              }
+                              )
+                              }
                             </SelectContent>
                           </Select>
                         </Field>

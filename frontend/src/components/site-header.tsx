@@ -13,7 +13,7 @@ export function SiteHeader() {
       case "/dashboard/home":
         return "Home"
       case (location.pathname.startsWith("/dashboard/forum") && location.pathname):
-        return "Forum"
+        return "Forums"
       case (location.pathname.startsWith("/dashboard/todo") && location.pathname):
         return "To-do List"
       default:
