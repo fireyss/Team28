@@ -102,7 +102,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
-import { format } from "date-fns"
+import { format, parse } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
@@ -126,8 +126,9 @@ function DragHandle({ id }: { id: number }) {
   )
 }
 
-function DatePicker() {
-  const [date, setDate] = React.useState<Date>()
+function DatePicker({ defaultDate }: {defaultDate : Date | undefined}) {
+  const [date, setDate] = React.useState<Date | undefined>(defaultDate ? defaultDate : undefined)
+  
 
   return (
     <Popover>
@@ -260,7 +261,7 @@ const columns: ColumnDef<Task>[] = [
                         <FieldLabel>
                           Deadline
                         </FieldLabel>
-                        <DatePicker />
+                        <DatePicker defaultDate= {parse(row.original.deadline, "dd/MM/yy", new Date()) }/>
                       </Field>
                     </FieldGroup>
                   </FieldSet>
@@ -616,6 +617,7 @@ export function DataTable() {
               onCheckedChange={(checked) => {
                 const next = checked
                   ? [...statusFilter, "Low"]
+       
                   : statusFilter.filter((v) => v !== "Low")
 
                 setStatusFilter(next)
@@ -728,7 +730,7 @@ export function DataTable() {
                         <FieldLabel>
                           Deadline
                         </FieldLabel>
-                        <DatePicker />
+                        <DatePicker defaultDate = {undefined}/>
                       </Field>
                     </FieldGroup>
                   </FieldSet>
