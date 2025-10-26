@@ -70,9 +70,9 @@ export default function PostPage() {
                 </div>
                 <p>{post.content}</p>
             </div>
-            <div id="comments" className="py-2">
+            <div id="comments" className="p-2">
                 <h2 className="text-xl font-bold m-2">Comments</h2>
-                <InputGroup className="m-3">
+                <InputGroup className="my-3">
                     <InputGroupTextarea
                         className="min-h-16 resize-none rounded-md"
                         placeholder="Say something..."
