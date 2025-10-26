@@ -1,47 +1,32 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
+import { GalleryVerticalEnd } from "lucide-react"
+
+import { LoginForm } from "@/components/login-form"
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[url('/assets/login-background.jpg')] bg-cover bg-center">
-      <Card className="w-full max-w-md bg-white text-black shadow-lg p-6">
-
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">
-            Make-It-All
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form className="space-y-4">
-            <div>
-  <Label htmlFor="email" className="text-black">Email</Label>
-  <Input
-    id="email"
-    type="email"
-    placeholder="js@make-it-all.co.uk"
-    required
-    className="bg-gray-100 text-black"
-  />
-</div>
-<div>
-  <Label htmlFor="password" className="text-black">Password</Label>
-  <Input
-    id="password"
-    type="password"
-    placeholder="••••••••"
-    required
-    className="bg-gray-100 text-black"
-  />
-</div>
-
-            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-              Sign in
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+    <div className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex flex-col gap-4 p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <a href="#" className="flex items-center gap-2 font-medium">
+            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+              <GalleryVerticalEnd className="size-4" />
+            </div>
+            Make It All
+          </a>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          <div className="w-full max-w-xs">
+            <LoginForm />
+          </div>
+        </div>
+      </div>
+      <div className="bg-muted relative hidden lg:block">
+        <img
+          src="/placeholder.svg"
+          alt="Image"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
+      </div>
     </div>
   )
 }

@@ -30,7 +30,9 @@ export function PostCard({ post }: { post: Post }) {
         author = {
             id: -1,
             email: "Deleted user",
-            name: "Deleted user"
+            name: "Deleted user",
+            avatar: "/avatars/default.jpg",
+            
         }
     }
 
@@ -45,12 +47,12 @@ export function PostCard({ post }: { post: Post }) {
                     <CardTitle className="py-1 text-lg font-bold">{post.title}</CardTitle>
                     <div className="flex gap-2 items-center">
                         <Avatar>
-                            <AvatarImage src={author.avatarUrl} />
+                            <AvatarImage src={author?.avatar} />
                             <AvatarFallback><IconUserFilled /></AvatarFallback>
                         </Avatar>
                         <div>
                             <p className="text-sm font-bold">
-                                {author.email}
+                                {author?.email}
                             </p>
                             <p className="text-muted-foreground text-xs">
                                 {formatRelative(parseISO(post.posted), new Date())}
