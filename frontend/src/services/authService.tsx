@@ -8,7 +8,7 @@ export async function mockLogin(email: string, password: string) {
   );
 
   if (!user) throw new Error("Invalid email or password");
-
+  console.log(user)
   return {
     user: {
       id: user.id,
