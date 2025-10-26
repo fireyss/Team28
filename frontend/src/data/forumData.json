@@ -89,7 +89,7 @@
                 {
                     "id": 1,
                     "author": 3,
-                    "content": "Try clearing the spooler service — that usually fixes it.",
+                    "content": "Try clearing the spooler service - that usually fixes it.",
                     "timestamp": "2025-10-20T15:05:00Z",
                     "replies": [
                         {
@@ -145,7 +145,7 @@
                 {
                     "id": 1,
                     "author": 3,
-                    "content": "I can reproduce this — looks like an event handler issue.",
+                    "content": "I can reproduce this - looks like an event handler issue.",
                     "timestamp": "2025-10-19T11:15:00Z",
                     "replies": [
                         {

@@ -2,19 +2,22 @@
   {
     "id": 1,
     "email": "alice@make-it-all.co.uk",
+    "name": "Alice",
     "password": "password123",
-    "avatarUrl": "https://i.pravatar.cc/150?img=1"
+    "avatar": "https://i.pravatar.cc/150?img=1"
   },
   {
     "id": 2,
     "email": "bob@make-it-all.co.uk",
+    "name": "Bob",
     "password": "qwerty456",
-    "avatarUrl": "https://i.pravatar.cc/150?img=2"
+    "avatar": "https://i.pravatar.cc/150?img=2"
   },
   {
     "id": 3,
     "email": "charlie@make-it-all.co.uk",
+    "name": "Charlie",
     "password": "charlie789",
-    "avatarUrl": "https://i.pravatar.cc/150?img=3"
+    "avatar": "https://i.pravatar.cc/150?img=3"
   }
 ]

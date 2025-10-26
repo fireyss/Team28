@@ -15,32 +15,25 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar"
 
-const data = {
-  user: {
-    name: "adam",
-    email: "a-jones@make-it-all.co.uk",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard/#",
-      icon: IconHome,
-    },
-    {
-      title: "Forums",
-      url: "/dashboard/forum",
-      icon: IconBubbleText,
-    },
-    {
-      title: "To-do List",
-      url: "/dashboard/todo",
-      icon: IconClipboardData,
-    },
-  ],
-}
+import { useAuth } from "@/context/AuthContext"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const { user } = useAuth();
+  
+  const data = {
+    user: {
+      id : user?.id || -1,
+      name: user?.name || "Guest",
+      email: user?.email || "guest@make-it-all.co.uk",
+      avatar: user?.avatar || "/avatars/default.jpg",
+    },
+    navMain: [
+      { title: "Dashboard", url: "/dashboard", icon: IconHome },
+      { title: "Forums", url: "/dashboard/forum", icon: IconBubbleText },
+      { title: "To-do List", url: "/dashboard/todo", icon: IconClipboardData },
+    ],
+  };
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader className="p-6 ">

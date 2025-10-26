@@ -1,6 +1,6 @@
 // src/context/AuthContext.tsx
 import type { ReactNode } from "react"
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import type { AuthState, User } from "@/types/Account";
 
 interface AuthContextProps extends AuthState {
@@ -25,6 +25,33 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setToken(null);
         localStorage.removeItem("auth");
     };
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        const storedToken = localStorage.getItem("token");
+
+        if (storedUser && storedToken) {
+            try {
+                setUser(JSON.parse(storedUser));
+                setToken(storedToken);
+            } catch {
+                console.error("Failed to parse stored user");
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (user && token) {
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("token", token);
+        } else {
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+        }
+    }, [user, token]);
+
 
     return (
         <AuthContext.Provider value={{ user, token, login, logout }}>
