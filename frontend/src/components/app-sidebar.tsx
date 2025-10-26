@@ -1,9 +1,11 @@
 import * as React from "react"
-import {
-  IconHome,
-  IconBubbleText,
-  IconClipboardData,
-} from "@tabler/icons-react"
+// import {
+//   IconHome,
+//   IconBubbleText,
+//   IconClipboardData,
+// } from "@tabler/icons-react"
+
+import { HomeIcon, TextIcon, ClipboardList } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -28,9 +30,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       avatar: user?.avatar || "/avatars/default.jpg",
     },
     navMain: [
-      { title: "Dashboard", url: "/dashboard", icon: IconHome },
-      { title: "Forums", url: "/dashboard/forum", icon: IconBubbleText },
-      { title: "To-do List", url: "/dashboard/todo", icon: IconClipboardData },
+      { title: "Dashboard", url: "/dashboard", icon: HomeIcon },
+      { title: "Forums", url: "/dashboard/forum", icon: TextIcon },
+      { title: "To-do List", url: "/dashboard/todo", icon: ClipboardList },
     ],
   };
   return (
