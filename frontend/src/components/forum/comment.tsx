@@ -42,7 +42,7 @@ export default function Comment({ comment }: { comment: Comment }) {
     return (
         <div className="flex pt-4 gap-2" >
             <Avatar>
-                <AvatarImage src={author.avatarUrl} />
+                <AvatarImage src={author.avatar} />
                 <AvatarFallback><IconUserFilled /></AvatarFallback>
             </Avatar>
             <div className="pl-2 border-l-2 border-gray-300">

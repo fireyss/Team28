@@ -9,8 +9,6 @@ import {
     formatRelative
 } from "date-fns"
 
-import { IconUserFilled } from "@tabler/icons-react"
-
 import {
     Avatar,
     AvatarFallback,
@@ -53,8 +51,8 @@ export default function PostPage() {
             <div>
                 <div className="flex gap-2 items-center">
                     <Avatar>
-                        <AvatarImage src={author.avatarUrl} />
-                        <AvatarFallback><IconUserFilled /></AvatarFallback>
+                        <AvatarImage src={author.avatar} />
+                        <AvatarFallback className="rounded-lg">{author?.name.toUpperCase().substring(0,2)}</AvatarFallback>
                     </Avatar>
                     <div>
                         <p className="font-bold">
