@@ -51,7 +51,7 @@ export default function PostPage() {
             <div>
                 <div className="flex gap-2 items-center">
                     <Avatar>
-                        <AvatarImage src={author.avatarUrl} />
+                        <AvatarImage src={author.avatar} />
                         <AvatarFallback><IconUserFilled /></AvatarFallback>
                     </Avatar>
                     <div>

@@ -32,7 +32,6 @@ export function PostCard({ post }: { post: Post }) {
             email: "Deleted user",
             name: "Deleted user",
             avatar: "/avatars/default.jpg",
-            
         }
     }
 
