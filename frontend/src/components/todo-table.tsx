@@ -35,7 +35,6 @@ import {
   IconLoader,
   IconPlus,
   IconSearch,
-  IconUserFilled,
 } from "@tabler/icons-react"
 import type {
   ColumnDef,
@@ -295,8 +294,8 @@ const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => (
       <div className="flex w-fit">
         <Avatar>
-          <AvatarImage src={users.find(user => row.original.assignee === user.id)?.avatarUrl} />
-          <AvatarFallback><IconUserFilled /></AvatarFallback>
+          <AvatarImage src={users.find(user => row.original.assignee === user.id)?.avatar} />
+          <AvatarFallback className="rounded-lg">{users.find(user => row.original.assignee === user.id)?.email.toUpperCase().substring(0,2)}</AvatarFallback>
         </Avatar>
         <Badge variant="outline" className="text-muted-foreground px-1.5">
           {users.find(user => row.original.assignee === user.id)?.email}
