@@ -272,6 +272,14 @@ const columns: ColumnDef<Task>[] = [
                         </FieldLabel>
                         <DatePicker defaultDate={parse(row.original.deadline, "dd/MM/yy", new Date())} />
                       </Field>
+                      <Field>
+                        <FieldLabel>
+                          Posted : {row.original.posted}
+                        </FieldLabel>
+                        <FieldLabel>
+                          Completed : {row.original.completed ? row.original.completed : "Not completed"}
+                        </FieldLabel>
+                      </Field>
                     </FieldGroup>
                   </FieldSet>
                 </FieldGroup>
@@ -295,7 +303,7 @@ const columns: ColumnDef<Task>[] = [
       <div className="flex w-fit">
         <Avatar>
           <AvatarImage src={users.find(user => row.original.assignee === user.id)?.avatar} />
-          <AvatarFallback className="rounded-lg">{users.find(user => row.original.assignee === user.id)?.email.toUpperCase().substring(0,2)}</AvatarFallback>
+          <AvatarFallback className="rounded-lg">{users.find(user => row.original.assignee === user.id)?.email.toUpperCase().substring(0, 2)}</AvatarFallback>
         </Avatar>
         <Badge variant="outline" className="text-muted-foreground px-1.5">
           {users.find(user => row.original.assignee === user.id)?.email}

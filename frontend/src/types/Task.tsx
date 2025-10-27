@@ -6,5 +6,7 @@ export interface Task {
   status: "Todo" | "In Process" | "In Review" | "Done";
   project: string;
   urgency: "Low" | "Medium" | "High";
+  posted: string;
+  completed: string | null;
   deadline: string;
 }
