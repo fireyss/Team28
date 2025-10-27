@@ -3,6 +3,7 @@ export interface User {
   email: string;
   name: string;
   avatar?: string;
+  permission: "Employee" | "Manager" | "Leader";
 }
 
 export interface AuthState {

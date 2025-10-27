@@ -4,7 +4,7 @@ export interface Task {
   description?: string;
   assignee: number;
   status: "Todo" | "In Process" | "In Review" | "Done";
-  project: string;
+  project: number;
   urgency: "Low" | "Medium" | "High";
   posted: string;
   completed: string | null;

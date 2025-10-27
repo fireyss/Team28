@@ -3,6 +3,8 @@ import { type Task } from "@/types/Task"
 import taskData from "@/data/taskData.json"
 import { type User } from "@/types/Account"
 import accountData from "@/data/Accounts.json"
+import {type Project} from "@/types/Project"
+import projectData from "@/data/projectData.json"
 
 import {
   closestCenter,
@@ -109,8 +111,10 @@ import { Calendar as CalendarIcon } from "lucide-react"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { useAuth } from "@/context/AuthContext";
 
 const users = accountData as User[]
+const projects = projectData as Project[]
 
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
@@ -241,7 +245,7 @@ const columns: ColumnDef<Task>[] = [
                           <FieldLabel >
                             Project
                           </FieldLabel>
-                          <Select defaultValue={row.original.project}>
+                          <Select defaultValue={projects.find(project => project.id == row.original.project)?.title}>
                             <SelectTrigger id="project-select">
                               <SelectValue placeholder="project" />
                             </SelectTrigger>
@@ -249,6 +253,7 @@ const columns: ColumnDef<Task>[] = [
                               <SelectItem value={row.original.project}>{row.original.project}</SelectItem>
                             </SelectContent>
                           </Select>
+                          
                         </Field>
                         <Field>
                           <FieldLabel >
@@ -337,7 +342,7 @@ const columns: ColumnDef<Task>[] = [
     header: () => "Project",
     cell: ({ row }) => {
       return <Badge variant="outline" className="text-muted-foreground px-1.5 w-fit">
-        <div>{row.original.project}</div>
+        <div>{projects.find(project => project.id == row.original.project)?.title}</div>
       </Badge>
     },
 
@@ -440,7 +445,22 @@ function DraggableRow({ row }: { row: Row<Task> }) {
 }
 
 export function DataTable() {
-  const initialData = taskData as Task[]
+  let initialData = taskData as Task[]
+  
+  let {user} = useAuth()
+  if(!user){
+    user = {
+      id : -1,
+      name:  "Deleted user",
+      email: "Deleted user",
+      avatar:  "/avatars/default.jpg",
+      permission : "Employee",
+    }
+  }
+  if (user.permission != "Manager"){
+    initialData = initialData.filter(task => projects.find(project => task.project === project.id)?.members.includes(user!.id)
+  );
+  }
   const [data, setData] = React.useState<Task[]>(initialData)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -836,6 +856,7 @@ export function DataTable() {
 
   )
 }
+
 
 
 
