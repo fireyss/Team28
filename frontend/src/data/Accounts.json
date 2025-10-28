@@ -1,23 +1,26 @@
 [
   {
-    "id": "1",
-    "email": "alice@example.com",
+    "id": 1,
+    "email": "alice@make-it-all.co.uk",
+    "name": "Alice",
     "password": "password123",
-    "name": "Alice Johnson",
-    "avatarUrl": "https://i.pravatar.cc/150?img=1"
+    "avatar": "https://i.pravatar.cc/150?img=1",
+    "permission": "Manager"
   },
   {
-    "id": "2",
-    "email": "bob@example.com",
+    "id": 2,
+    "email": "bob@make-it-all.co.uk",
+    "name": "Bob",
     "password": "qwerty456",
-    "name": "Bob Smith",
-    "avatarUrl": "https://i.pravatar.cc/150?img=2"
+    "avatar": "https://i.pravatar.cc/150?img=2",
+    "permission": "Leader"
   },
   {
-    "id": "3",
-    "email": "charlie@example.com",
+    "id": 3,
+    "email": "charlie@make-it-all.co.uk",
+    "name": "Charlie",
     "password": "charlie789",
-    "name": "Charlie Brown",
-    "avatarUrl": "https://i.pravatar.cc/150?img=3"
+    "avatar": "https://i.pravatar.cc/150?img=3",
+    "permission": "Employee"
   }
 ]

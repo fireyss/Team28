@@ -8,14 +8,14 @@ export async function mockLogin(email: string, password: string) {
   );
 
   if (!user) throw new Error("Invalid email or password");
-
-  // return user info and mock token
+  console.log(user)
   return {
     user: {
       id: user.id,
       email: user.email,
       name: user.name,
-      avatarUrl: user.avatarUrl
+      avatar : user.avatar,
+      permission: user.permission,
     },
     token: btoa(`${email}:${Date.now()}`) // mock token
   };

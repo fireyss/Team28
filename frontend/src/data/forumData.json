@@ -1,0 +1,196 @@
+{
+    "topics": [
+        "Software Development",
+        "Software Issues",
+        "Printing"
+    ],
+    "posts": [
+        {
+            "id": 6,
+            "author": 3,
+            "topic": "Software Issues",
+            "type": "Q&A",
+            "title": "Missing data in reports",
+            "content": "The monthly report generator is omitting certain entries. Anyone else seeing this?",
+            "posted": "2025-10-22T10:15:00Z",
+            "latest": "2025-10-22T10:25:00Z",
+            "comments": [
+                {
+                    "id": 1,
+                    "author": 1,
+                    "content": "Yes, that’s due to a recent schema change. A patch is in progress.",
+                    "timestamp": "2025-10-22T10:25:00Z",
+                    "replies": []
+                }
+            ],
+            "comment_count": 1
+        },
+        {
+            "id": 9,
+            "author": 2,
+            "topic": "Printing",
+            "type": "Informational",
+            "title": "Paper Supply Notice",
+            "content": "Extra A4 paper boxes are stored in the supply room on the second floor.",
+            "posted": "2025-10-22T09:00:00Z",
+            "latest": "2025-10-22T09:00:00Z",
+            "comments": [],
+            "comment_count": 0
+        },
+        {
+            "id": 3,
+            "author": 2,
+            "topic": "Software Development",
+            "type": "Informational",
+            "title": "Upcoming Library Migration",
+            "content": "We’ll be moving from Redux to Zustand for state management in Q4.",
+            "posted": "2025-10-22T08:00:00Z",
+            "latest": "2025-10-22T08:00:00Z",
+            "comments": [],
+            "comment_count": 0
+        },
+        {
+            "id": 2,
+            "author": 3,
+            "topic": "Software Development",
+            "type": "Q&A",
+            "title": "How to optimize React rendering?",
+            "content": "I'm seeing slow re-renders when using large state objects. Any advice?",
+            "posted": "2025-10-21T14:00:00Z",
+            "latest": "2025-10-21T14:15:00Z",
+            "comments": [
+                {
+                    "id": 1,
+                    "author": 2,
+                    "content": "Use memoization with React.memo or useMemo to prevent unnecessary updates.",
+                    "timestamp": "2025-10-21T14:10:00Z",
+                    "replies": []
+                },
+                {
+                    "id": 2,
+                    "author": 1,
+                    "content": "Also consider splitting the state into smaller pieces.",
+                    "timestamp": "2025-10-21T14:15:00Z",
+                    "replies": []
+                }
+            ],
+            "comment_count": 2
+        },
+        {
+            "id": 8,
+            "author": 1,
+            "topic": "Printing",
+            "type": "Q&A",
+            "title": "Printer queue stuck",
+            "content": "Documents are getting stuck in the queue when printing PDFs over 10MB.",
+            "posted": "2025-10-20T15:00:00Z",
+            "latest": "2025-10-20T15:10:00Z",
+            "comments": [
+                {
+                    "id": 1,
+                    "author": 3,
+                    "content": "Try clearing the spooler service - that usually fixes it.",
+                    "timestamp": "2025-10-20T15:05:00Z",
+                    "replies": [
+                        {
+                            "id": 1,
+                            "author": 1,
+                            "content": "That worked, thanks!",
+                            "timestamp": "2025-10-20T15:10:00Z",
+                            "replies": []
+                        }
+                    ]
+                }
+            ],
+            "comment_count": 2
+        },
+        {
+            "id": 1,
+            "author": 1,
+            "topic": "Software Development",
+            "type": "Informational",
+            "title": "Coding Style Guidelines",
+            "content": "Please follow our updated TypeScript style guide for all new projects.",
+            "posted": "2025-10-20T09:30:00Z",
+            "latest": "2025-10-20T09:50:00Z",
+            "comments": [
+                {
+                    "id": 1,
+                    "author": 2,
+                    "content": "Are there any changes to how we handle imports?",
+                    "timestamp": "2025-10-20T09:45:00Z",
+                    "replies": [
+                        {
+                            "id": 1,
+                            "author": 1,
+                            "content": "Yes, prefer absolute imports for shared modules.",
+                            "timestamp": "2025-10-20T09:50:00Z",
+                            "replies": []
+                        }
+                    ]
+                }
+            ],
+            "comment_count": 2
+        },
+        {
+            "id": 4,
+            "author": 2,
+            "topic": "Software Issues",
+            "type": "Q&A",
+            "title": "Login button not responding",
+            "content": "The login button on the internal dashboard doesn’t work in Firefox.",
+            "posted": "2025-10-19T11:00:00Z",
+            "latest": "2025-10-19T11:20:00Z",
+            "comments": [
+                {
+                    "id": 1,
+                    "author": 3,
+                    "content": "I can reproduce this - looks like an event handler issue.",
+                    "timestamp": "2025-10-19T11:15:00Z",
+                    "replies": [
+                        {
+                            "id": 1,
+                            "author": 2,
+                            "content": "Confirmed, removing a redundant listener fixed it.",
+                            "timestamp": "2025-10-19T11:20:00Z",
+                            "replies": []
+                        }
+                    ]
+                }
+            ],
+            "comment_count": 2
+        },
+        {
+            "id": 5,
+            "author": 1,
+            "topic": "Software Issues",
+            "type": "Informational",
+            "title": "Resolved: Slow server response",
+            "content": "The issue with API latency has been resolved by optimizing database indexes.",
+            "posted": "2025-10-18T16:00:00Z",
+            "latest": "2025-10-22T10:25:00Z",
+            "comments": [],
+            "comment_count": 0
+        },
+        {
+            "id": 7,
+            "author": 3,
+            "topic": "Printing",
+            "type": "Informational",
+            "title": "New Printer Setup Guide",
+            "content": "A new color printer has been installed in the west wing. See attached setup instructions.",
+            "posted": "2025-10-17T12:00:00Z",
+            "latest": "2025-10-17T12:10:00Z",
+            "comments": [
+                {
+                    "id": 1,
+                    "author": 2,
+                    "content": "Works great! Much faster than the old one.",
+                    "timestamp": "2025-10-17T12:10:00Z",
+                    "replies": []
+                }
+            ],
+            "comment_count": 1
+        }
+    ]
+}

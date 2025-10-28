@@ -1,8 +1,9 @@
 export interface User {
-  id: string;
+  id: number;
   email: string;
   name: string;
-  avatarUrl?: string;
+  avatar?: string;
+  permission: "Employee" | "Manager" | "Leader";
 }
 
 export interface AuthState {
