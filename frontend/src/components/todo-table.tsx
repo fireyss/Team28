@@ -464,7 +464,7 @@ export function DataTable() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
-  const [statusFilter, setStatusFilter] = React.useState<any[]>([])
+  const [statusFilters, setStatusFilters] = React.useState<{ [column: string]: string[] }>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
@@ -527,14 +527,21 @@ export function DataTable() {
   }
 
   function DropdownFilter({ column, value, label }: { column: string, value: any, label: any }) {
+    let filters = statusFilters
+    let filter = filters[column]
+    if (!filter) {
+      filter = []
+    }
     return (<DropdownMenuCheckboxItem
-      checked={statusFilter.includes(value)}
+      checked={filter.includes(value)}
       onCheckedChange={(checked) => {
         const next = checked
-          ? [...statusFilter, value]
-          : statusFilter.filter((v) => v !== value)
+          ? [...filter, value]
+          : filter.filter((v) => v !== value)
 
-        setStatusFilter(next)
+        filters[column] = next
+
+        setStatusFilters(filters)
         table.getColumn(column)?.setFilterValue(next)
       }}
     >
