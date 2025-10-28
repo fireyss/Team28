@@ -27,6 +27,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       name: user?.name || "Guest",
       email: user?.email || "guest@make-it-all.co.uk",
       avatar: user?.avatar || "/avatars/default.jpg",
+      permission : user?.permission || "Employee",
     },
     navMain: [
       { title: "Dashboard", url: "/dashboard", icon: IconHome },

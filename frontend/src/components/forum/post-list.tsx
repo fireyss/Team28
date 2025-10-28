@@ -11,7 +11,7 @@ import React from "react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
-import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconMessages, IconPlus, IconSearch, IconUserFilled } from "@tabler/icons-react"
+import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconMessages, IconPlus, IconSearch, } from "@tabler/icons-react"
 import { Link } from "react-router"
 import { Label } from "../ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
@@ -32,6 +32,8 @@ export function PostCard({ post }: { post: Post }) {
             email: "Deleted user",
             name: "Deleted user",
             avatar: "/avatars/default.jpg",
+            permission: "Employee",
+
         }
     }
 
@@ -47,7 +49,7 @@ export function PostCard({ post }: { post: Post }) {
                     <div className="flex gap-2 items-center">
                         <Avatar>
                             <AvatarImage src={author?.avatar} />
-                            <AvatarFallback><IconUserFilled /></AvatarFallback>
+                            <AvatarFallback className="rounded-lg">{author?.name.toUpperCase().substring(0, 2)}</AvatarFallback>
                         </Avatar>
                         <div>
                             <p className="text-sm font-bold">

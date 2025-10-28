@@ -35,7 +35,9 @@ export default function Comment({ comment }: { comment: Comment }) {
         author = {
             id: -1,
             email: "Deleted user",
-            name: "Deleted user"
+            name: "Deleted user",
+            avatar: "/avatars/default.jpg",
+            permission: "Employee",
         }
     }
 
