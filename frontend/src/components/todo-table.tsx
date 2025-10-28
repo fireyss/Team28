@@ -3,7 +3,7 @@ import { type Task } from "@/types/Task"
 import taskData from "@/data/taskData.json"
 import { type User } from "@/types/Account"
 import accountData from "@/data/Accounts.json"
-import {type Project} from "@/types/Project"
+import { type Project } from "@/types/Project"
 import projectData from "@/data/projectData.json"
 
 import {
@@ -214,7 +214,7 @@ const columns: ColumnDef<Task>[] = [
                           </FieldLabel>
                           <Select defaultValue={users.find(user => user.id === row.original.assignee)?.email}>
                             <SelectTrigger id="assignee-select">
-                              <SelectValue placeholder="assigne" />
+                              <SelectValue placeholder="assignee" />
                             </SelectTrigger>
                             <SelectContent>
                               {users.map(u => {
@@ -245,15 +245,18 @@ const columns: ColumnDef<Task>[] = [
                           <FieldLabel >
                             Project
                           </FieldLabel>
-                          <Select defaultValue={projects.find(project => project.id == row.original.project)?.title}>
+                          <Select defaultValue={projects.find(p => p.id === row.original.project)?.title}>
                             <SelectTrigger id="project-select">
                               <SelectValue placeholder="project" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value={row.original.project}>{row.original.project}</SelectItem>
+                              {projects.map(project => {
+                                return (<SelectItem value={project.title}>{project.title}</SelectItem>)
+                              }
+                              )}
                             </SelectContent>
                           </Select>
-                          
+
                         </Field>
                         <Field>
                           <FieldLabel >
@@ -345,6 +348,7 @@ const columns: ColumnDef<Task>[] = [
         <div>{projects.find(project => project.id == row.original.project)?.title}</div>
       </Badge>
     },
+    filterFn: "multipleIncludes" as any,
 
   },
   {
@@ -446,21 +450,13 @@ function DraggableRow({ row }: { row: Row<Task> }) {
 
 export function DataTable() {
   let initialData = taskData as Task[]
-  
-  let {user} = useAuth()
-  if(!user){
-    user = {
-      id : -1,
-      name:  "Deleted user",
-      email: "Deleted user",
-      avatar:  "/avatars/default.jpg",
-      permission : "Employee",
-    }
-  }
-  if (user.permission != "Manager"){
+
+  let user = useAuth().user!
+  if (user.permission != "Manager") {
     initialData = initialData.filter(task => projects.find(project => task.project === project.id)?.members.includes(user!.id)
-  );
+    )
   }
+
   const [data, setData] = React.useState<Task[]>(initialData)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -592,6 +588,9 @@ export function DataTable() {
             <Button variant="outline">Project</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
+            {projects.map(p =>
+              <DropdownFilter column="project" value={p.id} label={p.title} />
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
@@ -650,7 +649,7 @@ export function DataTable() {
                           </FieldLabel>
                           <Select>
                             <SelectTrigger id="assignee-select">
-                              <SelectValue placeholder="assigne" />
+                              <SelectValue placeholder="assignee" />
                             </SelectTrigger>
                             <SelectContent>
                               {users.map(u => {
@@ -686,6 +685,9 @@ export function DataTable() {
                               <SelectValue placeholder="project" />
                             </SelectTrigger>
                             <SelectContent>
+                              {projects.map(p =>
+                                <SelectItem value={p.title}>{p.title}</SelectItem>
+                              )}
                               {/* <SelectItem ></SelectItem> */}
                             </SelectContent>
                           </Select>
