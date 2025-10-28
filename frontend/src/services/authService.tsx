@@ -14,7 +14,8 @@ export async function mockLogin(email: string, password: string) {
       id: user.id,
       email: user.email,
       name: user.name,
-      avatarUrl: user.avatarUrl
+      avatar : user.avatar,
+      permission: user.permission,
     },
     token: btoa(`${email}:${Date.now()}`) // mock token
   };

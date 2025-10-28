@@ -35,14 +35,16 @@ export default function Comment({ comment }: { comment: Comment }) {
         author = {
             id: -1,
             email: "Deleted user",
-            name: "Deleted user"
+            name: "Deleted user",
+            avatar: "/avatars/default.jpg",
+            permission: "Employee",
         }
     }
 
     return (
         <div className="flex pt-4 gap-2" >
             <Avatar>
-                <AvatarImage src={author.avatarUrl} />
+                <AvatarImage src={author.avatar} />
                 <AvatarFallback><IconUserFilled /></AvatarFallback>
             </Avatar>
             <div className="pl-2 border-l-2 border-gray-300">
