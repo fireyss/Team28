@@ -4,6 +4,8 @@ import forumData from "@/data/forumData.json"
 import accountsData from "@/data/Accounts.json"
 import type { User } from "@/types/Account"
 
+import { Navigate } from "react-router"
+
 import {
     parseISO,
     formatRelative
@@ -31,7 +33,7 @@ export default function PostPage() {
     const post = forum.posts.find(p => p.id === Number(postID))
 
     if (!post) return (
-        <div>{/* TODO */} Post not found </div>
+        <Navigate to=".." />
     )
 
     const users = accountsData as User[]
@@ -40,7 +42,8 @@ export default function PostPage() {
         author = {
             id: -1,
             email: "Deleted user",
-            name: "Deleted user"
+            name: "Deleted user",
+            permission: "Employee"
         }
     }
 
