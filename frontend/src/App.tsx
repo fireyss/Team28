@@ -19,7 +19,7 @@ import PublicRoute from "@/routes/PublicRoute";
 export default function AppRoutes() {
   return (
     <AuthProvider>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <Router>
           <Routes>
             <Route element={<PublicRoute />}>

@@ -4,6 +4,8 @@ import forumData from "@/data/forumData.json"
 import accountsData from "@/data/Accounts.json"
 import type { User } from "@/types/Account"
 
+import { Navigate } from "react-router"
+
 import {
     parseISO,
     formatRelative
@@ -22,8 +24,6 @@ import {
     InputGroupTextarea
 } from "@/components/ui/input-group"
 
-import { Link } from "react-router"
-
 import Comment from "@/components/forum/comment"
 
 export default function PostPage() {
@@ -33,7 +33,7 @@ export default function PostPage() {
     const post = forum.posts.find(p => p.id === Number(postID))
 
     if (!post) return (
-        <div>{/* TODO */} Post not found </div>
+        <Navigate to=".." />
     )
 
     const users = accountsData as User[]
@@ -42,7 +42,8 @@ export default function PostPage() {
         author = {
             id: -1,
             email: "Deleted user",
-            name: "Deleted user"
+            name: "Deleted user",
+            permission: "Employee"
         }
     }
 
@@ -52,7 +53,7 @@ export default function PostPage() {
                 <div className="flex gap-2 items-center">
                     <Avatar>
                         <AvatarImage src={author.avatar} />
-                        <AvatarFallback className="rounded-lg">{author?.name.toUpperCase().substring(0,2)}</AvatarFallback>
+                        <AvatarFallback className="rounded-lg">{author?.name.toUpperCase().substring(0, 2)}</AvatarFallback>
                     </Avatar>
                     <div>
                         <p className="font-bold">
@@ -65,14 +66,14 @@ export default function PostPage() {
                 </div>
                 <h1 className="text-2xl font-bold">{post.title} </h1>
                 <div className="flex gap-2 my-2">
-                    <Badge asChild><Link to={"../topic/" + post.topic}>{post.topic}</Link></Badge>
+                    <Badge>{post.topic}</Badge>
                     <Badge>{post.type}</Badge>
                 </div>
                 <p>{post.content}</p>
             </div>
-            <div id="comments" className="py-2">
+            <div id="comments" className="p-2">
                 <h2 className="text-xl font-bold m-2">Comments</h2>
-                <InputGroup className="m-3">
+                <InputGroup className="my-3">
                     <InputGroupTextarea
                         className="min-h-16 resize-none rounded-md"
                         placeholder="Say something..."
