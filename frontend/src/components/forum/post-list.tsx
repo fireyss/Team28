@@ -33,7 +33,7 @@ export function PostCard({ post }: { post: Post }) {
             name: "Deleted user",
             avatar: "/avatars/default.jpg",
             permission: "Employee",
-            
+
         }
     }
 
@@ -49,7 +49,7 @@ export function PostCard({ post }: { post: Post }) {
                     <div className="flex gap-2 items-center">
                         <Avatar>
                             <AvatarImage src={author?.avatar} />
-                            <AvatarFallback className="rounded-lg">{author?.name.toUpperCase().substring(0,2)}</AvatarFallback>
+                            <AvatarFallback className="rounded-lg">{author?.name.toUpperCase().substring(0, 2)}</AvatarFallback>
                         </Avatar>
                         <div>
                             <p className="text-sm font-bold">

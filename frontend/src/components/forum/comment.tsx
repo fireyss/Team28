@@ -61,16 +61,19 @@ export default function Comment({ comment }: { comment: Comment }) {
                             <IconCornerDownLeft /> Reply
                         </Button>
                     </CollapsibleTrigger>
-                    <CollapsibleContent>
-                        <InputGroup className="resize">
-                            <InputGroupTextarea
-                                className="min-h-16 min-w-80 resize-none rounded-md"
-                                placeholder="Say something..."
-                            />
-                            <InputGroupButton variant="default" className="m-3 mt-auto">
-                                Reply
-                            </InputGroupButton>
-                        </InputGroup>
+                    <CollapsibleContent className="w-full max-w-160">
+                        <div>
+                            <InputGroup>
+                                <InputGroupTextarea
+                                    className="min-h-16 resize-none rounded-md"
+                                    placeholder="Say something..."
+                                />
+                                <InputGroupButton variant="default" className="m-3 mt-auto">
+                                    Reply
+                                </InputGroupButton>
+                            </InputGroup>
+                        </div>
+
                     </CollapsibleContent>
                 </Collapsible>
                 {comment.replies.map(reply => (
