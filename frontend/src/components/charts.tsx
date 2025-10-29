@@ -39,17 +39,24 @@ import projectData from "@/data/projectData.json";
 import taskData from "@/data/taskData.json";
 
 export function ChartLineDefault() {
+  const project = projectData.find((data) => data.id = 1);
+  console.log(project?.author);
+
+  const taskList = taskData.filter((task) => task?.project === project?.id);
+  console.log(taskList);
+  console.log(taskList.map((task) => {return {taskTitle: task.title, taskAssignee: task.assignee}} ));
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Line Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>{project?.title}</CardTitle>
+        <CardDescription>{project?.posted} - {project?.completed}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={chartData}
+            data={taskList.map((task) => {return {title: task.title, assignee: task.assignee}} )}
             margin={{
               left: 12,
               right: 12,
@@ -57,7 +64,7 @@ export function ChartLineDefault() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="title"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
@@ -68,7 +75,7 @@ export function ChartLineDefault() {
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="assignee"
               type="natural"
               stroke="var(--color-desktop)"
               strokeWidth={2}
@@ -77,14 +84,6 @@ export function ChartLineDefault() {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   )
 }
