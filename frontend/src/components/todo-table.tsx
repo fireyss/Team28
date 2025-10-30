@@ -613,129 +613,130 @@ export function DataTable() {
             <DropdownFilter column="urgency" value="Low" label="Low" />
           </DropdownMenuContent>
         </DropdownMenu>
-        <Dialog>
-          <DialogTrigger>
+        {(user.permission == "Manager" || user.permission == "Leader") &&
+          <Dialog>
+            <DialogTrigger>
 
-            <Button size="sm" className="ml-auto">
-              <IconPlus />
-              <span className="hidden lg:inline">Add Task</span>
-            </Button>
+              <Button size="sm" className="ml-auto">
+                <IconPlus />
+                <span className="hidden lg:inline">Add Task</span>
+              </Button>
 
 
-          </DialogTrigger>
-          <DialogContent className="max-h-[100vh] overflow-auto">
-            <div className="w-full max-w-md">
-              <form>
-                <FieldGroup>
-                  <FieldSet>
-                    <FieldGroup>
-                      <Field>
-                        <FieldLabel>
-                          Title
-                        </FieldLabel>
-                        <Input
-                          id="title-input"
-                          placeholder="Enter task title"
-
-                          required
-                        />
-                      </Field>
-                      <Field>
-                        <FieldLabel>
-                          Description
-                        </FieldLabel>
-                        <Textarea
-                          id="description-input"
-                          placeholder="Enter task description"
-
-                          required
-                          className="h-64"
-                        />
-                      </Field>
-                      <div className="grid grid-cols-3 gap-4">
+            </DialogTrigger>
+            <DialogContent className="max-h-[100vh] overflow-auto">
+              <div className="w-full max-w-md">
+                <form>
+                  <FieldGroup>
+                    <FieldSet>
+                      <FieldGroup>
                         <Field>
-                          <FieldLabel >
-                            Assignee
+                          <FieldLabel>
+                            Title
                           </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="assignee-select">
-                              <SelectValue placeholder="assignee" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {users.map(u => {
-                                return (<SelectItem value={u.email}>{u.email}</SelectItem>)
-                              }
-                              )
-                              }
-                            </SelectContent>
-                          </Select>
+                          <Input
+                            id="title-input"
+                            placeholder="Enter task title"
+
+                            required
+                          />
                         </Field>
                         <Field>
-                          <FieldLabel >
-                            Status
+                          <FieldLabel>
+                            Description
                           </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="status-select">
-                              <SelectValue placeholder="status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Todo">Todo</SelectItem>
-                              <SelectItem value="In Process">In Process</SelectItem>
-                              <SelectItem value="In Review">In Review</SelectItem>
-                              <SelectItem value="Done">Done</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <Textarea
+                            id="description-input"
+                            placeholder="Enter task description"
+
+                            required
+                            className="h-64"
+                          />
                         </Field>
+                        <div className="grid grid-cols-3 gap-4">
+                          <Field>
+                            <FieldLabel >
+                              Assignee
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="assignee-select">
+                                <SelectValue placeholder="assignee" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {users.map(u => {
+                                  return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                                }
+                                )
+                                }
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                          <Field>
+                            <FieldLabel >
+                              Status
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="status-select">
+                                <SelectValue placeholder="status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Todo">Todo</SelectItem>
+                                <SelectItem value="In Process">In Process</SelectItem>
+                                <SelectItem value="In Review">In Review</SelectItem>
+                                <SelectItem value="Done">Done</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                          <Field>
+                            <FieldLabel >
+                              Project
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="project-select">
+                                <SelectValue placeholder="project" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {projects.map(p =>
+                                  <SelectItem value={p.title}>{p.title}</SelectItem>
+                                )}
+                                {/* <SelectItem ></SelectItem> */}
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                          <Field>
+                            <FieldLabel >
+                              Urgency
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="urgency-select">
+                                <SelectValue placeholder="urgency" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="High">High</SelectItem>
+                                <SelectItem value="Medium">Medium</SelectItem>
+                                <SelectItem value="Low">Low</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                        </div>
                         <Field>
-                          <FieldLabel >
-                            Project
+                          <FieldLabel>
+                            Deadline
                           </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="project-select">
-                              <SelectValue placeholder="project" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {projects.map(p =>
-                                <SelectItem value={p.title}>{p.title}</SelectItem>
-                              )}
-                              {/* <SelectItem ></SelectItem> */}
-                            </SelectContent>
-                          </Select>
+                          <DatePicker defaultDate={undefined} />
                         </Field>
-                        <Field>
-                          <FieldLabel >
-                            Urgency
-                          </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="urgency-select">
-                              <SelectValue placeholder="urgency" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="High">High</SelectItem>
-                              <SelectItem value="Medium">Medium</SelectItem>
-                              <SelectItem value="Low">Low</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </Field>
-                      </div>
-                      <Field>
-                        <FieldLabel>
-                          Deadline
-                        </FieldLabel>
-                        <DatePicker defaultDate={undefined} />
-                      </Field>
-                    </FieldGroup>
-                  </FieldSet>
-                </FieldGroup>
-              </form>
-            </div>
-            <DialogFooter>
-              <DialogClose>
-                <Button type="submit">Confirm</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+                      </FieldGroup>
+                    </FieldSet>
+                  </FieldGroup>
+                </form>
+              </div>
+              <DialogFooter>
+                <DialogClose>
+                  <Button type="submit">Confirm</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>}
 
 
       </div >
