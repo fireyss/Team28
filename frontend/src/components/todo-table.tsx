@@ -258,10 +258,13 @@ const columns: ColumnDef<Task>[] = [
                               <SelectValue placeholder="project" />
                             </SelectTrigger>
                             <SelectContent>
-                              {projects.map(project => {
-                                return (<SelectItem value={project.title}>{project.title}</SelectItem>)
-                              }
-                              )}
+                              {(user.permission === "Manager"
+                                ? projects
+                                : user.permission === "Leader"
+                                  ? projects.filter(p => p.leader === user.id)
+                                  : []).map(p =>
+                                    <SelectItem value={p.title}>{p.title}</SelectItem>
+                                  )}
                             </SelectContent>
                           </Select>
 
@@ -710,10 +713,13 @@ export function DataTable() {
                                 <SelectValue placeholder="project" />
                               </SelectTrigger>
                               <SelectContent>
-                                {projects.map(p =>
-                                  <SelectItem value={p.title}>{p.title}</SelectItem>
-                                )}
-                                {/* <SelectItem ></SelectItem> */}
+                                {(user.permission === "Manager"
+                                  ? projects
+                                  : user.permission === "Leader"
+                                    ? projects.filter(p => p.leader === user.id)
+                                    : []).map(p =>
+                                      <SelectItem value={p.title}>{p.title}</SelectItem>
+                                    )}
                               </SelectContent>
                             </Select>
                           </Field>
