@@ -336,16 +336,6 @@ const columns: ColumnDef<Task>[] = [
       const inProcessIcon = <IconLoader />
       const inReviewIcon = <IconCircleFilled className={"fill-yellow-500"} />
       const todoIcon = <IconCircle />
-      let icon;
-
-      if (row.original.status === "Done")
-        icon = doneIcon
-      if (row.original.status === "In Process")
-        icon = inProcessIcon
-      if (row.original.status === "In Review")
-        icon = inReviewIcon
-      if (row.original.status === "Todo")
-        icon = todoIcon
 
       return <Select defaultValue={row.original.status}>
         <SelectTrigger id="status-select">
