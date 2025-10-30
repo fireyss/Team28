@@ -178,8 +178,8 @@ const columns: ColumnDef<Task>[] = [
             </Button>
 
           </DialogTrigger>
-          <DialogContent>
-            <div className="w-full max-w-md">
+          <DialogContent className="max-h-[100vh] overflow-auto">
+            <div className="w-full max-w-m">
               <form>
                 <FieldGroup>
                   <FieldSet>
@@ -456,7 +456,7 @@ export function DataTable() {
     initialData = initialData.filter(task => projects.find(project => task.project === project.id)?.members.includes(user!.id)
     )
   }
-  if(user.permission == "Employee"){
+  if (user.permission == "Employee") {
     initialData = initialData.filter(task => task.assignee === user!.id)
   }
 
@@ -618,12 +618,12 @@ export function DataTable() {
 
             <Button size="sm" className="ml-auto">
               <IconPlus />
-              <span className="hidden lg:inline">Add Section</span>
+              <span className="hidden lg:inline">Add Task</span>
             </Button>
 
 
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-h-[100vh] overflow-auto">
             <div className="w-full max-w-md">
               <form>
                 <FieldGroup>
