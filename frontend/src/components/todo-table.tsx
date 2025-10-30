@@ -172,7 +172,7 @@ const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const user = useAuth().user!
       const disabled = user.permission == "Employee" || (user.permission == "Leader"
-        && projects.find(project => project.leader == row.original.project)?.leader == user.id)
+        && projects.find(project => project.leader == row.original.project)?.leader != user.id)
       const [open, setOpen] = React.useState(false)
       return (
         <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
@@ -478,7 +478,10 @@ export function DataTable() {
     )
   }
   if (user.permission == "Employee") {
-    initialData = initialData.filter(task => task.assignee === user!.id)
+    initialData = initialData.filter(task => task.assignee === user.id)
+  } else if (user.permission == "Leader") {
+    initialData = initialData.filter(task => task.assignee === user.id
+      || projects.find(project => project.id === task.project)?.leader === user.id)
   }
 
   const [data, setData] = React.useState<Task[]>(initialData)
