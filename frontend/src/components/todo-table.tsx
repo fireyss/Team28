@@ -30,6 +30,7 @@ import {
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
+  IconCircle,
   IconCircleCheckFilled,
   IconCircleFilled,
   IconDotsVertical,
@@ -169,11 +170,18 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
+      const user = useAuth().user!
+      const disabled = user.permission == "Employee" || (user.permission == "Leader"
+        && projects.find(project => project.leader == row.original.project)?.leader == user.id)
+      const [open, setOpen] = React.useState(false)
       return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
           <DialogTrigger>
 
-            <Button variant="link" className="text-foreground w-fit px-0 text-left">
+            <Button variant="link"
+              className={disabled
+                ? "pointer-events-none text-foreground w-fit px-0 text-left"
+                : "text-foreground w-fit px-0 text-left"} >
               {row.original.title}
             </Button>
 
@@ -324,19 +332,32 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
+      const doneIcon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"} />
+      const inProcessIcon = <IconLoader />
+      const inReviewIcon = <IconCircleFilled className={"fill-yellow-500"} />
+      const todoIcon = <IconCircle />
       let icon;
 
       if (row.original.status === "Done")
-        icon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"} />
+        icon = doneIcon
       if (row.original.status === "In Process")
-        icon = <IconLoader />
+        icon = inProcessIcon
       if (row.original.status === "In Review")
-        icon = <IconCircleFilled className={"fill-yellow-500"} />
+        icon = inReviewIcon
+      if (row.original.status === "Todo")
+        icon = todoIcon
 
-      return <Badge variant="outline" className="text-muted-foreground px-1.5 w-fit">
-        {icon}
-        {row.original.status}
-      </Badge>
+      return <Select defaultValue={row.original.status}>
+        <SelectTrigger id="status-select">
+          <SelectValue placeholder="Status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Todo">{todoIcon} Todo</SelectItem>
+          <SelectItem value="In Process">{inProcessIcon} In Process</SelectItem>
+          <SelectItem value="In Review">{inReviewIcon} In Review</SelectItem>
+          <SelectItem value="Done">{doneIcon} Done</SelectItem>
+        </SelectContent>
+      </Select>
     },
     filterFn: "multipleIncludes" as any,
   },
