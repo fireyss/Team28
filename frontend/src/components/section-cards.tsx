@@ -1,100 +1,66 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { 
+  IconClipboardData,
+  IconBubbleText,
+} from "@tabler/icons-react"
+import { Link } from "react-router-dom"
 
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
-  CardAction,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import DashboardTaskCard from "./ui/todolistdashboardver"
+import "@/components/todolistdashboardver.css"
+import RecentForums from "./ui/recentforumposts"
 
 export function SectionCards() {
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
       <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+        <CardHeader className="flex pb-0">
+          <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
+            <IconClipboardData />
+          </Badge>
+          <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+            Your current tasks
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
         </CardHeader>
+        <hr className="w-[calc(100%-20px)] mx-auto"/>
+        <div className="tasktodolist overflow-y-auto max-h-[350px] items-center">
+          <DashboardTaskCard />
+        </div>
+        <hr className="w-[calc(100%-20px)] mx-auto" />
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
-          </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            <Link to="/dashboard/todo">
+              View or manage all tasks
+            </Link>
           </div>
         </CardFooter>
       </Card>
+      
       <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>New Customers</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+        <CardHeader className="flex">
+          <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
+            <IconBubbleText />
+          </Badge>
+          <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+            Recent Forum posts
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
-            </Badge>
-          </CardAction>
         </CardHeader>
+        <hr className="w-[calc(100%-20px)] mx-auto"/>
+        <div className="tasktodolist overflow-y-auto max-h-[350px] items-center">
+          <RecentForums />
+        </div>
+        <hr className="w-[calc(100%-20px)] mx-auto" />
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
-          </div>
           <div className="text-muted-foreground">
-            Acquisition needs attention
+            <Link to="/dashboard/forum">
+              See all forum posts
+            </Link>
           </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
         </CardFooter>
       </Card>
     </div>
