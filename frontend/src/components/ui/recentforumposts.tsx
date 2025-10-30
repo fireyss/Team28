@@ -1,4 +1,4 @@
-
+import { useAuth } from "@/context/AuthContext";
 import forumData from "@/data/forumData.json";
 import accountsData from "@/data/Accounts.json";
 import type { User } from "@/types/Account";
@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
 export default function RecentForums() {
+    const {user : currentuser} = useAuth();
     const getuserid = (id: number): User | undefined => {
         return accountsData.find(user => user.id === id);
     }
@@ -33,6 +34,7 @@ export default function RecentForums() {
             <div className="space-y-4">
                 {recentposts.map((post) => {
                     const author = getuserid(post.author);
+                    const currentuserpost = currentuser && author?.id == currentuser.id;
                     return (
                         <Link to={`/dashboard/forum/post/${post.id}`} className="block">
                         <div key={post.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -45,7 +47,12 @@ export default function RecentForums() {
                                         </AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <p className="font-medium text-sm">{author?.name}</p>
+                                        <div className="flex items-center gap-1">
+                                        <p className="font-medium text-sm">{author?.email}</p>
+                                        {currentuserpost && (
+                                            <Badge variant="default" className="text-xs">(You)</Badge>
+                                        )}
+                                        </div>
                                         <p className="text-xs text-muted-foreground">{dateFormat(post.posted)}</p>
                                     </div>
                                 </div>
