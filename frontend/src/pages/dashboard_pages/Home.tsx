@@ -1,4 +1,3 @@
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { SectionCards } from "@/components/section-cards";
 
 import {
@@ -43,10 +42,6 @@ export default function Home() {
         <h1 className="text-[24px]">Welcome back {data.user.name}. We've got some work to do</h1>
       </div>
       <SectionCards />
-      <div className="px-4 lg:px-4">
-        <ChartAreaInteractive />
-      </div>
-      {/* <DataTable data={data} /> */}
     </div>
   );
 }
