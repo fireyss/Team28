@@ -1,6 +1,5 @@
-import { GalleryVerticalEnd } from "lucide-react"
-
-import { LoginForm } from "@/components/login-form"
+import { GalleryVerticalEnd } from "lucide-react";
+import { LoginForm } from "@/components/login-form";
 
 export default function LoginPage() {
   return (
@@ -20,13 +19,16 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
       <div className="bg-muted relative hidden lg:block">
         <img
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
+  src="/assets/Make-It-All.png"
+  alt="Make It All background"
+  className="absolute inset-0 h-full w-full object-cover"
+/>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
       </div>
     </div>
-  )
+  );
 }
