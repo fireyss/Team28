@@ -456,6 +456,9 @@ export function DataTable() {
     initialData = initialData.filter(task => projects.find(project => task.project === project.id)?.members.includes(user!.id)
     )
   }
+  if(user.permission == "Employee"){
+    initialData = initialData.filter(task => task.assignee === user!.id)
+  }
 
   const [data, setData] = React.useState<Task[]>(initialData)
   const [rowSelection, setRowSelection] = React.useState({})
