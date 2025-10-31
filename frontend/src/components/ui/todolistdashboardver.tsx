@@ -17,7 +17,7 @@ function DashboardTaskCard() {
   const { user } = useAuth()
 
   const taskmapping = projectData.reduce((map, project) => {
-    map[project.id] = project;
+    map[project.id] = project as Project;
     return map;
   }, {} as Record<number, Project>);
 
@@ -32,7 +32,7 @@ function DashboardTaskCard() {
   };
 
   const geturgency = (urgency: string) => {
-    switch(urgency) {
+    switch (urgency) {
       case "High": return "destructive";
       case "Medium": return "secondary";
       case "Low": return "outline";
@@ -72,7 +72,7 @@ function DashboardTaskCard() {
                 Urgency: {task.urgency}
               </Badge>
               <div className="text-xs text-muted-foreground ml-auto">
-                Due: <span className="font-bold">{task.deadline}</span> 
+                Due: <span className="font-bold">{task.deadline}</span>
               </div>
             </CardFooter>
           </Card>
