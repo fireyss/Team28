@@ -1,5 +1,5 @@
 import { SectionCards } from "@/components/section-cards";
-import { ChartPieSimple } from "@/components/training-pie-chart";
+
 
 import {
   IconHome,
@@ -43,7 +43,6 @@ export default function Home() {
         <h1 className="text-[24px]">Welcome back {data.user.name}. We've got some work to do</h1>
       </div>
       <SectionCards />
-      <ChartPieSimple />
     </div>
   );  
 }
