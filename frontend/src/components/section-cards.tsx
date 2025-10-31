@@ -1,7 +1,7 @@
-import { 
-  IconClipboardData,
-  IconBubbleText,
-} from "@tabler/icons-react"
+import {
+  LucideText,
+  LucideClipboardList,
+} from "lucide-react"
 import { Link } from "react-router-dom"
 
 import { Badge } from "@/components/ui/badge"
@@ -20,8 +20,8 @@ export function SectionCards() {
     <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
       <Card className="@container/card">
         <CardHeader className="flex pb-0">
-          <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
-            <IconClipboardData />
+          <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
+            <LucideClipboardList />
           </Badge>
           <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
             Your current tasks
@@ -43,8 +43,8 @@ export function SectionCards() {
       
       <Card className="@container/card">
         <CardHeader className="flex">
-          <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
-            <IconBubbleText />
+          <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
+            <LucideText />
           </Badge>
           <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
             Recent Forum posts

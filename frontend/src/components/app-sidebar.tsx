@@ -1,11 +1,5 @@
 import * as React from "react"
 
-// import {
-//   IconHome,
-//   IconBubbleText,
-//   IconClipboardData,
-// } from "@tabler/icons-react"
-
 import {
   LucideHome,
   LucideText,
@@ -45,10 +39,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader className="p-6 ">
-        <div className="flex items-center logo font-[500] text-[24px] flex h-[20px] w-60">
+        <div className="flex items-center space-x-2 logo font-[500] text-[24px] flex h-[25px] w-60">
           <img src="/assets/hardwareicon.png" className='w-6 h-6 mb-0' />
-          <h1 className='headerfont font ml-[2px] mr-[2px] mb-0 text-center'>Make-It-All</h1>
-          <img src="/assets/hardwareicon.png" className='w-6 h-6 mb-0' />
+          <h1 className='headerfont font ml-[2px] mr-[2px] mb-0 text-center' style={{fontSize: "1.1em", fontFamily: "Zodiak-Variable"}}>Make it all.</h1>
         </div>
       </SidebarHeader>
       <SidebarContent>
