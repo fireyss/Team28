@@ -28,13 +28,23 @@ import {
 import type { ChartConfig } from "@/components/ui/chart";
 
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-export const description = "A line chart"
+import { useState } from "react";
 
+import { ArrowDown, ChartLine } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 const chartConfig = {
   desktop: {
@@ -63,11 +73,13 @@ export function ProjectCharts() {
   else{
     return(null);
   }
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState(projectsAllowed[0])
 
   //User validation here
 
   //sorting data to get required info for graphs
-  let project = projectsAllowed.find((project) => project.id === 5); //And user is part of the project
+  let project = projectsAllowed.find((project) => project.id === value.id); //And user is part of the project
 
   let projectTasks = taskData.filter((task) => task?.project === project?.id);
   let chartData = projectTasks.map((task) => {return {title: task.title, 
@@ -119,21 +131,47 @@ export function ProjectCharts() {
   return (
     <Card className="autoitems-centre @container/card">
       <CardHeader>
-        <CardTitle className="text-2xl">Current project: {project?.title}</CardTitle>
-        {/* <CardContent>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline">{title ? projectsAllowed.find((project) => project.id === title)?.title : "Select project"}</Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              {return {projectsAllowed.forEach(item)}}
-              <PopoverTrigger>
-                <button></button>
-              </PopoverTrigger>
-
-            </PopoverContent>
-          </Popover>
-         </CardContent> */}
+        <CardTitle className="text-2xl">
+          <Badge variant="outline" className="border-none [&>svg]:size-10">
+            <ChartLine/>
+          </Badge>
+           Current project: {project?.title}
+        </CardTitle>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-[200px] justify-between"
+          >
+            {projectsAllowed.find((project) => project.id === value.id)?.title!}
+            <ArrowDown/>
+          </Button>
+        </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search projects..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No project found.</CommandEmpty>
+            <CommandGroup>
+              {projectsAllowed.map((projectsAllowed) => (
+                <CommandItem
+                  key={projectsAllowed.id}
+                  value={projectsAllowed.title}
+                  onSelect={(currentValue) => {
+                    setValue(projectsAllowed)
+                    setOpen(false)
+                  }}
+                > 
+                  {projectsAllowed.title}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
       </CardHeader>
       <CardContent>
         <CardDescription>{project?.completed !== null ? "This project has been completed." :
@@ -190,8 +228,6 @@ export function ProjectCharts() {
               />
           </LineChart>
         </ChartContainer>
-        {/* </Card> */}
-        {/* <Card className="max-w-fill @container/card"> */}
         <ChartContainer config={chartConfig}>
           <BarChart
           accessibilityLayer
@@ -211,14 +247,9 @@ export function ProjectCharts() {
               axisLine={true}
               tickFormatter={(value) => value}
             />
-            {/* <YAxis
-              type="number"
-              hide={true}
-              domain={[0, barYAxisMax+1]} 
-            />*/}
             <Bar
             dataKey="urgencyCount"
-            fill="#00ff00"
+            fill="#33ff00e8"
             >
               <LabelList dataKey="urgencyCount" position="top" fontSize={18}/>
             </Bar>
