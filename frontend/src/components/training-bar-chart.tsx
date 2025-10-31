@@ -1,6 +1,6 @@
 "use client"
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis } from "recharts"
-import FourmData from "@/data/forumData.json"
+import ForumData from "@/data/forumData.json"
 import {
   Card,
   CardContent,
@@ -13,9 +13,26 @@ import {
 } from "@/components/ui/chart"
 
 export const description = "A multiple bar chart"
-const chartData = FourmData.topics.map(t => ({ topic: t, QA: FourmData.posts.filter(p => p.topic === t && p.type == "Q&A").length, Informational: FourmData.posts.filter(p => p.topic === t && p.type === "Informational").length }))
+let chartData = ForumData.topics.map(
+  t => ({
+    topic: t, QA: ForumData.posts.filter(
+      p => p.topic === t && p.type == "Q&A"
+    ).length, Informational: ForumData.posts.filter(
+      p => p.topic === t && p.type === "Informational"
+    ).length
+  })
+)
 
+chartData.sort((a, b) => {
+  const aKey = a.Informational > 0
+    ? a.QA / a.Informational
+    : a.QA;
+  const bKey = b.Informational > 0
+    ? b.QA / b.Informational
+    : b.QA;
 
+  return bKey - aKey;
+})
 
 const chartConfig = {
   Informational: {
