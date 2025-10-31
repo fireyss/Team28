@@ -1,9 +1,16 @@
 import * as React from "react"
+
+// import {
+//   IconHome,
+//   IconBubbleText,
+//   IconClipboardData,
+// } from "@tabler/icons-react"
+
 import {
-  IconHome,
-  IconBubbleText,
-  IconClipboardData,
-} from "@tabler/icons-react"
+  LucideHome,
+  LucideText,
+  LucideClipboardList,
+} from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -20,19 +27,19 @@ import { useAuth } from "@/context/AuthContext"
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const { user } = useAuth();
-  
+
   const data = {
     user: {
-      id : user?.id || -1,
+      id: user?.id || -1,
       name: user?.name || "Guest",
       email: user?.email || "guest@make-it-all.co.uk",
       avatar: user?.avatar || "/avatars/default.jpg",
-      permission : user?.permission || "Employee",
+      permission: user?.permission || "Employee",
     },
     navMain: [
-      { title: "Dashboard", url: "/dashboard", icon: IconHome },
-      { title: "Forums", url: "/dashboard/forum", icon: IconBubbleText },
-      { title: "To-do List", url: "/dashboard/todo", icon: IconClipboardData },
+      { title: "Dashboard", url: "/dashboard", icon: LucideHome },
+      { title: "Forums", url: "/dashboard/forum", icon: LucideText },
+      { title: "To-do List", url: "/dashboard/todo", icon: LucideClipboardList },
     ],
   };
   return (
