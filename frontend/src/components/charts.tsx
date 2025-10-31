@@ -8,7 +8,8 @@ import {BarChart,
   XAxis, 
   YAxis,
   ReferenceDot, 
-  LabelList} from "recharts"
+  LabelList,
+} from "recharts"
 
 import {
   Card,
@@ -18,13 +19,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import type { ChartConfig } from "@/components/ui/chart"; 
+import type { ChartConfig } from "@/components/ui/chart";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
 export const description = "A line chart"
 
 
@@ -38,15 +46,28 @@ const chartConfig = {
 
 import projectData from "@/data/projectData.json";
 import taskData from "@/data/taskData.json";
-import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
-export function ChartLineDefault() {
-  
+
+
+export function ProjectCharts() {
+
+  const account = useAuth().user;
+  let projectsAllowed = [];
+  if (account?.permission == "Manager"){
+    projectsAllowed = projectData;
+  }
+  else if(account?.permission == "Leader"){
+    projectsAllowed = projectData.filter((project) => project.leader === account.id);
+  }
+  else{
+    return(null);
+  }
 
   //User validation here
 
   //sorting data to get required info for graphs
-  let project = projectData.find((data) => data.id === 5); //And user is part of the project
+  let project = projectsAllowed.find((project) => project.id === 5); //And user is part of the project
 
   let projectTasks = taskData.filter((task) => task?.project === project?.id);
   let chartData = projectTasks.map((task) => {return {title: task.title, 
@@ -79,10 +100,6 @@ export function ChartLineDefault() {
     lineArray.splice(lineArray.length - indexSub, 0, completedTasks[i]);
     lineArray[lineArray.length - (indexSub+1)].completedCount! =  lineArray[lineArray.length - (indexSub+1)].completedCount! + lineArray[lineArray.length - (indexSub + 2)].completedCount!;
   };
-  console.log(3);
-  console.log(completedTasks.length)
-  console.log(completedTasks);
-  console.log(lineArray);
 
 
   //bar chart data
@@ -97,26 +114,42 @@ export function ChartLineDefault() {
     let listIndex = urgencyList.indexOf(tempObject!);
     urgencyList[listIndex].urgencyCount += 1;
   }
-  console.log(urgencyList)
 
 
   return (
-    <Card className="mb-5 @container/card">
+    <Card className="autoitems-centre @container/card">
       <CardHeader>
-        <CardTitle>Project: {project?.title}</CardTitle>
-        <CardDescription>{project?.posted} - {project?.deadline}</CardDescription>
+        <CardTitle className="text-2xl">Current project: {project?.title}</CardTitle>
+        {/* <CardContent>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">{title ? projectsAllowed.find((project) => project.id === title)?.title : "Select project"}</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              {return {projectsAllowed.forEach(item)}}
+              <PopoverTrigger>
+                <button></button>
+              </PopoverTrigger>
+
+            </PopoverContent>
+          </Popover>
+         </CardContent> */}
       </CardHeader>
       <CardContent>
-        <Card className="max-w-2xl">
+        <CardDescription>{project?.completed !== null ? "This project has been completed." :
+           "This project is in progress."}</CardDescription>
+         <CardDescription>{project?.posted} - {project?.deadline}</CardDescription>
+        {/* <Card className="@container/card"> */}
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
             data={lineArray}
             margin={{
+              top: 25,
+              bottom: 25,
               left: 25,
-              right: 15,
+              right: 25,
             }}
-            
           >
             <CartesianGrid vertical={false}/>
             <XAxis
@@ -152,21 +185,23 @@ export function ChartLineDefault() {
               x={lineArray[lineArray.length - 1].date!} 
               y={chartData.length} 
               r={5} 
-              fill="#00ff0080" 
+              fill="#00ff00" 
               stroke="none"
               />
-            </LineChart>
+          </LineChart>
         </ChartContainer>
-        </Card>
-        <Card className="max-w-2xl">
-        <ChartContainer config={chartConfig} className="max-w-xl"   >
+        {/* </Card> */}
+        {/* <Card className="max-w-fill @container/card"> */}
+        <ChartContainer config={chartConfig}>
           <BarChart
           accessibilityLayer
           data={urgencyList}
           margin={{
-            top: 25,
-            left: 15,
-            bottom: 10}}
+              top: 25,
+              bottom: 25,
+              left: 25,
+              right: 25,
+            }}
           >
             <XAxis
               dataKey="label"
@@ -189,12 +224,9 @@ export function ChartLineDefault() {
             </Bar>
           </BarChart>
         </ChartContainer>
-        </Card>
+        {/* </Card> */}
       </CardContent>
-      <CardFooter>
-          <CardDescription>{project?.completed !== null ? "This project has been completed." :
-           "This project is in progress."}</CardDescription>
-      </CardFooter>
+
     </Card>
   )
 }

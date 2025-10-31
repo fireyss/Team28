@@ -1,8 +1,4 @@
 import { SectionCards } from "@/components/section-cards";
-
-<<<<<<< HEAD
-import {ChartLineDefault} from "@/components/charts.js";
-=======
 import {
   IconHome,
   IconBubbleText,
@@ -16,7 +12,6 @@ import {
 } from "@/components/ui/avatar"
 
 import { useAuth } from "@/context/AuthContext"
->>>>>>> origin
 
 export default function Home() {
   const { user } = useAuth();
@@ -38,18 +33,12 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-<<<<<<< HEAD
-      <SectionCards />
-      <div className="px-4 lg:px-6">
-        <ChartLineDefault/>
-=======
       <div className="flex gap-6 m-6 items-center">
       <Avatar className="h-16 w-16 radius-20 grayscale">
         <AvatarImage src={data.user.avatar} alt={data.user.name} />
         <AvatarFallback className="radius-20">{data.user.name.toUpperCase().substring(0,2)}</AvatarFallback>
       </Avatar>
         <h1 className="text-[24px]">Welcome back {data.user.name}. We've got some work to do</h1>
->>>>>>> origin
       </div>
       <SectionCards />
     </div>
