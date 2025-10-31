@@ -276,7 +276,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
 
     return (
         <div>
-            <div className="flex flex-row">
+            <div className="flex flex-col-reverse md:flex-row">
                 <div className="m-3 mb-0">
                     <ToggleGroup type="single" value={type} onValueChange={setType}
                         className="flex gap-2 m-2">
@@ -316,7 +316,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                         </InputGroup>
                     </div>
                 </div>
-                <div className="mt-6 mr-7 ml-auto">
+                <div className="mt-6 mx-7 md:ml-auto">
                     <NewPostDialog topics={forum.topics} />
                 </div>
             </div>
