@@ -1,22 +1,13 @@
 "use client"
-import { Badge } from "@/components/ui/badge"
-import { IconBubbleText } from "@tabler/icons-react"
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import FourmData from "@/data/forumData.json"
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import {
   type ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
@@ -41,14 +32,14 @@ export function ChartBarMultiple() {
   return (
     <div className="m-2">
       <Card className="overflow-x-auto w-full">
-        <CardContent className="min-w-full">
-          <div className="min-w-[800px]">
+        <CardContent className="">
+          <div className="">
             <ChartContainer config={chartConfig}>
               <BarChart
                 accessibilityLayer
                 data={chartData}
                 width={Math.max(chartData.length * 80, 800)}
-                height={300}
+                height={100}
                  margin={{ top: 20, right: 30, left: 50, bottom: 60 }}
               >
                 <CartesianGrid vertical={false} />
@@ -65,8 +56,8 @@ export function ChartBarMultiple() {
                   cursor={false}
                   content={<ChartTooltipContent indicator="dashed" />}
                 />
-                <Bar dataKey="Informational" fill="var(--color-Informational)" radius={2} />
-                <Bar dataKey="QA" fill="var(--color-QA)" radius={2} />
+                <Bar dataKey="Informational" fill="var(--color-Informational)" radius={5} />
+                <Bar dataKey="QA" fill="var(--color-QA)" radius={5} />
               </BarChart>
             </ChartContainer>
           </div>

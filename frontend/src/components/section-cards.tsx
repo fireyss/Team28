@@ -25,7 +25,7 @@ export function SectionCards() {
               <IconBubbleText />
             </Badge>
             <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
-              Fourm activity overview
+              Forum activity overview
             </CardTitle>
           </CardHeader>
           <hr className="w-[calc(100%-20px)] mx-auto" />
