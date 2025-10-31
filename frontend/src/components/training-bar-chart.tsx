@@ -1,5 +1,5 @@
 "use client"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis } from "recharts"
 import FourmData from "@/data/forumData.json"
 import {
   Card,
@@ -30,35 +30,37 @@ const chartConfig = {
 
 export function ChartBarMultiple() {
   return (
-    <div className="m-2">
-      <Card className="overflow-x-auto w-full">
-        <CardContent className="">
-          <div className="">
-            <ChartContainer config={chartConfig}>
-              <BarChart
-                accessibilityLayer
-                data={chartData}
-                width={Math.max(chartData.length * 80, 800)}
-                height={100}
-                 margin={{ top: 20, right: 30, left: 50, bottom: 60 }}
-              >
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="topic"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={10}
-                  interval={0} 
-                  angle={-30} 
-                  textAnchor="end"
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dashed" />}
-                />
-                <Bar dataKey="Informational" fill="var(--color-Informational)" radius={5} />
-                <Bar dataKey="QA" fill="var(--color-QA)" radius={5} />
-              </BarChart>
+    <div className="m-2 h-full">
+      <Card className="overflow-x-auto w-full h-full">
+        <CardContent className=" h-full">
+          <div className=" h-full">
+            <ChartContainer config={chartConfig} className=" h-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  accessibilityLayer
+                  data={chartData}
+                  width={Math.max(chartData.length * 80, 800)}
+                  height={100}
+                  margin={{ top: 20, right: 30, left: 50, bottom: 60 }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="topic"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={10}
+                    interval={0}
+                    angle={-30}
+                    textAnchor="end"
+                  />
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent indicator="dashed" />}
+                  />
+                  <Bar dataKey="Informational" fill="var(--color-Informational)" radius={5} />
+                  <Bar dataKey="QA" fill="var(--color-QA)" radius={5} />
+                </BarChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </div>
         </CardContent>

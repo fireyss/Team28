@@ -29,7 +29,7 @@ export function SectionCards() {
             </CardTitle>
           </CardHeader>
           <hr className="w-[calc(100%-20px)] mx-auto" />
-          <div className="tasktodolist overflow-y-auto max-h-[350px] items-center">
+          <div className="tasktodolist max-h-[350px] h-[350px] items-center">
             <ChartBarMultiple />
           </div>
           <hr className="w-[calc(100%-20px)] mx-auto" />
