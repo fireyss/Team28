@@ -1,7 +1,14 @@
 
-
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from "recharts"
+import {BarChart, 
+  Bar, 
+  CartesianGrid, 
+  Line, 
+  LineChart, 
+  ReferenceLine, 
+  XAxis, 
+  YAxis,
+  ReferenceDot, 
+  LabelList} from "recharts"
 
 import {
   Card,
@@ -20,121 +27,98 @@ import type { ChartConfig } from "@/components/ui/chart";
 
 export const description = "A line chart"
 
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "var(--chart-1)",
   },
+  
 } satisfies ChartConfig
 
 import projectData from "@/data/projectData.json";
 import taskData from "@/data/taskData.json";
 import { useState } from "react";
-import { int } from "zod";
 
 export function ChartLineDefault() {
-  //sorting data to get required info for graphs
+  
 
   //User validation here
 
-
+  //sorting data to get required info for graphs
   let project = projectData.find((data) => data.id === 5); //And user is part of the project
-  console.log(project);
 
-  let taskList = taskData.filter((task) => task?.project === project?.id);
-  let graphData = taskList.map((task) => {return {title: task.title, 
+  let projectTasks = taskData.filter((task) => task?.project === project?.id);
+  let chartData = projectTasks.map((task) => {return {title: task.title, 
               assignee: task.assignee, 
               status: task.status, 
               urgency: task.urgency,
               completed: task.completed}} );
-  ///
-  let completedTasks = graphData.filter((data) => data.completed != null);
-  let tasksArray = [
+
+
+  //Line chart data
+  let completedTasks = chartData.filter((task) => task.completed != null).map((task) => {return {date: task.completed!, 
+                                completedCount: 1}});
+  let lineArray = [
     {date: project?.posted, completedCount: 0},
     {date: project?.deadline, completedCount: null},
   ];
 
   let completedColour = "#0000ff";
   let indexSub = 1;
-  if(project?.completed != null){
-      tasksArray.splice(1, 0, {date: project?.completed!, completedCount: graphData.length});
-      tasksArray.find((task) => task.date === project?.deadline)!.completedCount = graphData.length
+
+  if(project?.completed !== null){
+      lineArray.splice(1, 0, {date: project?.completed!, completedCount: chartData.length});
+      lineArray.find((task) => task.date === project?.deadline)!.completedCount = chartData.length
       indexSub = 2;
       completedColour = "#00ff00";
   }
-  let hi = "11/02/25";
-  let bello = hi.slice(3, 6) + hi.slice(0, 3) + hi.slice(6);
-  console.log(tasksArray);
-  //console.log(bello);
-  //let hello = project?.completed!.slice(3, 6) + project?.completed!.slice(0, 3)! + project?.completed!.slice(6);
-  //console.log(project?.completed!)
-  //console.log(hello)
 
-  console.log(tasksArray);
 
-  let thisTest = [
-    {
-      date: project?.deadline, total: taskList.length
-    },
-    // {
-    //   date: project?.deadline, total: taskList.length
-    // }
-  ]
-  //tasksArray.push({date: completedTasks[0].completed!, completedCount: 1});
-  //for loop here
-  // for (let i = 0; i < completedTasks.length; i++){
-  //   if 
-  // }
-  let tempArray = completedTasks.map((task) => {return {date: task.completed!, 
-                                completedCount: 1}});
-  //console.log(tempArray);
-                        
-  for(let i = 0; i<tempArray.length; i++){
-    tasksArray.splice(tasksArray.length - indexSub, 0, tempArray[i]);
-    tasksArray[tasksArray.length - indexSub].completedCount! =  tasksArray[tasksArray.length-indexSub].completedCount! + tasksArray[tasksArray.length-(indexSub + 1)].completedCount!;
+  for(let i = 0; i<completedTasks.length; i++){
+    lineArray.splice(lineArray.length - indexSub, 0, completedTasks[i]);
+    lineArray[lineArray.length - (indexSub+1)].completedCount! =  lineArray[lineArray.length - (indexSub+1)].completedCount! + lineArray[lineArray.length - (indexSub + 2)].completedCount!;
   };
-  //const test = tasksArray.concat(hello);
-  //completedTasks.push({})
-  //console.log(completedTasks);
-  //console.log(tasksArray);
-  //console.log(completedTasks.map((task) => {return {date: task.completed, completedCount: completedNo + 1}}));
-  //console.log(hello);
-  //console.log(taskList);
-  //console.log(taskList.map((task) => {return {taskTitle: task.title, taskAssignee: task.assignee}} ));
+  console.log(3);
+  console.log(completedTasks.length)
+  console.log(completedTasks);
+  console.log(lineArray);
+
+
+  //bar chart data
+  let urgencyList = [
+    {label: "Low", urgencyCount: 0},
+    {label: "Medium", urgencyCount: 0},
+    {label: "High", urgencyCount: 0},
+  ];
+  
+  for(let i = 0; i < chartData.length; i++){
+    let tempObject = urgencyList.find((level) => level.label === chartData[i].urgency);
+    let listIndex = urgencyList.indexOf(tempObject!);
+    urgencyList[listIndex].urgencyCount += 1;
+  }
+  console.log(urgencyList)
+
 
   return (
-    <Card className="@container/card">
+    <Card className="mb-5 @container/card">
       <CardHeader>
         <CardTitle>Project: {project?.title}</CardTitle>
         <CardDescription>{project?.posted} - {project?.deadline}</CardDescription>
       </CardHeader>
       <CardContent>
+        <Card className="max-w-2xl">
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={tasksArray}
+            data={lineArray}
             margin={{
               left: 25,
-              right: 12,
+              right: 15,
             }}
+            
           >
-            <CartesianGrid vertical={false} />
-            {/* <Line
-              data={thisTest}
-              dataKey="total"
-              type="linear"
-              connectNulls={true}
-              dot={false}
-            /> */}
+            <CartesianGrid vertical={false}/>
             <XAxis
               dataKey="date"
               tickLine={false}
@@ -142,11 +126,11 @@ export function ChartLineDefault() {
               tickMargin={8}
               tickFormatter={(value) => value}
             />
-            {/* <YAxis 
-              tickMargin={8}
-              tickLine={false} 
-              axisLine={false} 
-              domain={[0, taskList.length + 1]} /> */}
+            <YAxis
+              type="number"
+              hide={true}
+              domain={[0, chartData.length + 1]}
+            />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
@@ -156,21 +140,60 @@ export function ChartLineDefault() {
               dataKey="completedCount"
               type="bump"
               stroke={completedColour}
-              color= {completedColour}
               strokeWidth={2}
               dot={false}
-              connectNulls={false}
             />
             <ReferenceLine 
-            x={thisTest[0].date!}
-            stroke="#6f1e1eff"
+            x={lineArray[lineArray.length - 1].date!}
             strokeWidth={2}
+            stroke="#ff000080"
             />
-          </LineChart>
+            <ReferenceDot 
+              x={lineArray[lineArray.length - 1].date!} 
+              y={chartData.length} 
+              r={5} 
+              fill="#00ff0080" 
+              stroke="none"
+              />
+            </LineChart>
         </ChartContainer>
+        </Card>
+        <Card className="max-w-2xl">
+        <ChartContainer config={chartConfig} className="max-w-xl"   >
+          <BarChart
+          accessibilityLayer
+          data={urgencyList}
+          margin={{
+            top: 25,
+            left: 15,
+            bottom: 10}}
+          >
+            <XAxis
+              dataKey="label"
+              label={{value: "Urgency level", position: "insideBottom", offset:-5}}
+              tickMargin={5}
+              tickLine={false}
+              axisLine={true}
+              tickFormatter={(value) => value}
+            />
+            {/* <YAxis
+              type="number"
+              hide={true}
+              domain={[0, barYAxisMax+1]} 
+            />*/}
+            <Bar
+            dataKey="urgencyCount"
+            fill="#00ff00"
+            >
+              <LabelList dataKey="urgencyCount" position="top" fontSize={18}/>
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+        </Card>
       </CardContent>
       <CardFooter>
-          <CardDescription>{project?.completed !== null ? "This project has been completed." : "This project is in progress."}</CardDescription>
+          <CardDescription>{project?.completed !== null ? "This project has been completed." :
+           "This project is in progress."}</CardDescription>
       </CardFooter>
     </Card>
   )
