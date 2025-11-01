@@ -15,6 +15,8 @@ import DashboardTaskCard from "@/components/todolistdashboardver"
 import "@/components/todolistdashboardver.css"
 import RecentForums from "@/components/recentforumposts"
 import { ChartBarMultiple } from "@/components/training-bar-chart"
+import { ProjectCharts } from "@/components/charts"
+
 export function SectionCards() {
   return (
     <>
@@ -90,9 +92,13 @@ export function SectionCards() {
         </Card>
 
 
-      </div>
+      </div>  
+      
+      <ProjectCharts/>
+    
 
     </>
 
+     
   )
 }
