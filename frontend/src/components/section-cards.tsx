@@ -7,6 +7,7 @@ import { Link } from "react-router-dom"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -26,15 +27,20 @@ export function SectionCards() {
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
               <IconBubbleText />
             </Badge>
-            <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
-              Forum activity overview
-            </CardTitle>
+            <div>
+              <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+                Areas for training
+              </CardTitle>
+
+              <CardDescription>
+                Based on proportion of forum posts marked as "Q&A"
+              </CardDescription>
+            </div>
           </CardHeader>
-          <hr className="w-[calc(100%-20px)] mx-auto" />
+
           <div className="tasktodolis items-center w-full">
             <ChartBarMultiple />
           </div>
-          <hr className="w-[calc(100%-20px)] mx-auto" />
           <CardFooter className=" items-start gap-1.5 text-sm">
             <div className="text-muted-foreground">
               <Link to="/dashboard/forum">
