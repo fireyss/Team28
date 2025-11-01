@@ -16,6 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { Link } from "react-router-dom";
+import { enGB } from "date-fns/locale";
 
 export default function RecentForums() {
     const { user: currentuser } = useAuth();
@@ -23,7 +24,7 @@ export default function RecentForums() {
         return accountsData.find(user => user.id === id) as User;
     }
     const dateFormat = (datestring: string) => {
-        return formatRelative(parseISO(datestring), new Date());
+        return formatRelative(parseISO(datestring), new Date(), { locale: enGB });
     }
     const recentposts = [...forumData.posts]
         .sort((a, b) => new Date(b.latest).getTime() - new Date(a.latest).getTime())

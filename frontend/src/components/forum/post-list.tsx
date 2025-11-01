@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { Textarea } from "../ui/textarea"
+import { enGB } from "date-fns/locale"
 
 export function PostCard({ post }: { post: Post }) {
     const users = accounts as User[]
@@ -56,7 +57,7 @@ export function PostCard({ post }: { post: Post }) {
                                 {author?.email}
                             </p>
                             <p className="text-muted-foreground text-xs">
-                                {formatRelative(parseISO(post.posted), new Date())}
+                                {formatRelative(parseISO(post.posted), new Date(), { locale: enGB })}
                             </p>
                         </div>
                     </div>
