@@ -16,7 +16,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -168,7 +167,7 @@ export function ProjectCharts() {
                     <CommandItem
                       key={projectsAllowed.id}
                       value={projectsAllowed.title}
-                      onSelect={(currentValue) => {
+                      onSelect={(_currentValue) => {
                         setValue(projectsAllowed)
                         setOpen(false)
                       }}
