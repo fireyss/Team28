@@ -14,8 +14,9 @@ import {
   FieldDescription,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router";
 
-export default function SignUpForm({ onClose }: { onClose: () => void }) {
+export default function SignUpForm({ loginlink, onClose = () => { } }: { loginlink: string, onClose?: () => void }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -39,9 +40,9 @@ export default function SignUpForm({ onClose }: { onClose: () => void }) {
       return;
     }
 
-    
+
     console.log("Sign up successful:", { email, password });
-    onClose(); 
+    onClose();
   };
 
   return (
@@ -83,7 +84,7 @@ export default function SignUpForm({ onClose }: { onClose: () => void }) {
             <Field>
               <Button type="submit">Sign Up</Button>
               <FieldDescription className="text-center mt-2">
-                Already have an account? <a href="#">Login</a>
+                Already have an account? <Link to={loginlink}>Login</Link>
               </FieldDescription>
             </Field>
           </FieldGroup>

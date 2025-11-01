@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,9 +22,10 @@ import { useAuth } from "@/context/AuthContext";
 import { mockLogin } from "@/services/authService";
 
 export function LoginForm({
+  signuplink,
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: { signuplink: string } & React.ComponentProps<"div">) {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -133,13 +134,7 @@ export function LoginForm({
                   </Button>
 
                   <FieldDescription className="text-center mt-2">
-                    Don&apos;t have an account?{" "}
-                    <a
-                      href="#"
-                      className="text-blue-600 underline hover:text-blue-800"
-                    >
-                      Sign up
-                    </a>
+                    Don&apos;t have an account? <Link to={signuplink}>Sign up</Link>
                   </FieldDescription>
                 </Field>
               </FieldGroup>
