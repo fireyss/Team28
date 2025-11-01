@@ -17,12 +17,14 @@ import "@/components/todolistdashboardver.css"
 import RecentForums from "@/components/recentforumposts"
 import { ChartBarMultiple } from "@/components/training-bar-chart"
 import { ProjectCharts } from "@/components/charts"
+import { useAuth } from "@/context/AuthContext"
 
 export function SectionCards() {
+  const user = useAuth().user!
   return (
     <>
       <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
-        <Card className="@container/card mb-auto">
+        {user.permission == "Manager" && <Card className="@container/card mb-auto">
           <CardHeader className="flex">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
               <IconBubbleText />
@@ -48,9 +50,11 @@ export function SectionCards() {
               </Link>
             </div>
           </CardFooter>
-        </Card>
+        </Card>}
+
         <ProjectCharts />
       </div>
+
       <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
         <Card className="@container/card">
           <CardHeader className="flex pb-0">
