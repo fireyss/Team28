@@ -23,7 +23,7 @@ export function SectionCards() {
   const user = useAuth().user!
   return (
     <>
-      <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-4">
         {user.permission == "Manager" && <Card className="@container/card mb-auto">
           <CardHeader className="flex">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
@@ -53,9 +53,7 @@ export function SectionCards() {
         </Card>}
 
         <ProjectCharts />
-      </div>
 
-      <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
         <Card className="@container/card">
           <CardHeader className="flex pb-0">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
