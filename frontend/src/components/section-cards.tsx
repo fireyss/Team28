@@ -14,6 +14,7 @@ import {
 import DashboardTaskCard from "./ui/todolistdashboardver"
 import "@/components/todolistdashboardver.css"
 import RecentForums from "./ui/recentforumposts"
+import { ProjectCharts } from "@/components/charts"
 
 export function SectionCards() {
   return (
@@ -63,6 +64,7 @@ export function SectionCards() {
           </div>
         </CardFooter>
       </Card>
+      <ProjectCharts/>
     </div>
   )
 }

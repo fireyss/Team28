@@ -1,5 +1,4 @@
 import { SectionCards } from "@/components/section-cards";
-
 import {
   IconHome,
   IconBubbleText,
