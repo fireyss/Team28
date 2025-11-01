@@ -1,4 +1,5 @@
 import accounts from "@/data/Accounts.json";
+import type { User } from "@/types/Account";
 
 export async function mockLogin(email: string, password: string) {
   await new Promise((r) => setTimeout(r, 500)); // simulate network delay
@@ -16,7 +17,7 @@ export async function mockLogin(email: string, password: string) {
       name: user.name,
       avatar: user.avatar,
       permission: user.permission,
-    },
+    } as User,
     token: btoa(`${email}:${Date.now()}`) // mock token
   };
 }

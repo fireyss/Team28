@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { Textarea } from "../ui/textarea"
+import { enGB } from "date-fns/locale"
 
 export function PostCard({ post }: { post: Post }) {
     const users = accounts as User[]
@@ -56,7 +57,7 @@ export function PostCard({ post }: { post: Post }) {
                                 {author?.email}
                             </p>
                             <p className="text-muted-foreground text-xs">
-                                {formatRelative(parseISO(post.posted), new Date())}
+                                {formatRelative(parseISO(post.posted), new Date(), { locale: enGB })}
                             </p>
                         </div>
                     </div>
@@ -276,7 +277,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
 
     return (
         <div>
-            <div className="flex flex-row">
+            <div className="flex flex-col-reverse md:flex-row">
                 <div className="m-3 mb-0">
                     <ToggleGroup type="single" value={type} onValueChange={setType}
                         className="flex gap-2 m-2">
@@ -316,7 +317,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                         </InputGroup>
                     </div>
                 </div>
-                <div className="mt-6 mr-7 ml-auto">
+                <div className="mt-6 mx-7 md:ml-auto">
                     <NewPostDialog topics={forum.topics} />
                 </div>
             </div>

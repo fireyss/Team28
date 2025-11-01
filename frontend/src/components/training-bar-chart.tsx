@@ -47,11 +47,11 @@ const chartConfig = {
 
 export function ChartBarMultiple() {
   return (
-    <div className="m-2 h-full">
-      <Card className="overflow-x-auto w-full h-full">
-        <CardContent className=" h-full">
-          <div className=" h-full">
-            <ChartContainer config={chartConfig} className=" h-full">
+    <div className="m-2 max-w-full h-full">
+      <Card className="max-w-full h-full">
+        <CardContent className="max-w-full h-full">
+          <div className="max-w-full h-full">
+            <ChartContainer config={chartConfig} className="max-w-full h-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   accessibilityLayer
