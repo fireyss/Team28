@@ -21,7 +21,7 @@ export function SectionCards() {
   return (
     <>
       <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
-        <Card className="@container/card">
+        <Card className="@container/card mb-auto">
           <CardHeader className="flex">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
               <IconBubbleText />
