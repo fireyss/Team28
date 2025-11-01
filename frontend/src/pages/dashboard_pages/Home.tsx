@@ -1,4 +1,6 @@
 import { SectionCards } from "@/components/section-cards";
+
+
 import {
   IconHome,
   IconBubbleText,
@@ -42,5 +44,5 @@ export default function Home() {
       </div>
       <SectionCards />
     </div>
-  );
+  );  
 }
