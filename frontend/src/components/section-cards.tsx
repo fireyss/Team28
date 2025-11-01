@@ -31,7 +31,7 @@ export function SectionCards() {
             </CardTitle>
           </CardHeader>
           <hr className="w-[calc(100%-20px)] mx-auto" />
-          <div className="tasktodolis items-center">
+          <div className="tasktodolis items-center w-full">
             <ChartBarMultiple />
           </div>
           <hr className="w-[calc(100%-20px)] mx-auto" />
@@ -43,7 +43,7 @@ export function SectionCards() {
             </div>
           </CardFooter>
         </Card>
-        <ProjectCharts/>
+        <ProjectCharts />
       </div>
       <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
         <Card className="@container/card">
@@ -93,13 +93,13 @@ export function SectionCards() {
         </Card>
 
 
-      </div>  
-      
-      
-    
+      </div>
+
+
+
 
     </>
 
-     
+
   )
 }
