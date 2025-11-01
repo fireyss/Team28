@@ -57,7 +57,7 @@ export function ChartBarMultiple() {
                   accessibilityLayer
                   data={chartData}
                   width={Math.max(chartData.length * 80, 800)}
-                  height={100}
+                  height={300}
                   margin={{ top: 20, right: 30, left: 50, bottom: 60 }}
                 >
                   <CartesianGrid vertical={false} />

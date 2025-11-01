@@ -20,7 +20,7 @@ import { ProjectCharts } from "@/components/charts"
 export function SectionCards() {
   return (
     <>
-      <div className="m-4">
+      <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
         <Card className="@container/card">
           <CardHeader className="flex">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
@@ -31,11 +31,11 @@ export function SectionCards() {
             </CardTitle>
           </CardHeader>
           <hr className="w-[calc(100%-20px)] mx-auto" />
-          <div className="tasktodolist max-h-[350px] h-[350px] items-center">
+          <div className="tasktodolis items-center">
             <ChartBarMultiple />
           </div>
           <hr className="w-[calc(100%-20px)] mx-auto" />
-          <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <CardFooter className=" items-start gap-1.5 text-sm">
             <div className="text-muted-foreground">
               <Link to="/dashboard/forum">
                 See all forum posts
@@ -43,6 +43,7 @@ export function SectionCards() {
             </div>
           </CardFooter>
         </Card>
+        <ProjectCharts/>
       </div>
       <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
         <Card className="@container/card">
@@ -94,7 +95,7 @@ export function SectionCards() {
 
       </div>  
       
-      <ProjectCharts/>
+      
     
 
     </>
