@@ -105,14 +105,14 @@ export function ProjectCharts() {
     { date: project?.deadline, completedCount: null },
   ];
 
-  let completedColour = "#0000ff";
+  let completedColour = "#5d5dff";
   let indexSub = 1;
 
   if (project?.completed !== null) {
     lineArray.splice(1, 0, { date: project?.completed!, completedCount: chartData.length });
     lineArray.find((task) => task.date === project?.deadline)!.completedCount = chartData.length
     indexSub = 2;
-    completedColour = "#00ff00";
+    completedColour = "#69b362";
   }
 
 
@@ -229,13 +229,13 @@ export function ProjectCharts() {
             <ReferenceLine
               x={lineArray[lineArray.length - 1].date!}
               strokeWidth={2}
-              stroke="#ff000080"
+              stroke="#a32727"
             />
             <ReferenceDot
               x={lineArray[lineArray.length - 1].date!}
               y={chartData.length}
               r={5}
-              fill="#00ff00"
+              fill="#69b362"
               stroke="none"
             />
           </LineChart>
@@ -261,7 +261,7 @@ export function ProjectCharts() {
             />
             <Bar
               dataKey="urgencyCount"
-              fill="#33ff00e8"
+              fill="#69b362"
             >
               <LabelList dataKey="urgencyCount" position="top" fontSize={18} />
             </Bar>
@@ -270,6 +270,6 @@ export function ProjectCharts() {
         {/* </Card> */}
       </CardContent>
 
-    </Card>
+    </Card >
   )
 }
