@@ -173,7 +173,7 @@ const columns: ColumnDef<Project>[] = [
                 && row.original.leader != user.id)
             const [open, setOpen] = React.useState(false)
             return (
-                <Dialog open={open} onOpenChange={setOpen}>
+                <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
                     <DialogTrigger>
                         <Button variant="link"
                             className={disabled
