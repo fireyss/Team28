@@ -99,15 +99,7 @@ export function SectionCards() {
             </div>
           </CardFooter>
         </Card>
-
-
       </div>
-
-
-
-
     </>
-
-
   )
 }

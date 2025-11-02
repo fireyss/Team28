@@ -1,4 +1,4 @@
-import { GalleryVerticalEnd } from "lucide-react";
+import { Hammer } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Outlet } from "react-router-dom";
 
@@ -10,9 +10,10 @@ export default function AuthPage() {
           <div className="flex justify-between items-center w-full">
             <a href="#" className="flex items-center gap-2 font-medium">
               <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-                <GalleryVerticalEnd className="size-4" />
+                <Hammer className="size-4" />
               </div>
-              Make It All
+              <h1 className='headerfont font ml-[2px] mr-[2px] mb-0 text-center' style={{fontSize: "1.5em", fontFamily: "Zodiak-Variable"}}>Make it all.</h1>
+              
             </a>
 
             <ModeToggle />
