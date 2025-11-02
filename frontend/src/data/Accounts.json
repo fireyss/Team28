@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "email": "alice@make-it-all.co.uk",
+    "email": "manager@make-it-all.co.uk",
     "name": "Alice",
     "password": "password123",
     "avatar": "https://i.pravatar.cc/150?img=1",
@@ -9,17 +9,17 @@
   },
   {
     "id": 2,
-    "email": "bob@make-it-all.co.uk",
+    "email": "leader@make-it-all.co.uk",
     "name": "Bob",
-    "password": "qwerty456",
+    "password": "password123",
     "avatar": "https://i.pravatar.cc/150?img=2",
     "permission": "Leader"
   },
   {
     "id": 3,
-    "email": "charlie@make-it-all.co.uk",
+    "email": "employee@make-it-all.co.uk",
     "name": "Charlie",
-    "password": "charlie789",
+    "password": "password123",
     "avatar": "https://i.pravatar.cc/150?img=3",
     "permission": "Employee"
   }

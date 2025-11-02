@@ -1,6 +1,7 @@
 import {
   LucideText,
   LucideClipboardList,
+  LucidePencil
 } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -17,6 +18,7 @@ import "@/components/todolistdashboardver.css"
 import RecentForums from "@/components/recentforumposts"
 import { ChartBarMultiple } from "@/components/training-bar-chart"
 import { ProjectCharts } from "@/components/charts"
+import { DashboardTaskDivisionCard } from "@/components/task-division"
 import { useAuth } from "@/context/AuthContext"
 
 export function SectionCards() {
@@ -62,7 +64,7 @@ export function SectionCards() {
             <RecentForums />
           </div>
           <hr className="w-[calc(100%-20px)] mx-auto" />
-          <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <CardFooter className="grid-col items-start gap-1.5 text-sm">
             <div className="text-muted-foreground">
               <Link to="/dashboard/forum">
                 See all forum posts
@@ -70,6 +72,32 @@ export function SectionCards() {
             </div>
           </CardFooter>
         </Card>
+
+        <ProjectCharts />
+
+        {user.permission !== "Employee" && <Card className="@container/card mb-auto">
+          <CardHeader className="flex">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
+              <LucidePencil />
+            </Badge>
+            <div>
+              <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+                Employee task distribution
+              </CardTitle>
+
+              <CardDescription>
+                Breakdown of how tasks are divided among team members, by project
+              </CardDescription>
+            </div>
+
+          </CardHeader>
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+
+          <div className="tasktodolis overflow-y-auto max-h-[518px] items-center w-full">
+            <DashboardTaskDivisionCard />
+          </div>
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+        </Card>}
 
         {user.permission == "Manager" && <Card className="@container/card mb-auto">
           <CardHeader className="flex">
@@ -99,7 +127,8 @@ export function SectionCards() {
           </CardFooter>
         </Card>}
 
-        <ProjectCharts />
+
+
       </div>
     </>
   )
