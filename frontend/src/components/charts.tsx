@@ -105,14 +105,14 @@ export function ProjectCharts() {
     { date: project?.deadline, completedCount: null },
   ];
 
-  let completedColour = "#0000ff";
+  let completedColour = "#5d5dff";
   let indexSub = 1;
 
   if (project?.completed !== null) {
     lineArray.splice(1, 0, { date: project?.completed!, completedCount: chartData.length });
     lineArray.find((task) => task.date === project?.deadline)!.completedCount = chartData.length
     indexSub = 2;
-    completedColour = "#00ff00";
+    completedColour = "#69b362";
   }
 
 
@@ -136,9 +136,9 @@ export function ProjectCharts() {
   }
 
   return (
-    <Card className="autoitems-centre @container/card">
-      <CardHeader className="flex items-center justify-between gap-4">
-        <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl flex items-center gap-2">
+    <Card className="@container/card">
+      <CardHeader className="justify-between gap-4">
+        <CardTitle className="flex items-center text-1xl font-semibold tabular-nums @[250px]/card:text-2xl flex items-center gap-2">
           <Badge
             variant="outline"
             className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none"
@@ -221,7 +221,7 @@ export function ProjectCharts() {
                 x={lineArray[lineArray.length - 1].date!}
                 y={chartData.length}
                 r={5}
-                fill="#00ff00"
+                fill="#69b362"
                 stroke="none"
               />
             </LineChart>
@@ -242,7 +242,7 @@ export function ProjectCharts() {
                 tickLine={false}
                 axisLine={true}
               />
-              <Bar dataKey="urgencyCount" fill="#33ff00e8">
+              <Bar dataKey="urgencyCount" fill="#69b362">
                 <LabelList dataKey="urgencyCount" position="top" fontSize={14} />
               </Bar>
             </BarChart>
