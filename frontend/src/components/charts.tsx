@@ -221,7 +221,7 @@ export function ProjectCharts() {
                 x={lineArray[lineArray.length - 1].date!}
                 y={chartData.length}
                 r={5}
-                fill="#00ff00"
+                fill="#69b362"
                 stroke="none"
               />
             </LineChart>
@@ -242,7 +242,7 @@ export function ProjectCharts() {
                 tickLine={false}
                 axisLine={true}
               />
-              <Bar dataKey="urgencyCount" fill="#33ff00e8">
+              <Bar dataKey="urgencyCount" fill="#69b362">
                 <LabelList dataKey="urgencyCount" position="top" fontSize={14} />
               </Bar>
             </BarChart>
