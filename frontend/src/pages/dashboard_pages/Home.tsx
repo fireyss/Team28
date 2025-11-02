@@ -39,7 +39,7 @@ export default function Home() {
         <AvatarImage src={data.user.avatar} alt={data.user.name} />
         <AvatarFallback className="radius-20">{data.user.name.toUpperCase().substring(0,2)}</AvatarFallback>
       </Avatar>
-        <h1 className="text-[24px]">Welcome back {data.user.name}. We've got some work to do</h1>
+        <h1 className="text-[24px]">Welcome back {data.user.name}. We've got some work to do.</h1>
       </div>
       <SectionCards />
     </div>
