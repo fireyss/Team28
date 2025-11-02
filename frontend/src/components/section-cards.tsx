@@ -24,35 +24,6 @@ export function SectionCards() {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-4">
-        {user.permission == "Manager" && <Card className="@container/card mb-auto">
-          <CardHeader className="flex">
-            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
-              <LucideText />
-            </Badge>
-            <div>
-              <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
-                Areas for training
-              </CardTitle>
-
-              <CardDescription>
-                Based on proportion of forum posts marked as "Q&A"
-              </CardDescription>
-            </div>
-          </CardHeader>
-
-          <div className="tasktodolis items-center w-full">
-            <ChartBarMultiple />
-          </div>
-          <CardFooter className=" items-start gap-1.5 text-sm">
-            <div className="text-muted-foreground">
-              <Link to="/dashboard/forum">
-                See all forum posts
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>}
-
-        <ProjectCharts />
 
         <Card className="@container/card">
           <CardHeader className="flex pb-0">
@@ -99,6 +70,36 @@ export function SectionCards() {
             </div>
           </CardFooter>
         </Card>
+        
+        {user.permission == "Manager" && <Card className="@container/card mb-auto">
+          <CardHeader className="flex">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
+              <LucideText />
+            </Badge>
+            <div>
+              <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+                Areas for training
+              </CardTitle>
+
+              <CardDescription>
+                Based on proportion of forum posts marked as "Q&A"
+              </CardDescription>
+            </div>
+          </CardHeader>
+
+          <div className="tasktodolis items-center w-full">
+            <ChartBarMultiple />
+          </div>
+          <CardFooter className=" items-start gap-1.5 text-sm">
+            <div className="text-muted-foreground">
+              <Link to="/dashboard/forum">
+                See all forum posts
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>}
+
+        <ProjectCharts />
       </div>
     </>
   )
