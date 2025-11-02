@@ -75,7 +75,7 @@ export function SectionCards() {
 
         <ProjectCharts />
 
-        <Card className="@container/card mb-auto">
+        {user.permission !== "Employee" && <Card className="@container/card mb-auto">
           <CardHeader className="flex">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
               <LucidePencil />
@@ -89,7 +89,7 @@ export function SectionCards() {
                 Breakdown of how tasks are divided among team members, by project
               </CardDescription>
             </div>
-            
+
           </CardHeader>
           <hr className="w-[calc(100%-20px)] mx-auto" />
 
@@ -97,7 +97,8 @@ export function SectionCards() {
             <DashboardTaskDivisionCard />
           </div>
           <hr className="w-[calc(100%-20px)] mx-auto" />
-        </Card>
+        </Card>}
+
         {user.permission == "Manager" && <Card className="@container/card mb-auto">
           <CardHeader className="flex">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
@@ -126,8 +127,8 @@ export function SectionCards() {
           </CardFooter>
         </Card>}
 
-        
-       
+
+
       </div>
     </>
   )
