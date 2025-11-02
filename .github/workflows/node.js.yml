@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI & Deploy to GitHub Pages
 
 on:
   push:
@@ -7,12 +7,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20.x] # or [18.x, 20.x, 22.x] if you really need to test all
+        node-version: [20.x]
 
     steps:
       - name: Checkout repository
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix['node-version'] }}
           cache: 'npm'
           cache-dependency-path: ./frontend/package-lock.json
 
@@ -32,3 +32,9 @@ jobs:
       - name: Build project
         working-directory: ./frontend
         run: npm run build --if-present
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend/build
