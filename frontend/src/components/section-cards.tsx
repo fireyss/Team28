@@ -98,7 +98,7 @@ export function SectionCards() {
           </div>
           <hr className="w-[calc(100%-20px)] mx-auto" />
         </Card>}
-
+          
         {user.permission == "Manager" && <Card className="@container/card mb-auto">
           <CardHeader className="flex">
             <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">

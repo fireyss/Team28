@@ -186,89 +186,70 @@ export function ProjectCharts() {
       </CardHeader>
 
       <CardContent>
-        <CardDescription>{project?.completed !== null ? "This project has been completed." :
-          "This project is in progress."}</CardDescription>
-        <CardDescription>{project?.posted} - {project?.deadline}</CardDescription>
-        {/* <Card className="@container/card"> */}
-        <ChartContainer config={chartConfig}>
-          <LineChart
-            accessibilityLayer
-            data={lineArray}
-            margin={{
-              top: 25,
-              bottom: 25,
-              left: 25,
-              right: 25,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={true}
-              tickMargin={8}
-              tickFormatter={(value) => value}
-            />
-            <YAxis
-              type="number"
-              hide={true}
-              domain={[0, chartData.length + 1]}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Line
-              label="Completed tasks"
-              dataKey="completedCount"
-              type="bump"
-              stroke={completedColour}
-              strokeWidth={2}
-              dot={false}
-            />
-            <ReferenceLine
-              x={lineArray[lineArray.length - 1].date!}
-              strokeWidth={2}
-              stroke="#ff000080"
-            />
-            <ReferenceDot
-              x={lineArray[lineArray.length - 1].date!}
-              y={chartData.length}
-              r={5}
-              fill="#00ff00"
-              stroke="none"
-            />
-          </LineChart>
-        </ChartContainer>
-        <ChartContainer config={chartConfig}>
-          <BarChart
-            accessibilityLayer
-            data={urgencyList}
-            margin={{
-              top: 25,
-              bottom: 25,
-              left: 25,
-              right: 25,
-            }}
-          >
-            <XAxis
-              dataKey="label"
-              label={{ value: "Urgency level", position: "insideBottom", offset: -5 }}
-              tickMargin={5}
-              tickLine={false}
-              axisLine={true}
-              tickFormatter={(value) => value}
-            />
-            <Bar
-              dataKey="urgencyCount"
-              fill="#33ff00e8"
+        <CardDescription>
+          {project?.completed !== null
+            ? "This project has been completed."
+            : "This project is in progress."}
+        </CardDescription>
+        <CardDescription>
+          {project?.posted} - {project?.deadline}
+        </CardDescription>
+
+        <div className="w-full max-w-full overflow-x-auto">
+          <ChartContainer config={chartConfig} className="w-full max-w-[600px] h-[250px] mx-auto">
+            <LineChart
+              accessibilityLayer
+              data={lineArray}
+              width={600}
+              height={250}
+              margin={{ top: 25, bottom: 25, left: 25, right: 25 }}
             >
-              <LabelList dataKey="urgencyCount" position="top" fontSize={18} />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-        {/* </Card> */}
+              <CartesianGrid vertical={false} />
+              <XAxis dataKey="date" tickLine={false} axisLine={true} tickMargin={8} />
+              <YAxis type="number" hide={true} domain={[0, chartData.length + 1]} />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+              <Line
+                label="Completed tasks"
+                dataKey="completedCount"
+                type="bump"
+                stroke={completedColour}
+                strokeWidth={2}
+                dot={false}
+              />
+              <ReferenceLine x={lineArray[lineArray.length - 1].date!} strokeWidth={2} stroke="#ff000080" />
+              <ReferenceDot
+                x={lineArray[lineArray.length - 1].date!}
+                y={chartData.length}
+                r={5}
+                fill="#00ff00"
+                stroke="none"
+              />
+            </LineChart>
+          </ChartContainer>
+
+          <ChartContainer config={chartConfig} className="w-full max-w-[600px] h-[200px] mx-auto mt-4">
+            <BarChart
+              accessibilityLayer
+              data={urgencyList}
+              width={600}
+              height={200}
+              margin={{ top: 25, bottom: 25, left: 25, right: 25 }}
+            >
+              <XAxis
+                dataKey="label"
+                label={{ value: "Urgency level", position: "insideBottom", offset: -5 }}
+                tickMargin={5}
+                tickLine={false}
+                axisLine={true}
+              />
+              <Bar dataKey="urgencyCount" fill="#33ff00e8">
+                <LabelList dataKey="urgencyCount" position="top" fontSize={14} />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        </div>
       </CardContent>
+
 
     </Card>
   )
