@@ -4,6 +4,7 @@ import {
   LucideHome,
   LucideText,
   LucideClipboardList,
+  LucideFolders,
   Hammer,
 } from "lucide-react"
 
@@ -35,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       { title: "Dashboard", url: "/dashboard", icon: LucideHome },
       { title: "Forums", url: "/dashboard/forum", icon: LucideText },
       { title: "To-do List", url: "/dashboard/todo", icon: LucideClipboardList },
-      { title: "Projects", url: "/dashboard/projects", icon: LucideClipboardList },
+      { title: "Projects", url: "/dashboard/projects", icon: LucideFolders },
     ],
   };
   return (

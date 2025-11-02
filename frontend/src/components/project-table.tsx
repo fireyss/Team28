@@ -112,6 +112,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const users = accountData as User[]
 const projects = projectData as Project[]
+const tasks = taskData as Task[]
 
 function DragHandle({ id }: { id: number }) {
     const { attributes, listeners } = useSortable({
@@ -312,6 +313,24 @@ const columns: ColumnDef<Project>[] = [
             return <div style={{ color: colour }} className="w-fit">{row.original.urgency}</div>
         },
         filterFn: "multipleIncludes" as any,
+    },
+    {
+        accessorKey: "completion",
+        header: "Completion",
+        cell: ({ row }) => {
+            let completed = 0
+            const total = row.original.tasks.length
+            row.original.tasks.map(task => 
+                tasks.find(t => t.id == task )?.status === "Done" 
+                ? completed++
+                : null
+            )
+            return (
+                <div className = "w-fit">{completed}/{total}</div>
+            )
+        }
+
+
     },
     {
         accessorKey: "deadline",

@@ -1,5 +1,5 @@
 import "@/data/projectData.json"
-import { ProjectTable } from "@/components/project-table";
+import { ProjectTable } from "@/components/project-table"
 
 export default function Todo() {
     return (
