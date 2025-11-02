@@ -28,6 +28,7 @@ import {
     IconUserFilled,
     IconCornerDownLeft
 } from "@tabler/icons-react"
+import { enGB } from "date-fns/locale"
 
 export default function Comment({ comment }: { comment: Comment }) {
     let author = users.find(user => user.id === comment.author) as User
@@ -51,7 +52,7 @@ export default function Comment({ comment }: { comment: Comment }) {
                 <div className="flex gap-2">
                     <span className="font-bold">{author.email}</span>
                     <span className="text-muted-foreground">
-                        {formatRelative(parseISO(comment.timestamp), new Date())}
+                        {formatRelative(parseISO(comment.timestamp), new Date(), { locale: enGB })}
                     </span>
                 </div>
                 <div>{comment.content}</div>

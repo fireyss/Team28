@@ -30,6 +30,7 @@ import {
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
+  IconCircle,
   IconCircleCheckFilled,
   IconCircleFilled,
   IconDotsVertical,
@@ -169,17 +170,24 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
+      const user = useAuth().user!
+      const disabled = user.permission == "Employee" || (user.permission == "Leader"
+        && projects.find(project => project.leader == row.original.project)?.leader != user.id)
+      const [open, setOpen] = React.useState(false)
       return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
           <DialogTrigger>
 
-            <Button variant="link" className="text-foreground w-fit px-0 text-left">
+            <Button variant="link"
+              className={disabled
+                ? "pointer-events-none text-foreground w-fit px-0 text-left"
+                : "text-foreground w-fit px-0 text-left"} >
               {row.original.title}
             </Button>
 
           </DialogTrigger>
-          <DialogContent>
-            <div className="w-full max-w-md">
+          <DialogContent className="max-h-[100vh] overflow-auto">
+            <div className="w-full max-w-m">
               <form>
                 <FieldGroup>
                   <FieldSet>
@@ -250,10 +258,13 @@ const columns: ColumnDef<Task>[] = [
                               <SelectValue placeholder="project" />
                             </SelectTrigger>
                             <SelectContent>
-                              {projects.map(project => {
-                                return (<SelectItem value={project.title}>{project.title}</SelectItem>)
-                              }
-                              )}
+                              {(user.permission === "Manager"
+                                ? projects
+                                : user.permission === "Leader"
+                                  ? projects.filter(p => p.leader === user.id)
+                                  : []).map(p =>
+                                    <SelectItem value={p.title}>{p.title}</SelectItem>
+                                  )}
                             </SelectContent>
                           </Select>
 
@@ -324,19 +335,22 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      let icon;
+      const doneIcon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"} />
+      const inProcessIcon = <IconLoader />
+      const inReviewIcon = <IconCircleFilled className={"fill-yellow-500"} />
+      const todoIcon = <IconCircle />
 
-      if (row.original.status === "Done")
-        icon = <IconCircleCheckFilled className={"fill-green-500 dark:fill-green-400"} />
-      if (row.original.status === "In Process")
-        icon = <IconLoader />
-      if (row.original.status === "In Review")
-        icon = <IconCircleFilled className={"fill-yellow-500"} />
-
-      return <Badge variant="outline" className="text-muted-foreground px-1.5 w-fit">
-        {icon}
-        {row.original.status}
-      </Badge>
+      return <Select defaultValue={row.original.status}>
+        <SelectTrigger id="status-select">
+          <SelectValue placeholder="Status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Todo">{todoIcon} Todo</SelectItem>
+          <SelectItem value="In Process">{inProcessIcon} In Process</SelectItem>
+          <SelectItem value="In Review">{inReviewIcon} In Review</SelectItem>
+          <SelectItem value="Done">{doneIcon} Done</SelectItem>
+        </SelectContent>
+      </Select>
     },
     filterFn: "multipleIncludes" as any,
   },
@@ -448,13 +462,19 @@ function DraggableRow({ row }: { row: Row<Task> }) {
   )
 }
 
-export function DataTable() {
+export function TodoTable() {
   let initialData = taskData as Task[]
 
-  let user = useAuth().user!
+  const user = useAuth().user!
   if (user.permission != "Manager") {
     initialData = initialData.filter(task => projects.find(project => task.project === project.id)?.members.includes(user!.id)
     )
+  }
+  if (user.permission == "Employee") {
+    initialData = initialData.filter(task => task.assignee === user.id)
+  } else if (user.permission == "Leader") {
+    initialData = initialData.filter(task => task.assignee === user.id
+      || projects.find(project => project.id === task.project)?.leader === user.id)
   }
 
   const [data, setData] = React.useState<Task[]>(initialData)
@@ -610,129 +630,133 @@ export function DataTable() {
             <DropdownFilter column="urgency" value="Low" label="Low" />
           </DropdownMenuContent>
         </DropdownMenu>
-        <Dialog>
-          <DialogTrigger>
+        {(user.permission == "Manager" || user.permission == "Leader") &&
+          <Dialog>
+            <DialogTrigger>
 
-            <Button size="sm" className="ml-auto">
-              <IconPlus />
-              <span className="hidden lg:inline">Add Section</span>
-            </Button>
+              <Button size="sm" className="ml-auto">
+                <IconPlus />
+                <span className="hidden lg:inline">Add Task</span>
+              </Button>
 
 
-          </DialogTrigger>
-          <DialogContent>
-            <div className="w-full max-w-md">
-              <form>
-                <FieldGroup>
-                  <FieldSet>
-                    <FieldGroup>
-                      <Field>
-                        <FieldLabel>
-                          Title
-                        </FieldLabel>
-                        <Input
-                          id="title-input"
-                          placeholder="Enter task title"
-
-                          required
-                        />
-                      </Field>
-                      <Field>
-                        <FieldLabel>
-                          Description
-                        </FieldLabel>
-                        <Textarea
-                          id="description-input"
-                          placeholder="Enter task description"
-
-                          required
-                          className="h-64"
-                        />
-                      </Field>
-                      <div className="grid grid-cols-3 gap-4">
+            </DialogTrigger>
+            <DialogContent className="max-h-[100vh] overflow-auto">
+              <div className="w-full max-w-md">
+                <form>
+                  <FieldGroup>
+                    <FieldSet>
+                      <FieldGroup>
                         <Field>
-                          <FieldLabel >
-                            Assignee
+                          <FieldLabel>
+                            Title
                           </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="assignee-select">
-                              <SelectValue placeholder="assignee" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {users.map(u => {
-                                return (<SelectItem value={u.email}>{u.email}</SelectItem>)
-                              }
-                              )
-                              }
-                            </SelectContent>
-                          </Select>
+                          <Input
+                            id="title-input"
+                            placeholder="Enter task title"
+
+                            required
+                          />
                         </Field>
                         <Field>
-                          <FieldLabel >
-                            Status
+                          <FieldLabel>
+                            Description
                           </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="status-select">
-                              <SelectValue placeholder="status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Todo">Todo</SelectItem>
-                              <SelectItem value="In Process">In Process</SelectItem>
-                              <SelectItem value="In Review">In Review</SelectItem>
-                              <SelectItem value="Done">Done</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <Textarea
+                            id="description-input"
+                            placeholder="Enter task description"
+
+                            required
+                            className="h-64"
+                          />
                         </Field>
+                        <div className="grid grid-cols-3 gap-4">
+                          <Field>
+                            <FieldLabel >
+                              Assignee
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="assignee-select">
+                                <SelectValue placeholder="assignee" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {users.map(u => {
+                                  return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                                }
+                                )
+                                }
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                          <Field>
+                            <FieldLabel >
+                              Status
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="status-select">
+                                <SelectValue placeholder="status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Todo">Todo</SelectItem>
+                                <SelectItem value="In Process">In Process</SelectItem>
+                                <SelectItem value="In Review">In Review</SelectItem>
+                                <SelectItem value="Done">Done</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                          <Field>
+                            <FieldLabel >
+                              Project
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="project-select">
+                                <SelectValue placeholder="project" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {(user.permission === "Manager"
+                                  ? projects
+                                  : user.permission === "Leader"
+                                    ? projects.filter(p => p.leader === user.id)
+                                    : []).map(p =>
+                                      <SelectItem value={p.title}>{p.title}</SelectItem>
+                                    )}
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                          <Field>
+                            <FieldLabel >
+                              Urgency
+                            </FieldLabel>
+                            <Select>
+                              <SelectTrigger id="urgency-select">
+                                <SelectValue placeholder="urgency" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="High">High</SelectItem>
+                                <SelectItem value="Medium">Medium</SelectItem>
+                                <SelectItem value="Low">Low</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </Field>
+                        </div>
                         <Field>
-                          <FieldLabel >
-                            Project
+                          <FieldLabel>
+                            Deadline
                           </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="project-select">
-                              <SelectValue placeholder="project" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {projects.map(p =>
-                                <SelectItem value={p.title}>{p.title}</SelectItem>
-                              )}
-                              {/* <SelectItem ></SelectItem> */}
-                            </SelectContent>
-                          </Select>
+                          <DatePicker defaultDate={undefined} />
                         </Field>
-                        <Field>
-                          <FieldLabel >
-                            Urgency
-                          </FieldLabel>
-                          <Select>
-                            <SelectTrigger id="urgency-select">
-                              <SelectValue placeholder="urgency" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="High">High</SelectItem>
-                              <SelectItem value="Medium">Medium</SelectItem>
-                              <SelectItem value="Low">Low</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </Field>
-                      </div>
-                      <Field>
-                        <FieldLabel>
-                          Deadline
-                        </FieldLabel>
-                        <DatePicker defaultDate={undefined} />
-                      </Field>
-                    </FieldGroup>
-                  </FieldSet>
-                </FieldGroup>
-              </form>
-            </div>
-            <DialogFooter>
-              <DialogClose>
-                <Button type="submit">Confirm</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+                      </FieldGroup>
+                    </FieldSet>
+                  </FieldGroup>
+                </form>
+              </div>
+              <DialogFooter>
+                <DialogClose>
+                  <Button type="submit">Confirm</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>}
 
 
       </div >
@@ -865,8 +889,3 @@ export function DataTable() {
 
   )
 }
-
-
-
-
-

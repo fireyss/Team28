@@ -1,0 +1,3 @@
+.tasktodolist::-webkit-scrollbar {
+    display: none;
+}

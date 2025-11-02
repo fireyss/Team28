@@ -1,102 +1,135 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import {
+  LucideText,
+  LucideClipboardList,
+  LucidePencil
+} from "lucide-react"
+import { Link } from "react-router-dom"
 
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import DashboardTaskCard from "@/components/todolistdashboardver"
+import "@/components/todolistdashboardver.css"
+import RecentForums from "@/components/recentforumposts"
+import { ChartBarMultiple } from "@/components/training-bar-chart"
+import { ProjectCharts } from "@/components/charts"
+import { DashboardTaskDivisionCard } from "@/components/task-division"
+import { useAuth } from "@/context/AuthContext"
 
 export function SectionCards() {
+  const user = useAuth().user!
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-4">
+
+        <Card className="@container/card">
+          <CardHeader className="flex pb-0">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
+              <LucideClipboardList />
             </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
+            <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+              Your current tasks
+            </CardTitle>
+          </CardHeader>
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+          <div className="tasktodolist overflow-y-auto max-h-[350px] items-center">
+            <DashboardTaskCard />
           </div>
-          <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>New Customers</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+          <CardFooter className="flex-col items-start gap-1.5 text-sm">
+            <div className="text-muted-foreground">
+              <Link to="/dashboard/todo">
+                View or manage all tasks
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>
+
+        <Card className="@container/card">
+          <CardHeader className="flex">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
+              <LucideText />
             </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
+            <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+              Recent Forum posts
+            </CardTitle>
+          </CardHeader>
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+          <div className="tasktodolist overflow-y-auto max-h-[350px] items-center">
+            <RecentForums />
           </div>
-          <div className="text-muted-foreground">
-            Acquisition needs attention
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+          <CardFooter className="grid-col items-start gap-1.5 text-sm">
+            <div className="text-muted-foreground">
+              <Link to="/dashboard/forum">
+                See all forum posts
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>
+
+        <ProjectCharts />
+
+        {user.permission !== "Employee" && <Card className="@container/card mb-auto">
+          <CardHeader className="flex">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
+              <LucidePencil />
             </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
+            <div>
+              <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+                Employee task distribution
+              </CardTitle>
+
+              <CardDescription>
+                Breakdown of how tasks are divided among team members, by project
+              </CardDescription>
+            </div>
+
+          </CardHeader>
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+
+          <div className="tasktodolis overflow-y-auto max-h-[518px] items-center w-full">
+            <DashboardTaskDivisionCard />
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+        </Card>}
+          
+        {user.permission == "Manager" && <Card className="@container/card mb-auto">
+          <CardHeader className="flex">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
+              <LucideText />
             </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
+            <div>
+              <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+                Areas for training
+              </CardTitle>
+
+              <CardDescription>
+                Based on proportion of forum posts marked as "Q&A"
+              </CardDescription>
+            </div>
+          </CardHeader>
+
+          <div className="tasktodolis items-center w-full">
+            <ChartBarMultiple />
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
-        </CardFooter>
-      </Card>
-    </div>
+          <CardFooter className=" items-start gap-1.5 text-sm">
+            <div className="text-muted-foreground">
+              <Link to="/dashboard/forum">
+                See all forum posts
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>}
+
+
+
+      </div>
+    </>
   )
 }
