@@ -39,7 +39,7 @@ export default function RecentForums() {
                     return (
                         <Link to={`/dashboard/forum/post/${post.id}`} className="block">
                             <div key={post.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <div className="flex items-start justify-between mb-3">
+                                <div className="flex flex-col items-start justify-between gap-1 mb-2 ">
                                     <div className="flex items-center space-x-2">
                                         <Avatar className="h-8 w-8">
                                             <AvatarImage src={author?.avatar} />

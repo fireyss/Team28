@@ -23,9 +23,9 @@ function DashboardTaskCard() {
 
   const getstatus = (status: string) => {
     switch (status) {
-      case "Done": return "default";
-      case "In Process": return "secondary";
-      case "In Review": return "outline";
+      case "Done": return "outline";
+      case "In Process": return "default";
+      case "In Review": return "secondary";
       case "Todo": return "destructive";
       default: return "default";
     }
@@ -34,8 +34,8 @@ function DashboardTaskCard() {
   const geturgency = (urgency: string) => {
     switch (urgency) {
       case "High": return "destructive";
-      case "Medium": return "secondary";
-      case "Low": return "outline";
+      case "Medium": return "default";
+      case "Low": return "secondary";
       default: return "default";
     }
   }
