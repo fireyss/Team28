@@ -167,13 +167,18 @@ const columns: ColumnDef<Project>[] = [
         accessorKey: "title",
         header: "Title",
         cell: ({ row }) => {
-            const { user } = useAuth()
+            const user = useAuth().user!
+
+            const disabled = user.permission == "Employee" || (user.permission == "Leader"
+                && row.original.leader != user.id)
             const [open, setOpen] = React.useState(false)
             return (
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger>
                         <Button variant="link"
-                            className={"text-foreground w-fit px-0 text-left"} >
+                            className={disabled
+                                ? "pointer-events-none text-foreground w-fit px-0 text-left"
+                                : "text-foreground w-fit px-0 text-left"} >
                             {row.original.title}
                         </Button>
                     </DialogTrigger>
@@ -437,7 +442,7 @@ export function ProjectTable() {
 
     let user = useAuth().user!
     if (user.permission != "Manager") {
-        initialData = initialData.filter(project => project.leader == user.id)
+        initialData = initialData.filter(project => project.members.includes(user.id))
     }
     const [data, setData] = React.useState<Project[]>(initialData)
     const [rowSelection, setRowSelection] = React.useState({})
