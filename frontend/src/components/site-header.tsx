@@ -3,6 +3,8 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { useLocation } from "react-router-dom"
 import { Button } from "./ui/button"
 import { LogOutIcon } from "lucide-react"
+import { ModeToggle } from "./mode-toggle"
+
 
 import { useAuth } from "@/context/AuthContext"
 
@@ -37,6 +39,7 @@ export function SiteHeader() {
         <Button variant="outline" size="icon" className="ml-auto" onClick={logout}>
           <LogOutIcon />
         </Button>
+        <ModeToggle />
       </div>
     </header>
   )

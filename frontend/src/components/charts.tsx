@@ -135,16 +135,19 @@ export function ProjectCharts() {
     urgencyList[listIndex].urgencyCount += 1;
   }
 
-
   return (
     <Card className="autoitems-centre @container/card">
-      <CardHeader>
-        <CardTitle className="text-2xl">
-          <Badge variant="outline" className="border-none [&>svg]:size-10">
+      <CardHeader className="flex items-center justify-between gap-4">
+        <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl flex items-center gap-2">
+          <Badge
+            variant="outline"
+            className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none"
+          >
             <ChartLine />
           </Badge>
           Current project: {project?.title}
         </CardTitle>
+
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -163,16 +166,16 @@ export function ProjectCharts() {
               <CommandList>
                 <CommandEmpty>No project found.</CommandEmpty>
                 <CommandGroup>
-                  {projectsAllowed.map((projectsAllowed) => (
+                  {projectsAllowed.map((project) => (
                     <CommandItem
-                      key={projectsAllowed.id}
-                      value={projectsAllowed.title}
-                      onSelect={(_currentValue) => {
-                        setValue(projectsAllowed)
+                      key={project.id}
+                      value={project.title}
+                      onSelect={() => {
+                        setValue(project)
                         setOpen(false)
                       }}
                     >
-                      {projectsAllowed.title}
+                      {project.title}
                     </CommandItem>
                   ))}
                 </CommandGroup>
@@ -181,6 +184,7 @@ export function ProjectCharts() {
           </PopoverContent>
         </Popover>
       </CardHeader>
+
       <CardContent>
         <CardDescription>{project?.completed !== null ? "This project has been completed." :
           "This project is in progress."}</CardDescription>
