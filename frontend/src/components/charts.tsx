@@ -136,9 +136,9 @@ export function ProjectCharts() {
   }
 
   return (
-    <Card className="autoitems-centre @container/card">
-      <CardHeader className="flex items-center justify-between gap-4">
-        <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl flex items-center gap-2">
+    <Card className="@container/card">
+      <CardHeader className="justify-between gap-4">
+        <CardTitle className="flex items-center text-1xl font-semibold tabular-nums @[250px]/card:text-2xl flex items-center gap-2">
           <Badge
             variant="outline"
             className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none"
