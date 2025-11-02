@@ -14,8 +14,8 @@ export function SiteHeader() {
     switch (location.pathname) {
       case "/":
         return ""
-      case "/dashboard/home":
-        return "Home"
+      case "/dashboard":
+        return "Dashboard"
       case (location.pathname.startsWith("/dashboard/forum") && location.pathname):
         return "Forums"
       case (location.pathname.startsWith("/dashboard/todo") && location.pathname):
