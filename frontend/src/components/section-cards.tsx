@@ -16,33 +16,13 @@ import "@/components/todolistdashboardver.css"
 import RecentForums from "@/components/recentforumposts"
 import { ChartBarMultiple } from "@/components/training-bar-chart"
 import { ProjectCharts } from "@/components/charts"
+import { DashboardTaskDivisionCard } from "@/components/task-division"
 
 export function SectionCards() {
   return (
     <>
       <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
-        <Card className="@container/card">
-          <CardHeader className="flex">
-            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
-              <IconBubbleText />
-            </Badge>
-            <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
-              Forum activity overview
-            </CardTitle>
-          </CardHeader>
-          <hr className="w-[calc(100%-20px)] mx-auto" />
-          <div className="tasktodolis items-center">
-            <ChartBarMultiple />
-          </div>
-          <hr className="w-[calc(100%-20px)] mx-auto" />
-          <CardFooter className=" items-start gap-1.5 text-sm">
-            <div className="text-muted-foreground">
-              <Link to="/dashboard/forum">
-                See all forum posts
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
+        <DashboardTaskDivisionCard/>
         <ProjectCharts/>
       </div>
       <div className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full px-4">
@@ -94,6 +74,28 @@ export function SectionCards() {
 
 
       </div>  
+      <Card className="@container/card">
+          <CardHeader className="flex">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
+              <IconBubbleText />
+            </Badge>
+            <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
+              Forum activity overview
+            </CardTitle>
+          </CardHeader>
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+          <div className="tasktodolis items-center">
+            <ChartBarMultiple />
+          </div>
+          <hr className="w-[calc(100%-20px)] mx-auto" />
+          <CardFooter className=" items-start gap-1.5 text-sm">
+            <div className="text-muted-foreground">
+              <Link to="/dashboard/forum">
+                See all forum posts
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>
       
       
     
