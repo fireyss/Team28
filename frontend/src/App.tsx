@@ -14,6 +14,7 @@ import Auth_SignUp from "@/pages/auth_pages/SignUp"
 import Dashboard_Home from "@/pages/dashboard_pages/Home";
 import Dashboard_Todo from "@/pages/dashboard_pages/Todo-list";
 import Dashboard_Forum from "@/pages/dashboard_pages/Forum";
+import Dashoard_Project from "@/pages/dashboard_pages/Projects"
 
 // route guards
 import ProtectedRoute from "@/routes/ProtectedRoute";
@@ -37,6 +38,7 @@ export default function AppRoutes() {
                 <Route index element={<Dashboard_Home />} />
                 <Route path="todo" element={<Dashboard_Todo />} />
                 <Route path="forum/*" element={<Dashboard_Forum />} />
+                <Route path="projects" element={<Dashoard_Project />} />
               </Route>
             </Route>
           </Routes>
