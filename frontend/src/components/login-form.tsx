@@ -75,7 +75,7 @@ export function LoginForm({
                       style={{
                         borderTopRightRadius: 0,
                         borderBottomRightRadius: 0,
-                        width: '40%',
+                        width: '35%',
                         textAlign: 'left'
                       }}
                     />
@@ -84,7 +84,7 @@ export function LoginForm({
                       style={{
                         borderTopLeftRadius: 0,
                         borderBottomLeftRadius: 0,
-                        width: '60%',
+                        width: '65%',
                         textWrap: "nowrap",
                         display: "flex",
                         alignItems: "center"

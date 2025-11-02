@@ -1,6 +1,7 @@
 import { Hammer } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Outlet } from "react-router-dom";
+import { BackgroundBeams } from "@/components/ui/shadcn-io/background-beams";
 
 export default function AuthPage() {
   return (
@@ -28,12 +29,7 @@ export default function AuthPage() {
       </div>
 
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/assets/Make-It-All.png"
-          alt="Make It All background"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-
+        <BackgroundBeams/>
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
       </div>
     </div>

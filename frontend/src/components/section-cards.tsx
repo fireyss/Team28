@@ -27,7 +27,7 @@ export function SectionCards() {
 
         <Card className="@container/card">
           <CardHeader className="flex pb-0">
-            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
               <LucideClipboardList />
             </Badge>
             <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
@@ -50,7 +50,7 @@ export function SectionCards() {
 
         <Card className="@container/card">
           <CardHeader className="flex">
-            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
               <LucideText />
             </Badge>
             <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-2xl">
@@ -70,10 +70,10 @@ export function SectionCards() {
             </div>
           </CardFooter>
         </Card>
-        
+
         {user.permission == "Manager" && <Card className="@container/card mb-auto">
           <CardHeader className="flex">
-            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-10 border-none">
+            <Badge variant="outline" className="px-0 py-0.5 text-xs [&>svg]:size-7 border-none">
               <LucideText />
             </Badge>
             <div>
