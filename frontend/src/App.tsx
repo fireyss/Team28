@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
-import { ThemeProvider, useTheme } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
@@ -24,7 +24,7 @@ export default function AppRoutes() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <AuthProvider>
-        <Router>
+        <Router basename={import.meta.env.BASE_URL}>
           <Routes>
             <Route element={<PublicRoute />}>
               <Route path="/" element={<Auth />}>

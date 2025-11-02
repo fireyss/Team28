@@ -465,7 +465,7 @@ function DraggableRow({ row }: { row: Row<Task> }) {
 export function TodoTable() {
   let initialData = taskData as Task[]
 
-  let user = useAuth().user!
+  const user = useAuth().user!
   if (user.permission != "Manager") {
     initialData = initialData.filter(task => projects.find(project => task.project === project.id)?.members.includes(user!.id)
     )

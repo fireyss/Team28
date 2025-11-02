@@ -96,7 +96,7 @@ export const BackgroundBeams = React.memo(
           ))}
           
           <defs>
-            {paths.map((path, index) => (
+            {paths.map((_path, index) => (
               <motion.linearGradient
                 id={`linearGradient-${index}`}
                 key={`gradient-${index}`}
