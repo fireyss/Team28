@@ -1,4 +1,4 @@
-import { TodoTable } from "@/components/data-table";
+import { TodoTable } from "@/components/todo-table";
 
 export default function Todo() {
   return (

@@ -116,7 +116,6 @@ import { useAuth } from "@/context/AuthContext";
 
 const users = accountData as User[]
 const projects = projectData as Project[]
-// const initialProjects = projectData as Project[]
 
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
@@ -890,30 +889,3 @@ export function TodoTable() {
 
   )
 }
-
-// export function ProjectTable() {
-//   const user = useAuth().user!
-//   let filteredProjects = initialProjects
-
-//   // Example: restrict Employee view
-//   if (user.permission === "Employee") {
-//     filteredProjects = filteredProjects.filter((p) => p.members.includes(user.id))
-//   } else if (user.permission === "Leader") {
-//     filteredProjects = filteredProjects.filter((p) => p.leader === user.id || p.members.includes(user.id))
-//   }
-
-  // const [projects, setProjects] = React.useState<Project[]>(filteredProjects)
-  // const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor), useSensor(KeyboardSensor))
-
-  // function handleDragEnd(event: DragEndEvent) {
-  //   const { active, over } = event
-  //   if (active && over && active.id !== over.id) {
-  //     setProjects((items) => {
-  //       const oldIndex = items.findIndex((i) => i.id === active.id)
-  //       const newIndex = items.findIndex((i) => i.id === over.id)
-  //       return arrayMove(items, oldIndex, newIndex)
-  //     })
-  //   }
-  // }
-
-// }
