@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,9 +22,10 @@ import { useAuth } from "@/context/AuthContext";
 import { mockLogin } from "@/services/authService";
 
 export function LoginForm({
+  signuplink,
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: { signuplink: string } & React.ComponentProps<"div">) {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,14 +65,42 @@ export function LoginForm({
               <FieldGroup>
                 <Field>
                   <FieldLabel htmlFor="email">Email</FieldLabel>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="user@make-it-all.co.uk"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
+
+                  <div style={{ display: 'flex', width: '100%' }}>
+                    <Input
+                      id="email"
+                      placeholder="user"
+                      onChange={(e) => setEmail(e.target.value+"@make-it-all.co.uk")}
+                      required
+                      style={{
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0,
+                        width: '35%',
+                        textAlign: 'left'
+                      }}
+                    />
+
+                    <div
+                      style={{
+                        borderTopLeftRadius: 0,
+                        borderBottomLeftRadius: 0,
+                        width: '65%',
+                        textWrap: "nowrap",
+                        display: "flex",
+                        alignItems: "center"
+                      }}
+                      className={cn(
+                        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground border-input h-9 min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+                        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+                        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+                        className
+                      )}
+                    >
+                      @make-it-all.co.uk
+                    </div>
+                  </div>
                 </Field>
+
 
                 <Field>
                   <div className="flex items-center">
@@ -133,13 +162,7 @@ export function LoginForm({
                   </Button>
 
                   <FieldDescription className="text-center mt-2">
-                    Don&apos;t have an account?{" "}
-                    <a
-                      href="#"
-                      className="text-blue-600 underline hover:text-blue-800"
-                    >
-                      Sign up
-                    </a>
+                    Don&apos;t have an account? <Link to={signuplink}>Sign up</Link>
                   </FieldDescription>
                 </Field>
               </FieldGroup>

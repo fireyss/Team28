@@ -1,11 +1,14 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider, useTheme } from "@/components/theme-provider";
 
-import Login from "@/pages/Login";
+import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
+
+// login pages
+import Auth_Login from "@/pages/auth_pages/Login";
+import Auth_SignUp from "@/pages/auth_pages/SignUp"
 
 // dashboard pages
 import Dashboard_Home from "@/pages/dashboard_pages/Home";
@@ -18,12 +21,15 @@ import PublicRoute from "@/routes/PublicRoute";
 
 export default function AppRoutes() {
   return (
-    <AuthProvider>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <AuthProvider>
         <Router>
           <Routes>
             <Route element={<PublicRoute />}>
-              <Route path="/" element={<Login />} />
+              <Route path="/" element={<Auth />}>
+                <Route index element={<Auth_Login />} />
+                <Route path="signup" element={<Auth_SignUp />} />
+              </Route>
             </Route>
 
             <Route element={<ProtectedRoute />}>
@@ -35,7 +41,7 @@ export default function AppRoutes() {
             </Route>
           </Routes>
         </Router>
-      </ThemeProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
