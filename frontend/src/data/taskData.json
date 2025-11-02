@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "To-do-list",
-    "assignee": 1,
+    "assignee": 2,
     "status": "In Review",
     "project": 1,
     "urgency": "High",
