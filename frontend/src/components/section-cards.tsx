@@ -93,7 +93,7 @@ export function SectionCards() {
           </CardHeader>
           <hr className="w-[calc(100%-20px)] mx-auto" />
 
-          <div className="tasktodolis overflow-y-auto max-h-[350px] items-center w-full">
+          <div className="tasktodolis overflow-y-auto max-h-[518px] items-center w-full">
             <DashboardTaskDivisionCard />
           </div>
           <hr className="w-[calc(100%-20px)] mx-auto" />
