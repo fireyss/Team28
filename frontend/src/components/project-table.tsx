@@ -167,6 +167,7 @@ const columns: ColumnDef<Project>[] = [
         accessorKey: "title",
         header: "Title",
         cell: ({ row }) => {
+            const { user } = useAuth()
             const [open, setOpen] = React.useState(false)
             return (
                 <Dialog open={open} onOpenChange={setOpen}>
@@ -206,6 +207,23 @@ const columns: ColumnDef<Project>[] = [
                                                 />
                                             </Field>
                                             <div className="grid grid-cols-3 gap-4">
+                                                {user?.permission === "Manager" && <Field>
+                                                    <FieldLabel >
+                                                        Leader
+                                                    </FieldLabel>
+                                                    <Select defaultValue={users.find(user => user.id === row.original.leader)?.email}>
+                                                        <SelectTrigger id="leader-select">
+                                                            <SelectValue placeholder="leader" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {users.map(u => {
+                                                                return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                                                            }
+                                                            )
+                                                            }
+                                                        </SelectContent>
+                                                    </Select>
+                                                </Field>}
                                                 <Field>
                                                     <FieldLabel >
                                                         Urgency
@@ -320,13 +338,13 @@ const columns: ColumnDef<Project>[] = [
         cell: ({ row }) => {
             let completed = 0
             const total = row.original.tasks.length
-            row.original.tasks.map(task => 
-                tasks.find(t => t.id == task )?.status === "Done" 
-                ? completed++
-                : null
+            row.original.tasks.map(task =>
+                tasks.find(t => t.id == task)?.status === "Done"
+                    ? completed++
+                    : null
             )
             return (
-                <div className = "w-fit">{completed}/{total}</div>
+                <div className="w-fit">{completed}/{total}</div>
             )
         }
 
@@ -582,6 +600,23 @@ export function ProjectTable() {
                                                     />
                                                 </Field>
                                                 <div className="grid grid-cols-3 gap-4">
+                                                    <Field>
+                                                        <FieldLabel >
+                                                            Leader
+                                                        </FieldLabel>
+                                                        <Select >
+                                                            <SelectTrigger id="leader-select">
+                                                                <SelectValue placeholder="leader" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                {users.map(u => {
+                                                                    return (<SelectItem value={u.email}>{u.email}</SelectItem>)
+                                                                }
+                                                                )
+                                                                }
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </Field>
                                                     <Field>
                                                         <FieldLabel >
                                                             Urgency
