@@ -116,7 +116,6 @@ export function ProjectCharts() {
     indexSub = 2;
     completedColour = "#69b362";
   } else if (isAfter(parse(project?.deadline, "dd'/'MM'/'yy", new Date()), startOfDay(new Date()))) {
-    alert("is after")
     lineArray.splice(1, 0, {
       date: format(new Date(), "dd'/'MM'/'yy"),
       completedCount: completedTasks.length,
@@ -152,8 +151,6 @@ export function ProjectCharts() {
     let listIndex = urgencyList.indexOf(tempObject!);
     urgencyList[listIndex].urgencyCount += 1;
   }
-
-  alert(JSON.stringify(lineArray))
 
   return (
     <Card className="@container/card">
