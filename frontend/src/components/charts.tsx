@@ -57,7 +57,7 @@ const chartConfig = {
 import projectData from "@/data/projectData.json";
 import taskData from "@/data/taskData.json";
 import { useAuth } from "@/context/AuthContext";
-import { differenceInDays, format, isAfter, parse } from "date-fns";
+import { differenceInDays, format, isAfter, parse, startOfDay } from "date-fns";
 
 
 
@@ -115,7 +115,7 @@ export function ProjectCharts() {
     lineArray[2].completedCount = chartData.length
     indexSub = 2;
     completedColour = "#69b362";
-  } else if (isAfter(parse(project?.deadline, "dd'/'MM'/'yy", new Date()), new Date())) {
+  } else if (isAfter(parse(project?.deadline, "dd'/'MM'/'yy", new Date()), startOfDay(new Date()))) {
     alert("is after")
     lineArray.splice(1, 0, {
       date: format(new Date(), "dd'/'MM'/'yy"),
@@ -124,9 +124,9 @@ export function ProjectCharts() {
     })
     indexSub = 2
     lineArray[2].projected = completedTasks.length
-      + ((completedTasks.length / differenceInDays(
+      + ((completedTasks.length / Math.max(1, differenceInDays(
         new Date(), parse(project!.posted, "dd'/'MM'/'yy", new Date())
-      )) * differenceInDays(parse(project!.deadline, "dd'/'MM'/'yy", new Date()), new Date()))
+      ))) * differenceInDays(parse(project!.deadline, "dd'/'MM'/'yy", new Date()), new Date()))
   } else {
     lineArray[1].completedCount = completedTasks.length
   }
