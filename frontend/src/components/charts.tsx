@@ -57,6 +57,7 @@ const chartConfig = {
 import projectData from "@/data/projectData.json";
 import taskData from "@/data/taskData.json";
 import { useAuth } from "@/context/AuthContext";
+import { differenceInDays, format, isAfter, parse, startOfDay } from "date-fns";
 
 
 
@@ -97,28 +98,44 @@ export function ProjectCharts() {
   let completedTasks = chartData.filter((task) => task.completed != null).map((task) => {
     return {
       date: task.completed!,
-      completedCount: 1
+      completedCount: 1,
+      projected: null
     }
   });
   let lineArray = [
-    { date: project?.posted, completedCount: 0 },
-    { date: project?.deadline, completedCount: null },
-  ];
+    { date: project?.posted, completedCount: 0, projected: null },
+    { date: project?.deadline, completedCount: null, projected: null },
+  ] as { date: string, completedCount: number | null, projected: number | null }[];
 
   let completedColour = "#5d5dff";
   let indexSub = 1;
 
   if (project?.completed !== null) {
-    lineArray.splice(1, 0, { date: project?.completed!, completedCount: chartData.length });
-    lineArray.find((task) => task.date === project?.deadline)!.completedCount = chartData.length
+    lineArray.splice(1, 0, { date: project?.completed!, completedCount: chartData.length, projected: null });
+    lineArray[2].completedCount = chartData.length
     indexSub = 2;
     completedColour = "#69b362";
+  } else if (isAfter(parse(project?.deadline, "dd'/'MM'/'yy", new Date()), startOfDay(new Date()))) {
+    lineArray.splice(1, 0, {
+      date: format(new Date(), "dd'/'MM'/'yy"),
+      completedCount: completedTasks.length,
+      projected: completedTasks.length
+    })
+    indexSub = 2
+    lineArray[2].projected = completedTasks.length
+      + ((completedTasks.length / Math.max(1, differenceInDays(
+        new Date(), parse(project!.posted, "dd'/'MM'/'yy", new Date())
+      ))) * differenceInDays(parse(project!.deadline, "dd'/'MM'/'yy", new Date()), new Date()))
+  } else {
+    lineArray[1].completedCount = completedTasks.length
   }
 
 
   for (let i = 0; i < completedTasks.length; i++) {
     lineArray.splice(lineArray.length - indexSub, 0, completedTasks[i]);
-    lineArray[lineArray.length - (indexSub + 1)].completedCount! = lineArray[lineArray.length - (indexSub + 1)].completedCount! + lineArray[lineArray.length - (indexSub + 2)].completedCount!;
+    lineArray[lineArray.length - (indexSub + 1)].completedCount!
+      = lineArray[lineArray.length - (indexSub + 1)].completedCount!
+      + lineArray[lineArray.length - (indexSub + 2)].completedCount!;
   };
 
 
@@ -216,6 +233,15 @@ export function ProjectCharts() {
                 strokeWidth={2}
                 dot={false}
               />
+              <Line
+                label="Projected"
+                dataKey="projected"
+                type="linear"
+                stroke={completedColour}
+                strokeWidth={2}
+                dot={false}
+                strokeDasharray="5 5"
+              />
               <ReferenceLine x={lineArray[lineArray.length - 1].date!} strokeWidth={2} stroke="#ff000080" />
               <ReferenceDot
                 x={lineArray[lineArray.length - 1].date!}
@@ -251,6 +277,6 @@ export function ProjectCharts() {
       </CardContent>
 
 
-    </Card>
+    </Card >
   )
 }
