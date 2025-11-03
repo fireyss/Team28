@@ -113,6 +113,8 @@ import { DialogClose } from "@radix-ui/react-dialog"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useAuth } from "@/context/AuthContext";
+import { useLocation } from "react-router-dom"
+import { useEffect } from "react"
 
 const users = accountData as User[]
 const projects = projectData as Project[]
@@ -484,7 +486,10 @@ export function TodoTable() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
-  const [statusFilters, setStatusFilters] = React.useState<{ [column: string]: string[] }>({})
+  const location = useLocation();
+  const initialFilter = location?.state?.filter ?? null;
+  const [statusFilters, setStatusFilters] = React.useState<{ [column: string]: string[] }>({"project" : [initialFilter]})
+  
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
@@ -534,6 +539,12 @@ export function TodoTable() {
     },
 
   })
+  
+  useEffect(() => {
+    if (initialFilter) {
+      table.getColumn("project")?.setFilterValue([initialFilter]);
+    }
+  }, [initialFilter, table]);
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event

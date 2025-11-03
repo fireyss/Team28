@@ -109,6 +109,8 @@ import { DialogClose } from "@radix-ui/react-dialog"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useAuth } from "@/context/AuthContext";
+import { Link } from "react-router"
+
 
 const users = accountData as User[]
 const projects = projectData as Project[]
@@ -365,7 +367,7 @@ const columns: ColumnDef<Project>[] = [
     },
     {
         id: "actions",
-        cell: () => (
+        cell: ({row}) => (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
@@ -379,9 +381,12 @@ const columns: ColumnDef<Project>[] = [
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent align="end" className="w-32">
-
-
-
+                    <Link state={{filter : row.original.id}} to={"/dashboard/todo/"}>
+                    <DropdownMenuItem>
+                        View Tasks
+                    </DropdownMenuItem>
+                    </Link>
+                                       
                     <Dialog>
                         <DialogTrigger>
                             <DropdownMenuItem
@@ -406,6 +411,7 @@ const columns: ColumnDef<Project>[] = [
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
+
                 </DropdownMenuContent>
             </DropdownMenu>
         ),
