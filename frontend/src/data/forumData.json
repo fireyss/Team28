@@ -14,29 +14,35 @@
             "content": "The monthly report generator is omitting certain entries. Anyone else seeing this?",
             "posted": "2025-10-22T10:15:00Z",
             "latest": "2025-10-22T10:25:00Z",
+            "likes": [],
+            "comment_count": 1,
             "comments": [
                 {
                     "id": 1,
                     "author": 1,
                     "content": "Yes, that’s due to a recent schema change. A patch is in progress.",
                     "timestamp": "2025-10-22T10:25:00Z",
+                    "likes": [
+                        3
+                    ],
                     "replies": []
                 }
-            ],
-            "comment_count": 1
+            ]
         },
-
         {
             "id": 9,
-            "author": 2,
+            "author": 1,
             "topic": "Printing",
             "type": "Informational",
             "title": "Paper Supply Notice",
             "content": "Extra A4 paper boxes are stored in the supply room on the second floor.",
             "posted": "2025-10-22T09:00:00Z",
             "latest": "2025-10-22T09:00:00Z",
-            "comments": [],
-            "comment_count": 0
+            "likes": [
+                2
+            ],
+            "comment_count": 0,
+            "comments": []
         },
         {
             "id": 3,
@@ -47,8 +53,11 @@
             "content": "We’ll be moving from Redux to Zustand for state management in Q4.",
             "posted": "2025-10-22T08:00:00Z",
             "latest": "2025-10-22T08:00:00Z",
-            "comments": [],
-            "comment_count": 0
+            "likes": [
+                3
+            ],
+            "comment_count": 0,
+            "comments": []
         },
         {
             "id": 2,
@@ -59,12 +68,20 @@
             "content": "I'm seeing slow re-renders when using large state objects. Any advice?",
             "posted": "2025-10-21T14:00:00Z",
             "latest": "2025-10-21T14:15:00Z",
+            "likes": [
+                1,
+                2
+            ],
+            "comment_count": 2,
             "comments": [
                 {
                     "id": 1,
                     "author": 2,
                     "content": "Use memoization with React.memo or useMemo to prevent unnecessary updates.",
                     "timestamp": "2025-10-21T14:10:00Z",
+                    "likes": [
+                        3
+                    ],
                     "replies": []
                 },
                 {
@@ -72,38 +89,48 @@
                     "author": 1,
                     "content": "Also consider splitting the state into smaller pieces.",
                     "timestamp": "2025-10-21T14:15:00Z",
+                    "likes": [
+                        3
+                    ],
                     "replies": []
                 }
-            ],
-            "comment_count": 2
+            ]
         },
         {
             "id": 8,
-            "author": 1,
+            "author": 2,
             "topic": "Printing",
             "type": "Q&A",
             "title": "Printer queue stuck",
             "content": "Documents are getting stuck in the queue when printing PDFs over 10MB.",
             "posted": "2025-10-20T15:00:00Z",
             "latest": "2025-10-20T15:10:00Z",
+            "likes": [
+                1
+            ],
+            "comment_count": 2,
             "comments": [
                 {
                     "id": 1,
                     "author": 3,
                     "content": "Try clearing the spooler service - that usually fixes it.",
                     "timestamp": "2025-10-20T15:05:00Z",
+                    "likes": [
+                        2,
+                        1
+                    ],
                     "replies": [
                         {
                             "id": 1,
                             "author": 1,
                             "content": "That worked, thanks!",
                             "timestamp": "2025-10-20T15:10:00Z",
+                            "likes": [],
                             "replies": []
                         }
                     ]
                 }
-            ],
-            "comment_count": 2
+            ]
         },
         {
             "id": 1,
@@ -114,24 +141,31 @@
             "content": "Please follow our updated TypeScript style guide for all new projects.",
             "posted": "2025-10-20T09:30:00Z",
             "latest": "2025-10-20T09:50:00Z",
+            "likes": [
+                2
+            ],
+            "comment_count": 2,
             "comments": [
                 {
                     "id": 1,
                     "author": 2,
                     "content": "Are there any changes to how we handle imports?",
                     "timestamp": "2025-10-20T09:45:00Z",
+                    "likes": [],
                     "replies": [
                         {
                             "id": 1,
                             "author": 1,
                             "content": "Yes, prefer absolute imports for shared modules.",
                             "timestamp": "2025-10-20T09:50:00Z",
+                            "likes": [
+                                2
+                            ],
                             "replies": []
                         }
                     ]
                 }
-            ],
-            "comment_count": 2
+            ]
         },
         {
             "id": 4,
@@ -142,24 +176,35 @@
             "content": "The login button on the internal dashboard doesn’t work in Firefox.",
             "posted": "2025-10-19T11:00:00Z",
             "latest": "2025-10-19T11:20:00Z",
+            "likes": [
+                1,
+                3
+            ],
+            "comment_count": 2,
             "comments": [
                 {
                     "id": 1,
                     "author": 3,
                     "content": "I can reproduce this - looks like an event handler issue.",
                     "timestamp": "2025-10-19T11:15:00Z",
+                    "likes": [
+                        1,
+                        2
+                    ],
                     "replies": [
                         {
                             "id": 1,
                             "author": 2,
                             "content": "Confirmed, removing a redundant listener fixed it.",
                             "timestamp": "2025-10-19T11:20:00Z",
-                            "replies": []
+                            "replies": [
+                                1,
+                                3
+                            ]
                         }
                     ]
                 }
-            ],
-            "comment_count": 2
+            ]
         },
         {
             "id": 5,
@@ -170,28 +215,36 @@
             "content": "The issue with API latency has been resolved by optimizing database indexes.",
             "posted": "2025-10-18T16:00:00Z",
             "latest": "2025-10-22T10:25:00Z",
-            "comments": [],
-            "comment_count": 0
+            "likes": [
+                2,
+                3
+            ],
+            "comment_count": 0,
+            "comments": []
         },
         {
             "id": 7,
-            "author": 3,
+            "author": 1,
             "topic": "Printing",
             "type": "Informational",
             "title": "New Printer Setup Guide",
             "content": "A new color printer has been installed in the west wing. See attached setup instructions.",
             "posted": "2025-10-17T12:00:00Z",
             "latest": "2025-10-17T12:10:00Z",
+            "likes": [
+                2
+            ],
+            "comment_count": 1,
             "comments": [
                 {
                     "id": 1,
                     "author": 2,
                     "content": "Works great! Much faster than the old one.",
                     "timestamp": "2025-10-17T12:10:00Z",
+                    "likes": [],
                     "replies": []
                 }
-            ],
-            "comment_count": 1
+            ]
         }
     ]
 }

@@ -29,8 +29,11 @@ import {
     IconCornerDownLeft
 } from "@tabler/icons-react"
 import { enGB } from "date-fns/locale"
+import { useAuth } from "@/context/AuthContext"
+import LikeToggle from "./like-toggle"
 
 export default function Comment({ comment }: { comment: Comment }) {
+    const user = useAuth().user!
     let author = users.find(user => user.id === comment.author) as User
     if (!author) {
         author = {
@@ -56,27 +59,29 @@ export default function Comment({ comment }: { comment: Comment }) {
                     </span>
                 </div>
                 <div>{comment.content}</div>
-                <Collapsible className="flex items-start gap-2 m-1">
-                    <CollapsibleTrigger>
-                        <Button variant="outline">
-                            <IconCornerDownLeft /> Reply
-                        </Button>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="w-full max-w-160">
-                        <div>
-                            <InputGroup>
-                                <InputGroupTextarea
-                                    className="min-h-16 resize-none rounded-md"
-                                    placeholder="Say something..."
-                                />
-                                <InputGroupButton variant="default" className="m-3 mt-auto">
-                                    Reply
-                                </InputGroupButton>
-                            </InputGroup>
-                        </div>
-
-                    </CollapsibleContent>
-                </Collapsible>
+                <div className="flex items-start gap-2 p-1">
+                    <LikeToggle item={comment} user={user} />
+                    <Collapsible className="flex items-start gap-2">
+                        <CollapsibleTrigger>
+                            <Button variant="outline">
+                                <IconCornerDownLeft /> Reply
+                            </Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="w-full max-w-160">
+                            <div>
+                                <InputGroup>
+                                    <InputGroupTextarea
+                                        className="min-h-16 resize-none rounded-md"
+                                        placeholder="Say something..."
+                                    />
+                                    <InputGroupButton variant="default" className="m-3 mt-auto">
+                                        Reply
+                                    </InputGroupButton>
+                                </InputGroup>
+                            </div>
+                        </CollapsibleContent>
+                    </Collapsible>
+                </div>
                 {comment.replies.map(reply => (
                     <Comment comment={reply} />
                 ))}

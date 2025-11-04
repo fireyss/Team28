@@ -25,8 +25,11 @@ import {
 } from "@/components/ui/input-group"
 
 import Comment from "@/components/forum/comment"
+import LikeToggle from "@/components/forum/like-toggle";
+import { useAuth } from "@/context/AuthContext";
 
 export default function PostPage() {
+    const user = useAuth().user!
     const forum = forumData as ForumData
     const { postID } = useParams<{ postID: string }>();
 
@@ -69,7 +72,10 @@ export default function PostPage() {
                     <Badge>{post.topic}</Badge>
                     <Badge>{post.type}</Badge>
                 </div>
-                <p>{post.content}</p>
+                <div className="pt-2 pb-5">
+                    {post.content}
+                </div>
+                <LikeToggle item={post} user={user} />
             </div>
             <div id="comments" className="p-2">
                 <h2 className="text-xl font-bold m-2">Comments</h2>

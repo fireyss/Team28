@@ -23,9 +23,11 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { Textarea } from "../ui/textarea"
 import { enGB } from "date-fns/locale"
+import { useAuth } from "@/context/AuthContext"
+import LikeToggle from "./like-toggle"
 
-export function PostCard({ post }: { post: Post }) {
-    const users = accounts as User[]
+export function PostCard({ post, users }: { post: Post, users: User[] }) {
+    const user = useAuth().user!
     let author = users.find(user => user.id === post.author)
     if (!author) {
         author = {
@@ -39,19 +41,25 @@ export function PostCard({ post }: { post: Post }) {
     }
 
     return (
-        <Link to={"post/" + post.id}>
-            <Card className="mx-2 my-5">
+        <Card className="mx-2 my-5">
+
+            <Link to={"post/" + post.id}>
+
                 <CardHeader>
                     <div className="flex gap-2">
                         <Badge>{post.topic}</Badge>
                         <Badge>{post.type}</Badge>
                     </div>
+
                     <CardTitle className="py-1 text-lg font-bold">{post.title}</CardTitle>
+
                     <div className="flex gap-2 items-center">
+
                         <Avatar>
                             <AvatarImage src={author?.avatar} />
                             <AvatarFallback className="rounded-lg">{author?.name.toUpperCase().substring(0, 2)}</AvatarFallback>
                         </Avatar>
+
                         <div>
                             <p className="text-sm font-bold">
                                 {author?.email}
@@ -60,19 +68,26 @@ export function PostCard({ post }: { post: Post }) {
                                 {formatRelative(parseISO(post.posted), new Date(), { locale: enGB })}
                             </p>
                         </div>
+
                     </div>
                 </CardHeader>
+
                 <CardContent className="line-clamp-3 whitespace-pre-wrap">
                     {post.content}
                 </CardContent>
-                <CardFooter className="flex-col items-start">
-                    <Link to={"post/" + post.id + "#comments"}>
-                        <Badge variant="outline" className="text-md">
-                            <IconMessages /> {post.comment_count} Comment(s)
-                        </Badge></Link>
-                </CardFooter>
-            </Card>
-        </Link>
+
+            </Link>
+
+            <CardFooter>
+                <LikeToggle item={post} user={user} />
+                <Link to={"post/" + post.id + "#comments"}>
+                    <Badge variant="outline" className="text-md">
+                        <IconMessages />
+                        {post.comment_count} Comment{post.comment_count != 1 && "s"}
+                    </Badge>
+                </Link>
+            </CardFooter>
+        </Card>
     )
 }
 
@@ -138,6 +153,7 @@ export function NewPostDialog({ topics }: { topics: string[] }) {
 }
 
 export function PostList({ posts, type, topics, search }: { posts: Post[], type: string, topics: string[], search: string }) {
+    const users = accounts as User[]
     let filteredPosts: Post[]
 
     if (type.length == 0) {
@@ -145,9 +161,11 @@ export function PostList({ posts, type, topics, search }: { posts: Post[], type:
     } else {
         filteredPosts = posts.filter(post => (post.type == type))
     }
+
     if (topics.length != 0) {
         filteredPosts = filteredPosts.filter(post => (topics.includes(post.topic)))
     }
+
     if (search.length != 0) {
         filteredPosts = filteredPosts.filter(post =>
         (post.title.toLowerCase().includes(search)
@@ -165,7 +183,7 @@ export function PostList({ posts, type, topics, search }: { posts: Post[], type:
     return (
         <div className="p-3">
             {visiblePosts.map(post => (
-                <PostCard post={post} />
+                <PostCard post={post} users={users} />
             ))}
             <div className="flex w-full items-center gap-8 lg:w-fit">
                 <div className="hidden items-center gap-2 lg:flex">
