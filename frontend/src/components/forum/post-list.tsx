@@ -4,7 +4,8 @@ import accounts from "@/data/Accounts.json"
 
 import {
     parseISO,
-    formatRelative
+    formatRelative,
+    differenceInMilliseconds
 } from "date-fns"
 
 import React from "react"
@@ -41,7 +42,7 @@ export function PostCard({ post, users }: { post: Post, users: User[] }) {
     }
 
     return (
-        <Card className="mx-2 my-5">
+        <Card className="mx-2 my-5 gap-2">
 
             <Link to={"post/" + post.id}>
 
@@ -78,14 +79,20 @@ export function PostCard({ post, users }: { post: Post, users: User[] }) {
 
             </Link>
 
-            <CardFooter>
-                <LikeToggle item={post} user={user} />
-                <Link to={"post/" + post.id + "#comments"}>
-                    <Badge variant="outline" className="text-md">
-                        <IconMessages />
-                        {post.comment_count} Comment{post.comment_count != 1 && "s"}
-                    </Badge>
-                </Link>
+            <CardFooter className="flex flex-col items-start">
+                <div className="text-sm text-muted-foreground">
+                    Last activity: {formatRelative(parseISO(post.latest), new Date(), { locale: enGB })}
+                </div>
+
+                <div className="flex flex-row items-center gap-2">
+                    <LikeToggle item={post} user={user} />
+                    <Link to={"post/" + post.id + "#comments"}>
+                        <Badge variant="outline" className="text-md">
+                            <IconMessages />
+                            {post.comment_count} Comment{post.comment_count != 1 && "s"}
+                        </Badge>
+                    </Link>
+                </div>
             </CardFooter>
         </Card>
     )
@@ -152,7 +159,13 @@ export function NewPostDialog({ topics }: { topics: string[] }) {
     )
 }
 
-export function PostList({ posts, type, topics, search }: { posts: Post[], type: string, topics: string[], search: string }) {
+export function PostList({ posts, type, topics, search, sort }: {
+    posts: Post[],
+    type: string,
+    topics: string[],
+    search: string,
+    sort: string
+}) {
     const users = accounts as User[]
     let filteredPosts: Post[]
 
@@ -173,6 +186,24 @@ export function PostList({ posts, type, topics, search }: { posts: Post[], type:
         )
     }
 
+    if (sort === "new") {
+        filteredPosts.sort(
+            (a, b) => differenceInMilliseconds(parseISO(b.posted), parseISO(a.posted))
+        )
+    } else if (sort === "old") {
+        filteredPosts.sort(
+            (a, b) => differenceInMilliseconds(parseISO(a.posted), parseISO(b.posted))
+        )
+    } else if (sort === "recent") {
+        filteredPosts.sort(
+            (a, b) => differenceInMilliseconds(parseISO(b.latest), parseISO(a.latest))
+        )
+    } else if (sort === "likes") {
+        filteredPosts.sort((a, b) => b.likes.length - a.likes.length)
+    } else if (sort === "comments") {
+        filteredPosts.sort((a, b) => b.comment_count - a.comment_count)
+    }
+
     const [pageIndex, setPageIndex] = React.useState(0)
     const [pageSize, setPageSize] = React.useState(10)
 
@@ -183,7 +214,7 @@ export function PostList({ posts, type, topics, search }: { posts: Post[], type:
     return (
         <div className="p-3">
             {visiblePosts.map(post => (
-                <PostCard post={post} users={users} />
+                <PostCard key={post.id} post={post} users={users} />
             ))}
             <div className="flex w-full items-center gap-8 lg:w-fit">
                 <div className="hidden items-center gap-2 lg:flex">
@@ -292,6 +323,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
     const [topics, setTopics] = React.useState<string[]>([])
     const [type, setType] = React.useState("")
     const [search, setSearch] = React.useState("")
+    const [sort, setSort] = React.useState<string>("new")
 
     return (
         <div>
@@ -323,7 +355,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                         </ToggleGroup>
                         <NewTopicDialog />
                     </div>
-                    <div className="m-2 mb-0">
+                    <div className="m-2">
                         <InputGroup>
                             <InputGroupInput
                                 placeholder="Search posts..."
@@ -334,13 +366,37 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
+                    <div className="flex gap-2 m-5 mb-0">
+                        <Label htmlFor="sort" >Sort posts</Label>
+                        <Select name="sort" value={sort} onValueChange={setSort}>
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Sort by</SelectLabel>
+                                    <SelectItem value="new">New</SelectItem>
+                                    <SelectItem value="old">Old</SelectItem>
+                                    <SelectItem value="recent">Recent actiivity</SelectItem>
+                                    <SelectItem value="likes">Most likes</SelectItem>
+                                    <SelectItem value="comments">Most comments</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
                 <div className="mt-6 mx-7 md:ml-auto">
                     <NewPostDialog topics={forum.topics} />
                 </div>
             </div>
 
-            <PostList posts={forum.posts} type={type} topics={topics} search={search.toLowerCase()} />
+            <PostList
+                posts={forum.posts}
+                type={type}
+                topics={topics}
+                search={search.toLowerCase()}
+                sort={sort}
+            />
         </div>
     )
 }
