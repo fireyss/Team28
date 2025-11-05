@@ -1,28 +1,35 @@
 import type { User } from "@/types/Account"
 
-import React from "react"
+import React, { type ComponentProps } from "react"
 import { Toggle } from "../ui/toggle"
 import { IconArrowBigUp } from "@tabler/icons-react"
+import { cn } from "@/lib/utils"
 
-export default function LikeToggle({ item, user }: { item: { likes: number[] }, user: User }) {
+export default function LikeToggle({ item, user, className, ...props }: {
+    item: { author: number, likes: number[] },
+    user: User
+} & React.ComponentProps<typeof Toggle>) {
     const [likes, setLikes] = React.useState(item.likes)
     const getLiked = () => likes.includes(user.id)
     return (
-        <Toggle
-            aria-label={getLiked() ? "Like post" : "Unlike post"}
-            variant="outline"
-            className="text-md data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-[var(--primary)] *:[svg]:stroke-[var(--primary)]"
-            pressed={getLiked()}
-            onPressedChange={pressed => {
-                if (pressed) {
-                    setLikes([...likes, user.id])
-                } else {
-                    setLikes(likes.filter(id => id != user.id))
-                }
-            }}
-        >
-            <IconArrowBigUp />
+        <div className="flex items-center">
+            <Toggle
+                disabled={user.id == item.author}
+                aria-label={getLiked() ? "Like post" : "Unlike post"}
+                className={cn(className, "text-md data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-[var(--primary)] *:[svg]:stroke-[var(--primary)]")}
+                pressed={getLiked()}
+                onPressedChange={pressed => {
+                    if (pressed) {
+                        setLikes([...likes, user.id])
+                    } else {
+                        setLikes(likes.filter(id => id != user.id))
+                    }
+                }}
+                {...props}
+            >
+                <IconArrowBigUp />
+            </Toggle >
             {likes.length} Like{likes.length != 1 && "s"}
-        </Toggle>
+        </div>
     )
 }
