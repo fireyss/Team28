@@ -8,11 +8,11 @@ import {
     differenceInMilliseconds
 } from "date-fns"
 
-import React from "react"
+import React, { type ComponentProps } from "react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
-import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconMessages, IconPlus, IconSearch, } from "@tabler/icons-react"
+import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconMessages, IconPencil, IconPlus, IconSearch, IconTrash, } from "@tabler/icons-react"
 import { Link } from "react-router"
 import { Label } from "../ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
@@ -26,8 +26,12 @@ import { Textarea } from "../ui/textarea"
 import { enGB } from "date-fns/locale"
 import { useAuth } from "@/context/AuthContext"
 import LikeToggle from "./like-toggle"
+import { cn } from "@/lib/utils"
 
-export function PostCard({ post, users }: { post: Post, users: User[] }) {
+export function PostCard(
+    { post, users, className, ...props }:
+        { post: Post, users: User[] } & ComponentProps<typeof Card>
+) {
     const user = useAuth().user!
     let author = users.find(user => user.id === post.author)
     if (!author) {
@@ -42,7 +46,7 @@ export function PostCard({ post, users }: { post: Post, users: User[] }) {
     }
 
     return (
-        <Card className="mx-2 my-5 gap-2">
+        <Card className={cn("ml-2 mr-5 my-3 gap-2 pt-4 px-0 pb-2", className)} {...props}>
 
             <Link to={"post/" + post.id}>
 
@@ -92,16 +96,71 @@ export function PostCard({ post, users }: { post: Post, users: User[] }) {
                             {post.comment_count} Comment{post.comment_count != 1 && "s"}
                         </Badge>
                     </Link>
+                    {(user.id == post.author) &&
+                        <div className="flex items-center gap-2">
+                            <Dialog>
+                                <DialogTrigger>
+                                    <Link to={"post/" + post.id + "/edit"}>
+                                        <Badge
+                                            variant="outline"
+                                            className="text-md hover:cursor-pointer"
+                                        >
+                                            <IconPencil /> Edit
+                                        </Badge>
+                                    </Link>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Edit post</DialogTitle>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <DialogClose>
+                                            <Button variant="outline">Cancel</Button>
+                                        </DialogClose>
+                                        <Button variant="default">Save changes</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                            <Dialog>
+                                <DialogTrigger>
+                                    <Badge
+                                        variant="outline"
+                                        className="text-md text-destructive hover:cursor-pointer"
+                                    >
+                                        <IconTrash /> Delete
+                                    </Badge>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Delete post</DialogTitle>
+                                        <div>
+                                            Are you sure you want to delete this post "{post.title}"?
+                                            This cannot be undone.
+                                        </div>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <DialogClose>
+                                            <Button variant="outline">Cancel</Button>
+                                        </DialogClose>
+                                        <Button variant="destructive">Delete</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                    }
                 </div>
             </CardFooter>
-        </Card>
+        </Card >
     )
 }
 
-export function NewPostDialog({ topics }: { topics: string[] }) {
+export function NewPostDialog(
+    { topics, ...props }:
+        { topics: string[] } & ComponentProps<typeof Dialog>
+) {
     return (
-        <Dialog>
-            <DialogTrigger asChild>
+        <Dialog {...props}>
+            <DialogTrigger>
                 <Button>
                     <IconPlus /> New Post
                 </Button>
@@ -159,13 +218,15 @@ export function NewPostDialog({ topics }: { topics: string[] }) {
     )
 }
 
-export function PostList({ posts, type, topics, search, sort }: {
-    posts: Post[],
-    type: string,
-    topics: string[],
-    search: string,
-    sort: string
-}) {
+export function PostList(
+    { posts, type, topics, search, sort, className, ...props }: {
+        posts: Post[],
+        type: string,
+        topics: string[],
+        search: string,
+        sort: string
+    } & ComponentProps<"div">
+) {
     const users = accounts as User[]
     let filteredPosts: Post[]
 
@@ -212,7 +273,7 @@ export function PostList({ posts, type, topics, search, sort }: {
     const visiblePosts = filteredPosts.slice(startIndex, endIndex)
 
     return (
-        <div className="p-3">
+        <div className={cn("p-3", className)} {...props}>
             {visiblePosts.map(post => (
                 <PostCard key={post.id} post={post} users={users} />
             ))}
@@ -291,9 +352,9 @@ export function PostList({ posts, type, topics, search, sort }: {
     )
 }
 
-export function NewTopicDialog() {
+export function NewTopicDialog(props: ComponentProps<typeof Dialog>) {
     return (
-        <Dialog>
+        <Dialog {...props}>
             <DialogTrigger>
                 <Button variant="outline" className="p-none">
                     <IconPlus />New Topic
@@ -319,16 +380,18 @@ export function NewTopicDialog() {
     )
 }
 
-export default function ForumHome({ forum }: { forum: ForumData }) {
+export default function ForumHome(
+    { forum, ...props }: { forum: ForumData } & ComponentProps<"div">
+) {
     const [topics, setTopics] = React.useState<string[]>([])
     const [type, setType] = React.useState("")
     const [search, setSearch] = React.useState("")
     const [sort, setSort] = React.useState<string>("new")
 
     return (
-        <div>
+        <div {...props}>
             <div className="flex flex-col-reverse md:flex-row">
-                <div className="m-3 mb-0">
+                <div className="mx-3 mb-0 mt-2">
                     <ToggleGroup type="single" value={type} onValueChange={setType}
                         className="flex gap-2 m-2">
                         <ToggleGroupItem value="Q&A" variant="outline"
@@ -336,12 +399,12 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                         <ToggleGroupItem value="Informational" variant="outline"
                             className="flex-none rounded-md w-auto">Informational</ToggleGroupItem>
                     </ToggleGroup>
-                    <div className="flex flex-wrap gap-2 items-center">
+                    <div className="flex flex-wrap gap-2 items-center my-2">
                         <ToggleGroup
                             type="multiple"
                             value={topics}
                             onValueChange={setTopics}
-                            className="flex flex-wrap gap-2 m-2"
+                            className="flex flex-wrap gap-2 mx-2"
                         >
                             {forum.topics.map(topic => (
                                 <ToggleGroupItem
@@ -366,7 +429,7 @@ export default function ForumHome({ forum }: { forum: ForumData }) {
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                    <div className="flex gap-2 m-5 mb-0">
+                    <div className="flex gap-2 px-4">
                         <Label htmlFor="sort" >Sort posts</Label>
                         <Select name="sort" value={sort} onValueChange={setSort}>
                             <SelectTrigger>

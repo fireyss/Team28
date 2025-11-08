@@ -26,11 +26,15 @@ import {
 
 import {
     IconUserFilled,
-    IconCornerDownLeft
+    IconCornerDownLeft,
+    IconPencil,
+    IconTrash
 } from "@tabler/icons-react"
 import { enGB } from "date-fns/locale"
 import { useAuth } from "@/context/AuthContext"
 import LikeToggle from "./like-toggle"
+import React from "react"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from "../ui/dialog"
 
 export default function Comment({ comment }: { comment: Comment }) {
     const user = useAuth().user!
@@ -45,6 +49,8 @@ export default function Comment({ comment }: { comment: Comment }) {
         }
     }
 
+    const [editing, setEditing] = React.useState(false)
+
     return (
         <div className="flex pt-4 gap-2" >
             <Avatar>
@@ -58,8 +64,8 @@ export default function Comment({ comment }: { comment: Comment }) {
                         {formatRelative(parseISO(comment.timestamp), new Date(), { locale: enGB })}
                     </span>
                 </div>
-                <div>{comment.content}</div>
-                <div className="flex items-start gap-2 p-1">
+                <div contentEditable={editing}>{comment.content}</div>
+                {!editing && <div className="flex items-start gap-2 p-1">
                     <LikeToggle item={comment} user={user} />
                     <Collapsible className="flex items-start gap-2">
                         <CollapsibleTrigger>
@@ -81,7 +87,52 @@ export default function Comment({ comment }: { comment: Comment }) {
                             </div>
                         </CollapsibleContent>
                     </Collapsible>
-                </div>
+                    {user.id === comment.author && <>
+                        <Button variant="outline" onClick={() => setEditing(!editing)}>
+                            <IconPencil />Edit
+                        </Button>
+                        <Button variant="outline" className="text-destructive">
+                            <IconTrash />Delete
+                        </Button>
+                    </>}
+                </div>}
+                {editing && <div className="flex flex-row gap-2 p-2">
+                    <Dialog>
+                        <DialogTrigger>
+                            <Button variant="outline">Cancel</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogTitle>Discard changes?</DialogTitle>
+                            <DialogDescription>
+                                Are you sure you want to discard your changes to this comment?
+                            </DialogDescription>
+                            <DialogFooter>
+                                <DialogClose>
+                                    <Button variant="outline">Cancel</Button>
+                                </DialogClose>
+                                <Button variant="destructive">Discard</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                    <Dialog>
+                        <DialogTrigger>
+                            <Button variant="default">Save changes</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogTitle>Save changes?</DialogTitle>
+                            <DialogDescription>
+                                Are you sure you want to save your changes to this comment?
+                                The previous version will be lost.
+                            </DialogDescription>
+                            <DialogFooter>
+                                <DialogClose>
+                                    <Button variant="outline">Cancel</Button>
+                                </DialogClose>
+                                <Button variant="default">Save changes</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                </div>}
                 {comment.replies.map(reply => (
                     <Comment comment={reply} />
                 ))}

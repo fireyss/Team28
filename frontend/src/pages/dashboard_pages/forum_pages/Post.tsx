@@ -12,7 +12,8 @@ import SinglePost from "@/components/forum/single-post"
 export default function PostPage() {
     const user = useAuth().user!
     const forum = forumData as ForumData
-    const { postID } = useParams<{ postID: string }>();
+
+    const { postID, edit } = useParams<{ postID: string, edit: string }>();
 
     const post = forum.posts.find(p => p.id === Number(postID))
 
@@ -23,6 +24,6 @@ export default function PostPage() {
     const users = accountsData as User[]
 
     return (
-        <SinglePost post={post} users={users} currentUser={user} />
+        <SinglePost post={post} users={users} currentUser={user} editing={edit === "edit"} />
     )
 }
