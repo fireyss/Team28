@@ -73,9 +73,26 @@ export default function Comment({ comment }: { comment: Comment }) {
                             <Button variant="outline" onClick={() => setEditing(!editing)}>
                                 <IconPencil />Edit
                             </Button>
-                            <Button variant="outline" className="text-destructive">
-                                <IconTrash />Delete
-                            </Button>
+                            <Dialog>
+                                <DialogTrigger>
+                                    <Button variant="outline" className="text-destructive">
+                                        <IconTrash />Delete
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogTitle>Delete comment</DialogTitle>
+                                    <DialogDescription>
+                                        Are you sure you want to delete this comment?
+                                        This action cannot be undone.
+                                    </DialogDescription>
+                                    <DialogFooter>
+                                        <DialogClose>
+                                            <Button variant="outline">Cancel</Button>
+                                        </DialogClose>
+                                        <Button variant="destructive">Delete</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
                         </>}
                         <Button variant="outline" onClick={() => setReplying(!replying)}>
                             <IconCornerDownLeft /> Reply
