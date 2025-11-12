@@ -6,7 +6,7 @@ export default function Forum() {
     return (
         <Routes>
             <Route path="/" element={<ForumHome />} />
-            <Route path="post/:postID" element={<PostPage />} />
+            <Route path="post/:postID/:edit?" element={<PostPage />} />
         </Routes>
     );
 }
